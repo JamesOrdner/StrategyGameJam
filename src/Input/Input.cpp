@@ -1,4 +1,5 @@
 #include "Input.hpp"
+#include "InputComponent.hpp"
 #include <SDL_events.h>
 
 Input::Input()
@@ -28,12 +29,7 @@ bool Input::execute(uint32_t deltaTime)
 
 void Input::execCallback(InputEvent event, float value)
 {
-    auto it = callbacks.find(event);
-    if (it != callbacks.end()) {
-        for (const auto& callback : it->second) {
-            callback(value);
-        }
-    }
+    for (auto& comp : inputComponents) comp->executeEvent(event, value);
 }
 
 void Input::processKeyEvent(const SDL_Event& event)

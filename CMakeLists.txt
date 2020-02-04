@@ -23,6 +23,8 @@ target_sources(StrategyGameJam
     src/Graphics/Renderer.hpp
     src/Input/Input.cpp
     src/Input/Input.hpp
+    src/Input/InputComponent.cpp
+    src/Input/InputComponent.hpp
     src/Input/InputTypes.hpp
 )
 

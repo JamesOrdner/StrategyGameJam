@@ -3,7 +3,6 @@
 
 #include "../Engine/GameSystem.hpp"
 #include "InputTypes.hpp"
-#include <map>
 #include <vector>
 
 class Input : public GameSystem
@@ -20,8 +19,8 @@ public:
     
 private:
     
-    // All registered input callbacks
-    std::map<InputEvent, std::vector<InputCallback>> callbacks;
+    // All registered input components
+    std::vector<class InputComponent*> inputComponents;
     
     // Call the registered callbacks (if any) for the given event
     void execCallback(InputEvent event, float value);
