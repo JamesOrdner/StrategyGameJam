@@ -5,16 +5,6 @@ Renderer::Renderer() :
     window(nullptr),
     renderer(nullptr)
 {
-    
-}
-
-Renderer::~Renderer()
-{
-    
-}
-
-void Renderer::init()
-{
     window = SDL_CreateWindow(
         "StrategyGameJam",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -27,16 +17,14 @@ void Renderer::init()
     if (!renderer) throw std::runtime_error("Failed to create SDL renderer!");
 }
 
-void Renderer::deinit()
+Renderer::~Renderer()
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 }
 
-bool Renderer::execute(uint32_t deltaTime)
+void Renderer::draw()
 {
     SDL_RenderClear(renderer);
-    
     SDL_RenderPresent(renderer);
-    return true;
 }

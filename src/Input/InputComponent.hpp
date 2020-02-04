@@ -9,6 +9,8 @@ class InputComponent : public GObjectComponent
 {
 public:
     
+    InputComponent(class GObject* owner);
+    
     /// Execute the callback for an event, called directly from the Input system
     void executeEvent(InputEvent event, float value);
     

@@ -5,9 +5,13 @@ class GObjectComponent
 {
 public:
     
-    GObjectComponent();
+    GObjectComponent(class GObject* owner);
     
     virtual ~GObjectComponent();
+    
+protected:
+    
+    class GObject* const owner;
 };
 
 #endif /* GObjectComponent_hpp */

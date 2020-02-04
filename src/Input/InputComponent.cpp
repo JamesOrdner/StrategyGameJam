@@ -1,5 +1,10 @@
 #include "InputComponent.hpp"
 
+InputComponent::InputComponent(class GObject* owner) :
+    GObjectComponent(owner)
+{
+}
+
 void InputComponent::executeEvent(InputEvent event, float value)
 {
     auto it = callbacks.find(event);

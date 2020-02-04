@@ -19,6 +19,8 @@ target_sources(StrategyGameJam
     src/Engine/GObjectComponent.hpp
     src/Engine/GWorld.cpp
     src/Engine/GWorld.hpp
+    src/Graphics/Graphics.cpp
+    src/Graphics/Graphics.hpp
     src/Graphics/Renderer.cpp
     src/Graphics/Renderer.hpp
     src/Input/Input.cpp
@@ -26,6 +28,8 @@ target_sources(StrategyGameJam
     src/Input/InputComponent.cpp
     src/Input/InputComponent.hpp
     src/Input/InputTypes.hpp
+    src/Objects/Camera.cpp
+    src/Objects/Camera.hpp
 )
 
 # SuperBuild Dependencies

@@ -27,6 +27,19 @@ bool Input::execute(uint32_t deltaTime)
     return true;
 }
 
+void Input::registerComponent(GObjectComponent* component)
+{
+    if (auto* inputComponent = dynamic_cast<InputComponent*>(component)) {
+        inputComponents.emplace(inputComponent);
+    }
+}
+
+void Input::unregisterComponent(GObjectComponent* component)
+{
+    auto* inputComponent = dynamic_cast<InputComponent*>(component);
+    inputComponents.erase(inputComponent);
+}
+
 void Input::execCallback(InputEvent event, float value)
 {
     for (auto& comp : inputComponents) comp->executeEvent(event, value);
