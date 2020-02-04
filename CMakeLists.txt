@@ -1,0 +1,91 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(StrategyGameJam)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+add_executable(StrategyGameJam)
+
+target_sources(StrategyGameJam
+  PRIVATE
+    src/main.cpp
+    src/Engine/Engine.cpp
+    src/Engine/Engine.hpp
+    src/Engine/GObject.cpp
+    src/Engine/GObject.hpp
+    src/Engine/GObjectComponent.cpp
+    src/Engine/GObjectComponent.hpp
+    src/Engine/GWorld.cpp
+    src/Engine/GWorld.hpp
+    src/Graphics/Renderer.cpp
+    src/Graphics/Renderer.hpp
+    src/Input/Input.cpp
+    src/Input/Input.hpp
+    src/Input/InputTypes.hpp
+)
+
+# SuperBuild Dependencies
+
+include(ExternalProject)
+set(DEPENDENCIES_DIR ${PROJECT_SOURCE_DIR}/dependencies)
+set(DEPENDENCY_CMAKE_ARGS
+  -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+  -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+  -DCMAKE_BUILD_TYPE=Release
+)
+
+# SuperBuild Dependencies - SDL2
+
+if (WIN32) # use precompiled binaries
+  ExternalProject_Add(SDL2
+    URL https://www.libsdl.org/release/SDL2-devel-2.0.10-VC.zip
+    PREFIX ${DEPENDENCIES_DIR}
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    INSTALL_COMMAND
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${DEPENDENCIES_DIR}/src/SDL2/lib/x64 ${DEPENDENCIES_DIR}/lib
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${DEPENDENCIES_DIR}/src/SDL2/include ${DEPENDENCIES_DIR}/include/SDL2
+  )
+  target_link_libraries(StrategyGameJam PRIVATE ${DEPENDENCIES_DIR}/lib/SDL2.lib ${DEPENDENCIES_DIR}/lib/SDL2main.lib)
+  add_custom_command(TARGET StrategyGameJam POST_BUILD 
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${DEPENDENCIES_DIR}/lib/SDL2.dll"              
+    $<TARGET_FILE_DIR:StrategyGameJam>
+  )
+else()
+  set(SDL2_CACHE_ARGS
+    -DSDL_STATIC:BOOL=FALSE
+    -DSDL_SHARED:BOOL=TRUE
+    -DSDL_Audio:BOOL=TRUE
+    -DSDL_File:BOOL=FALSE
+    -DSDL_Filesystem:BOOL=FALSE
+    -DSDL_Threads:BOOL=FALSE
+    -DSDL_Joystick:BOOL=FALSE
+    -DSDL_Haptic:BOOL=FALSE
+    -DSDL_Atomic:BOOL=FALSE
+    -DSDL_Render:BOOL=TRUE
+    -DSDL_Sensor:BOOL=FALSE
+    -DDIRECTX:BOOL=FALSE
+    -DVIDEO_VULKAN:BOOL=FALSE
+  )
+  
+  ExternalProject_Add(SDL2
+    URL http://www.libsdl.org/release/SDL2-2.0.10.tar.gz
+    PREFIX ${DEPENDENCIES_DIR}
+    CMAKE_ARGS ${DEPENDENCY_CMAKE_ARGS}
+    CMAKE_CACHE_ARGS ${SDL2_CACHE_ARGS}
+    INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install --config Release
+  )
+  
+  if(XCODE)
+    target_link_libraries(StrategyGameJam
+      PRIVATE
+        ${DEPENDENCIES_DIR}/lib/libSDL2.dylib
+        ${DEPENDENCIES_DIR}/lib/libSDL2main.a
+    )
+  else()
+  endif()
+endif()
+target_include_directories(StrategyGameJam PRIVATE ${DEPENDENCIES_DIR}/include/SDL2)
+
