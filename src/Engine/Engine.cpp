@@ -23,17 +23,24 @@ void Engine::init()
     };
     
     renderer->init();
+    input->init();
 }
 
 void Engine::deinit()
 {
+    input->deinit();
     renderer->deinit();
     SDL_Quit();
 }
 
 void Engine::run()
 {
-    while (input->processInput()) {
+    uint32_t time = SDL_GetTicks();
+    while (true) {
+        uint32_t deltaTime = SDL_GetTicks() - time;
+        time += deltaTime;
         
+        if (!input->execute(deltaTime)) break;
+        renderer->execute(deltaTime);
     }
 }

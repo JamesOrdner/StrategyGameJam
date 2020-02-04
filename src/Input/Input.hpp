@@ -1,9 +1,10 @@
 #ifndef Input_hpp
 #define Input_hpp
 
+#include "../Engine/GameSystem.hpp"
 #include "InputTypes.hpp"
 
-class Input
+class Input : public GameSystem
 {
 public:
     
@@ -13,7 +14,7 @@ public:
     
     /// Process input and call required callbacks on InputComponents.
     /// Returns true during normal operation, false if game quit was requested.
-    bool processInput();
+    bool execute(uint32_t deltaTime) override;
     
 };
 

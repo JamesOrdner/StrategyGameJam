@@ -12,6 +12,7 @@ target_sources(StrategyGameJam
     src/main.cpp
     src/Engine/Engine.cpp
     src/Engine/Engine.hpp
+    src/Engine/GameSystem.hpp
     src/Engine/GObject.cpp
     src/Engine/GObject.hpp
     src/Engine/GObjectComponent.cpp

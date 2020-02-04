@@ -32,3 +32,9 @@ void Renderer::deinit()
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 }
+
+bool Renderer::execute(uint32_t deltaTime)
+{
+    
+    return true;
+}

@@ -1,10 +1,11 @@
 #ifndef Renderer_hpp
 #define Renderer_hpp
 
+#include "../Engine/GameSystem.hpp"
 #include <SDL_video.h>
 #include <SDL_render.h>
 
-class Renderer
+class Renderer : public GameSystem
 {
 public:
     
@@ -12,9 +13,9 @@ public:
     
     ~Renderer();
     
-    void init();
-    
-    void deinit();
+    void init() override;
+    void deinit() override;
+    bool execute(uint32_t deltaTime) override;
     
 private:
     

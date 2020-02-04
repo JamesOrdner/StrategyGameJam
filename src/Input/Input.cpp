@@ -11,7 +11,7 @@ Input::~Input()
     
 }
 
-bool Input::processInput()
+bool Input::execute(uint32_t deltaTime)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
