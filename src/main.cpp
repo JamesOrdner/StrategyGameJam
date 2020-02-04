@@ -2,10 +2,10 @@
 
 int main(int argc, char* args[])
 {
-	Engine engine;
+    Engine engine;
     engine.init();
-	engine.run();
+    engine.run();
     engine.deinit();
     
-	return 0;
+    return 0;
 }
