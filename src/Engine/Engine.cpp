@@ -1,5 +1,5 @@
 #include "Engine.hpp"
-#include "GWorld.hpp"
+#include "World.hpp"
 #include "../Graphics/Graphics.hpp"
 #include "../Input/Input.hpp"
 #include <SDL.h>
@@ -29,7 +29,7 @@ void Engine::init()
     input->init();
     
     // TEMPORARY set up initial world
-    auto& world = worlds.emplace_back(std::make_unique<GWorld>(this));
+    auto& world = worlds.emplace_back(std::make_unique<World>(this));
     world->spawnObject<Camera>();
 }
 
@@ -59,14 +59,14 @@ void Engine::run()
     }
 }
 
-void Engine::registerComponent(GObjectComponent* component) const
+void Engine::registerComponent(GameObjectComponent* component) const
 {
     // forward to all components, let them deal with dynamic casting
     graphics->registerComponent(component);
     input->registerComponent(component);
 }
 
-void Engine::unregisterComponent(GObjectComponent* component) const
+void Engine::unregisterComponent(GameObjectComponent* component) const
 {
     graphics->unregisterComponent(component);
     input->unregisterComponent(component);

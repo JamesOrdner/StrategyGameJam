@@ -5,13 +5,13 @@
 #include <vector>
 #include <memory>
 
-class GObject
+class GameObject
 {
 public:
     
-    GObject(const class Engine* engine);
+    GameObject(const class Engine* engine);
     
-    virtual ~GObject();
+    virtual ~GameObject();
     
     /// Create an object component and register it with the corresponding system
     /// Returns an unowned pointer to the created component
@@ -30,7 +30,7 @@ protected:
     
 private:
     
-    std::vector<std::unique_ptr<class GObjectComponent>> components;
+    std::vector<std::unique_ptr<class GameObjectComponent>> components;
 };
 
 #endif /* GObject_hpp */

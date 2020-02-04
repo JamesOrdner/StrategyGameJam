@@ -25,12 +25,12 @@ bool Graphics::execute(uint32_t deltaTime)
     return true;
 }
 
-void Graphics::registerComponent(GObjectComponent* component)
+void Graphics::registerComponent(GameObjectComponent* component)
 {
     
 }
 
-void Graphics::unregisterComponent(GObjectComponent* component)
+void Graphics::unregisterComponent(GameObjectComponent* component)
 {
     
 }

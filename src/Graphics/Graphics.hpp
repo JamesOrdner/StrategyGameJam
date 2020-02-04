@@ -15,8 +15,8 @@ public:
     void init() override;
     void deinit() override;
     bool execute(uint32_t deltaTime) override;
-    void registerComponent(class GObjectComponent* component) override;
-    void unregisterComponent(class GObjectComponent* component) override;
+    void registerComponent(class GameObjectComponent* component) override;
+    void unregisterComponent(class GameObjectComponent* component) override;
     
 private:
     

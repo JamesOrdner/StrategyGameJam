@@ -4,13 +4,13 @@
 #include <vector>
 #include <memory>
 
-class GWorld
+class World
 {
 public:
     
-    GWorld(const class Engine* engine);
+    World(const class Engine* engine);
     
-    ~GWorld();
+    ~World();
     
     template<typename T>
     T* spawnObject() {
@@ -25,7 +25,7 @@ private:
     
     const class Engine* const engine;
     
-    std::vector<std::unique_ptr<class GObject>> objects;
+    std::vector<std::unique_ptr<class GameObject>> objects;
 };
 
 #endif /* GWorld_hpp */

@@ -18,10 +18,10 @@ public:
     virtual void deinit() {};
     
     /// Register a component with this system
-    virtual void registerComponent(class GObjectComponent* component) = 0;
+    virtual void registerComponent(class GameObjectComponent* component) = 0;
     
     /// Unregister a component from this system
-    virtual void unregisterComponent(class GObjectComponent* component) = 0;
+    virtual void unregisterComponent(class GameObjectComponent* component) = 0;
     
     /// Called each frame, with the number of ms since the last frame.
     /// Returns true during normal operation.

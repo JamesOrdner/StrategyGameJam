@@ -27,14 +27,14 @@ bool Input::execute(uint32_t deltaTime)
     return true;
 }
 
-void Input::registerComponent(GObjectComponent* component)
+void Input::registerComponent(GameObjectComponent* component)
 {
     if (auto* inputComponent = dynamic_cast<InputComponent*>(component)) {
         inputComponents.emplace(inputComponent);
     }
 }
 
-void Input::unregisterComponent(GObjectComponent* component)
+void Input::unregisterComponent(GameObjectComponent* component)
 {
     auto* inputComponent = dynamic_cast<InputComponent*>(component);
     inputComponents.erase(inputComponent);

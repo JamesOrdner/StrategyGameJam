@@ -13,12 +13,12 @@ target_sources(StrategyGameJam
     src/Engine/Engine.cpp
     src/Engine/Engine.hpp
     src/Engine/GameSystem.hpp
-    src/Engine/GObject.cpp
-    src/Engine/GObject.hpp
-    src/Engine/GObjectComponent.cpp
-    src/Engine/GObjectComponent.hpp
-    src/Engine/GWorld.cpp
-    src/Engine/GWorld.hpp
+    src/Engine/GameObject.cpp
+    src/Engine/GameObject.hpp
+    src/Engine/GameObjectComponent.cpp
+    src/Engine/GameObjectComponent.hpp
+    src/Engine/World.cpp
+    src/Engine/World.hpp
     src/Graphics/Graphics.cpp
     src/Graphics/Graphics.hpp
     src/Graphics/Renderer.cpp

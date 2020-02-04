@@ -1,10 +1,10 @@
 #ifndef Camera_hpp
 #define Camera_hpp
 
-#include "../Engine/GObject.hpp"
+#include "../Engine/GameObject.hpp"
 #include <SDL_rect.h>
 
-class Camera : public GObject
+class Camera : public GameObject
 {
 public:
     

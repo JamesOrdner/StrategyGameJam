@@ -2,7 +2,7 @@
 #include "../Input/InputComponent.hpp"
 
 Camera::Camera(const Engine* engine) :
-    GObject(engine),
+    GameObject(engine),
     inputVelocity{}
 {
     auto* inputComponent = createComponent<InputComponent>();

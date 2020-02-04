@@ -1,7 +1,7 @@
 #include "InputComponent.hpp"
 
-InputComponent::InputComponent(class GObject* owner) :
-    GObjectComponent(owner)
+InputComponent::InputComponent(class GameObject* owner) :
+    GameObjectComponent(owner)
 {
 }
 

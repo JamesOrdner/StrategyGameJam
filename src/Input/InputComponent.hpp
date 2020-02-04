@@ -1,15 +1,15 @@
 #ifndef InputComponent_hpp
 #define InputComponent_hpp
 
-#include "../Engine/GObjectComponent.hpp"
+#include "../Engine/GameObjectComponent.hpp"
 #include "InputTypes.hpp"
 #include <map>
 
-class InputComponent : public GObjectComponent
+class InputComponent : public GameObjectComponent
 {
 public:
     
-    InputComponent(class GObject* owner);
+    InputComponent(class GameObject* owner);
     
     /// Execute the callback for an event, called directly from the Input system
     void executeEvent(InputEvent event, float value);

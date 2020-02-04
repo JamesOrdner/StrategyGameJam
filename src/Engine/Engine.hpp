@@ -21,25 +21,25 @@ public:
     /// Create a GObjectComponent, register it with the appropriate GameSystem, and
     /// pass ownership of the component object to the caller.
     template<typename T>
-    std::unique_ptr<T> createComponent(class GObject* owner) const {
+    std::unique_ptr<T> createComponent(class GameObject* owner) const {
         auto component = std::make_unique<T>(owner);
         registerComponent(component.get());
         return component;
     }
     
     /// Unregisters a component from the GameSystem it is registered to
-    void unregisterComponent(class GObjectComponent* component) const;
+    void unregisterComponent(class GameObjectComponent* component) const;
     
 private:
     
-    std::vector<std::unique_ptr<class GWorld>> worlds;
+    std::vector<std::unique_ptr<class World>> worlds;
     
     std::unique_ptr<class Graphics> graphics;
     
     std::unique_ptr<class Input> input;
     
     /// Registers a component with the appropriate GameSystem
-    void registerComponent(class GObjectComponent* component) const;
+    void registerComponent(class GameObjectComponent* component) const;
 };
 
 #endif /* Engine_hpp */
