@@ -9,6 +9,8 @@ class GameSystem
 {
 public:
     
+    virtual ~GameSystem() {};
+    
     /// Called during engine startup
     virtual void init() {};
     

@@ -35,6 +35,8 @@ void Renderer::deinit()
 
 bool Renderer::execute(uint32_t deltaTime)
 {
+    SDL_RenderClear(renderer);
     
+    SDL_RenderPresent(renderer);
     return true;
 }
