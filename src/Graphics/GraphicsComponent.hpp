@@ -17,7 +17,7 @@ public:
     
     void setSprite(int width, int height, SDL_Color color);
     
-    void draw(const struct SDL_Point& cameraPosition);
+    void draw();
     
 private:
     

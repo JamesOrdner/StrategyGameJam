@@ -3,9 +3,9 @@
 #include "Engine.hpp"
 
 GameObject::GameObject(const Engine* engine) :
+    position{},
     rotation(0),
-    engine(engine),
-    position{}
+    engine(engine)
 {
 }
 
@@ -14,9 +14,4 @@ GameObject::~GameObject()
     for (const auto& comp : components) {
         engine->unregisterComponent(comp.get());
     }
-}
-
-SDL_FPoint GameObject::getPosition() const
-{
-    return position;
 }

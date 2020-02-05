@@ -25,8 +25,8 @@ public:
     /// Called each frame, with the time since the last frame (ms)
     virtual void tick(uint32_t deltaTime) {};
 
-    /// Returns the object's x and y position
-    SDL_FPoint getPosition() const;
+    /// Position of the object
+    SDL_FPoint position;
     
     /// Rotation of the object in degrees
     double rotation;
@@ -34,7 +34,6 @@ public:
 protected:
     
     const class Engine* const engine;
-    SDL_FPoint position;
 
 private:
     

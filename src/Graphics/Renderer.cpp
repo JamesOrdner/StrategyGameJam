@@ -3,6 +3,7 @@
 
 Renderer::Renderer() :
     zoom(1.f),
+    cameraOffset{},
     window(nullptr),
     renderer(nullptr)
 {
@@ -33,10 +34,17 @@ void Renderer::clear() const
 
 void Renderer::draw(SDL_Texture* texture, SDL_Rect dest, double rotation) const
 {
-    dest.w *= 1.f / zoom;
-    dest.h *= 1.f / zoom;
-    dest.x += (dest.x - screenWidth / 2) * (1.f / zoom);
-    dest.y += (dest.y - screenHeight / 2) * (1.f / zoom);
+    dest.x += screenWidth / 2 - cameraOffset.x;
+    dest.y += screenHeight / 2 + cameraOffset.y;
+    
+    dest.w /= zoom;
+    dest.h /= zoom;
+    dest.x += (dest.w * zoom - dest.w) / 2;
+    dest.y += (dest.h * zoom - dest.h) / 2;
+    
+    dest.x += ((dest.x + dest.w / 2) - screenWidth / 2) / zoom;
+    dest.y += ((dest.y + dest.h / 2) - screenHeight / 2) / zoom;
+    
     SDL_RenderCopyEx(
         renderer,
         texture,

@@ -23,6 +23,9 @@ public:
     /// Defaults to 1.f, depends on the game camera
     float zoom;
     
+    /// Amount to offset all drawn object, dependent on camera
+    SDL_Point cameraOffset;
+    
 private:
     
     SDL_Window* window;

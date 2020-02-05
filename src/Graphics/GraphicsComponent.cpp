@@ -26,11 +26,8 @@ void GraphicsComponent::setSprite(int width, int height, SDL_Color color)
     sprite = std::make_unique<Sprite>(renderer->sdlRenderer(), SDL_Rect{ 0, 0, .w = width, .h = height }, mappedColor);
 }
 
-void GraphicsComponent::draw(const SDL_Point& cameraPosition)
+void GraphicsComponent::draw()
 {
     if (!sprite) return;
-    SDL_Rect dest = sprite->bounds;
-    dest.x -= cameraPosition.x;
-    dest.y -= cameraPosition.y;
-    renderer->draw(sprite->texture, dest, owner->rotation);
+    renderer->draw(sprite->texture, sprite->bounds, owner->rotation);
 }

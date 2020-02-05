@@ -26,13 +26,13 @@ void Graphics::deinit()
 bool Graphics::execute(uint32_t deltaTime)
 {
     renderer->clear();
-    
     renderer->zoom = camera->zoomLevel();
-    SDL_Point cameraOffset{
-        static_cast<int>(camera->getPosition().x),
-        static_cast<int>(-camera->getPosition().y)
+    renderer->cameraOffset = {
+        static_cast<int>(camera->position.x),
+        static_cast<int>(camera->position.y)
     };
-    for (auto& comp : graphicsComponents) comp->draw(cameraOffset);
+    
+    for (auto& comp : graphicsComponents) comp->draw();
     
     renderer->present();
     return true;
