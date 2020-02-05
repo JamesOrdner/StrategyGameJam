@@ -50,6 +50,10 @@ target_sources(StrategyGameJam
     src/Physics/Physics.hpp
     src/Physics/PhysicsComponent.cpp
     src/Physics/PhysicsComponent.hpp
+    src/UI/UI.cpp
+    src/UI/UI.hpp
+    src/UI/UIComponent.cpp
+    src/UI/UIComponent.hpp
     src/Util/SDLMath.hpp
 )
 

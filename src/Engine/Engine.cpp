@@ -5,6 +5,7 @@
 #include "../Input/Input.hpp"
 #include "../AI/AI.hpp"
 #include "../Physics/Physics.hpp"
+#include "../UI/UI.hpp"
 #include <SDL.h>
 #include <iostream>
 
@@ -18,6 +19,7 @@ Engine::Engine()
     input = std::make_unique<Input>(this);
     ai = std::make_unique<AI>(this);
     physics = std::make_unique<Physics>(this);
+    ui = std::make_unique<UI>(this);
     
     gameState = std::make_unique<GameState>();
 }
@@ -37,6 +39,7 @@ void Engine::init()
     input->init();
     ai->init();
     physics->init();
+    ui->init();
     
     gameState->startGame();
     
@@ -55,6 +58,7 @@ void Engine::deinit()
 {
     worlds.clear();
     physics->deinit();
+    ui->deinit();
     ai->deinit();
     input->deinit();
     graphics->deinit();
@@ -77,6 +81,7 @@ void Engine::run()
         // execute all other systems
         ai->execute(deltaTime);
         physics->execute(deltaTime);
+        ui->execute(deltaTime);
         graphics->execute(deltaTime);
     }
 }
@@ -88,6 +93,7 @@ void Engine::registerComponent(GameObjectComponent* component) const
     input->registerComponent(component);
     ai->registerComponent(component);
     physics->registerComponent(component);
+    ui->registerComponent(component);
 }
 
 void Engine::unregisterComponent(GameObjectComponent* component) const
@@ -96,4 +102,5 @@ void Engine::unregisterComponent(GameObjectComponent* component) const
     input->unregisterComponent(component);
     ai->unregisterComponent(component);
     physics->unregisterComponent(component);
+    ui->registerComponent(component);
 }

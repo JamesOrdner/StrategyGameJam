@@ -45,6 +45,7 @@ private:
     std::unique_ptr<class Input> input;
     std::unique_ptr<class AI> ai;
     std::unique_ptr<class Physics> physics;
+    std::unique_ptr<class UI> ui;
     
     std::unique_ptr<class GameState> gameState;
     
