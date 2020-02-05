@@ -3,6 +3,7 @@
 
 #include "../Engine/GameSystem.hpp"
 #include <memory>
+#include <vector>
 
 class Graphics : public GameSystem
 {
@@ -19,6 +20,9 @@ public:
     void unregisterComponent(class GameObjectComponent* component) override;
     
 private:
+    
+    /// All registered graphics components
+    std::vector<class GraphicsComponent*> graphicsComponents;
     
     std::unique_ptr<class Renderer> renderer;
 };

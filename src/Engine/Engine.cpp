@@ -7,6 +7,7 @@
 
 // TEMP
 #include "../Objects/Camera.hpp"
+#include "../Objects/DrawableObject.hpp"
 
 Engine::Engine()
 {
@@ -31,6 +32,7 @@ void Engine::init()
     // TEMPORARY set up initial world
     auto& world = worlds.emplace_back(std::make_unique<World>(this));
     world->spawnObject<Camera>();
+    world->spawnObject<DrawableObject>();
 }
 
 void Engine::deinit()

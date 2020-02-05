@@ -21,8 +21,12 @@ target_sources(StrategyGameJam
     src/Engine/World.hpp
     src/Graphics/Graphics.cpp
     src/Graphics/Graphics.hpp
+    src/Graphics/GraphicsComponent.cpp
+    src/Graphics/GraphicsComponent.hpp
     src/Graphics/Renderer.cpp
     src/Graphics/Renderer.hpp
+    src/Graphics/Sprite.cpp
+    src/Graphics/Sprite.hpp
     src/Input/Input.cpp
     src/Input/Input.hpp
     src/Input/InputComponent.cpp
@@ -30,6 +34,8 @@ target_sources(StrategyGameJam
     src/Input/InputTypes.hpp
     src/Objects/Camera.cpp
     src/Objects/Camera.hpp
+    src/Objects/DrawableObject.cpp
+    src/Objects/DrawableObject.hpp
 )
 
 get_property("TARGET_SOURCE_FILES" TARGET StrategyGameJam PROPERTY SOURCES)
