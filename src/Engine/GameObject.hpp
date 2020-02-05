@@ -4,6 +4,7 @@
 #include "Engine.hpp"
 #include <vector>
 #include <memory>
+#include <SDL_rect.h>
 
 class GameObject
 {
@@ -23,11 +24,15 @@ public:
     
     /// Called each frame, with the time since the last frame (ms)
     virtual void tick(uint32_t deltaTime) {};
+
+    /// Returns the object's x and y position
+    SDL_FPoint getPosition();
     
 protected:
     
     const class Engine* const engine;
-    
+    SDL_FPoint position;
+
 private:
     
     std::vector<std::unique_ptr<class GameObjectComponent>> components;

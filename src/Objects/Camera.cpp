@@ -18,5 +18,5 @@ Camera::Camera(const Engine* engine) :
 
 void Camera::tick(uint32_t deltaTime)
 {
-    
+    position.x += inputVelocity.x;    
 }

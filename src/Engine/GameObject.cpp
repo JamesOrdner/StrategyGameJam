@@ -3,7 +3,8 @@
 #include "Engine.hpp"
 
 GameObject::GameObject(const Engine* engine) :
-    engine(engine)
+    engine(engine),
+    position{}
 {
 }
 
@@ -13,3 +14,6 @@ GameObject::~GameObject()
         engine->unregisterComponent(comp.get());
     }
 }
+
+SDL_FPoint GameObject::getPosition() {  return position;  }
+
