@@ -27,7 +27,7 @@ bool Graphics::execute(uint32_t deltaTime)
     renderer->clear();
     SDL_Point cameraOffset{
         static_cast<int>(camera->getPosition().x),
-        static_cast<int>(camera->getPosition().y)
+        static_cast<int>(-camera->getPosition().y)
     };
     for (auto& comp : graphicsComponents) comp->draw(cameraOffset);
     renderer->present();
