@@ -101,6 +101,11 @@ else()
         ${DEPENDENCIES_DIR}/lib/libSDL2main.a
     )
   else()
+    target_link_libraries(StrategyGameJam
+      PRIVATE
+        ${DEPENDENCIES_DIR}/lib/libSDL2.so
+        ${DEPENDENCIES_DIR}/lib/libSDL2main.a
+    )
   endif()
 endif()
 target_include_directories(StrategyGameJam PRIVATE ${DEPENDENCIES_DIR}/include/SDL2)
