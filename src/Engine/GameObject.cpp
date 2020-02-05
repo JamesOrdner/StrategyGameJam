@@ -15,5 +15,7 @@ GameObject::~GameObject()
     }
 }
 
-SDL_FPoint GameObject::getPosition() {  return position;  }
-
+SDL_FPoint GameObject::getPosition() const
+{
+    return position;
+}

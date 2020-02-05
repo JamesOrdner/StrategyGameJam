@@ -23,8 +23,25 @@ Renderer::~Renderer()
     SDL_DestroyWindow(window);
 }
 
-void Renderer::draw()
+void Renderer::clear() const
 {
     SDL_RenderClear(renderer);
+}
+
+void Renderer::draw(SDL_Texture* texture, const SDL_Rect& dest, double rotation) const
+{
+    SDL_RenderCopyEx(
+        renderer,
+        texture,
+        nullptr,
+        &dest,
+        rotation,
+        nullptr,
+        SDL_FLIP_NONE);
+}
+
+void Renderer::present() const
+{
     SDL_RenderPresent(renderer);
 }
+

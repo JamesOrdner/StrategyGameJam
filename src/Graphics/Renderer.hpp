@@ -12,7 +12,13 @@ public:
     
     ~Renderer();
     
-    void draw();
+    void clear() const;
+    
+    void draw(SDL_Texture* texture, const SDL_Rect& dest, double rotation) const;
+    
+    void present() const;
+    
+    inline SDL_Renderer* sdlRenderer() const { return renderer; }
     
 private:
     

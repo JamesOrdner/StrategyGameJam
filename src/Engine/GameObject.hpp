@@ -26,7 +26,7 @@ public:
     virtual void tick(uint32_t deltaTime) {};
 
     /// Returns the object's x and y position
-    SDL_FPoint getPosition();
+    SDL_FPoint getPosition() const;
     
 protected:
     
