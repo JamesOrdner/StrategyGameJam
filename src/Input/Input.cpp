@@ -31,7 +31,7 @@ bool Input::execute(uint32_t deltaTime)
         else if(event.type == SDL_MOUSEWHEEL) {
             execCallback(InputEvent::CameraZoom, static_cast<float>(event.wheel.y));
         }
-        else if (event.type == SDL_MOUSEBUTTONDOWN) {
+        else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
             SDL_Point screenCoords;
             SDL_GetMouseState(&screenCoords.x, &screenCoords.y);
             SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
@@ -39,8 +39,16 @@ bool Input::execute(uint32_t deltaTime)
                 if (auto* actor = dynamic_cast<Actor*>(selected)) {
                     engine->gameStatePtr()->selectedActors.clear();
                     engine->gameStatePtr()->selectedActors.push_back(actor);
-                    printf("Actor selected\n");
                 }
+            }
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT) {
+            SDL_Point screenCoords;
+            SDL_GetMouseState(&screenCoords.x, &screenCoords.y);
+            SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
+            for (auto& actor : engine->gameStatePtr()->selectedActors) {
+                SDL_FPoint dest{ static_cast<float>(worldCoords.x), static_cast<float>(worldCoords.y) };
+                actor->setDestination(dest);
             }
         }
     }

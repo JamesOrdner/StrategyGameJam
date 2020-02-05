@@ -75,6 +75,7 @@ SDL_Point Renderer::screenToWorldCoords(const SDL_Point& point) const
     worldCoords.y /= zoom;
     worldCoords.x += cameraOffset.x;
     worldCoords.y -= cameraOffset.y;
+    worldCoords.y *= -1;
     
     return worldCoords;
 }

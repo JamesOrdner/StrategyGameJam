@@ -73,4 +73,10 @@ SDL_FPoint normalize(const SDL_FPoint& a)
     return (norm < FLT_EPSILON) ? SDL_FPoint{} : a / sqrtf(norm);
 }
 
+float dist(const SDL_FPoint& a, const SDL_FPoint& b)
+{
+    float d = powf(a.x - b.x, 2.f) + powf(a.y - b.y, 2.f);
+    return sqrtf(d);
+}
+
 #endif /* SDLMath_hpp */

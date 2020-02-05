@@ -13,10 +13,6 @@ public:
     
     float movementSpeed;
     
-private:
-    
-    friend class AI;
-    
     /// The actor's current movement target
     std::optional<SDL_FPoint> target;
 };

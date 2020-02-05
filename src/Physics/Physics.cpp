@@ -31,7 +31,7 @@ GameObject* Physics::objectAt(const SDL_Point& coords) const
     for (const auto& comp : physicsComponents) {
         SDL_Rect absBounds = comp->bounds;
         absBounds.x += comp->owner->position.x;
-        absBounds.y -= comp->owner->position.y;
+        absBounds.y += comp->owner->position.y;
         if (SDL_PointInRect(&coords, &absBounds)) return comp->owner;
     }
     return nullptr;

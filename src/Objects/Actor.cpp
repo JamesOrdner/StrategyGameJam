@@ -5,7 +5,7 @@
 Actor::Actor(const Engine* engine) :
     DrawableObject(engine)
 {
-    createComponent<AIComponent>();
+    aiComponent = createComponent<AIComponent>();
     auto* physics = createComponent<PhysicsComponent>();
     physics->bounds = { .x = -50, .y = -50, .w = 100, .h = 100 };
 }
@@ -18,4 +18,9 @@ void Actor::reduceHealth(int healthDeducted)
 int Actor::getHealth()
 {
     return health;
+}
+
+void Actor::setDestination(const SDL_FPoint& dest)
+{
+    aiComponent->target = dest;
 }

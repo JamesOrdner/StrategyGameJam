@@ -17,6 +17,10 @@ bool AI::execute(uint32_t deltaTime)
             SDL_FPoint dir = normalize(comp->target.value() - comp->owner->position);
             comp->owner->position += dir * static_cast<float>(deltaTime) * comp->movementSpeed;
             comp->owner->rotation = atan2(dir.x, dir.y) * 180 / 3.14159265;
+            
+            if (dist(comp->target.value(), comp->owner->position) < 1.f) {
+                comp->target.reset();
+            }
         }
     }
     return true;
