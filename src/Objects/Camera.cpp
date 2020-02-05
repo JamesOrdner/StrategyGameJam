@@ -5,7 +5,9 @@
 Camera::Camera(const Engine* engine) :
     GameObject(engine),
     inputVelocity{},
-    zoom(1)
+    zoom(0.5),
+    minZoom(0.2f),
+    maxZoom(1)
 {
     auto* inputComponent = createComponent<InputComponent>();
     inputComponent->registerEvent(
@@ -18,7 +20,7 @@ Camera::Camera(const Engine* engine) :
     );
     inputComponent->registerEvent(
         InputEvent::CameraZoom,
-        [this](float value) { zoom = std::clamp(zoom + value * 0.25f, 0.5f, 4.0f); }
+        [this](float value) { zoom = std::clamp(zoom + value * 0.05f, minZoom, maxZoom); }
     );
 }
 

@@ -19,6 +19,7 @@ Renderer::Renderer() :
     if (!renderer) throw std::runtime_error("Failed to create SDL renderer!");
     
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+    hidpiMult = screenWidth / 640.f;
 }
 
 Renderer::~Renderer()
@@ -34,14 +35,15 @@ void Renderer::clear() const
 
 void Renderer::draw(SDL_Texture* texture, SDL_Rect dest, double rotation) const
 {
+    float adjustedZoom = zoom * hidpiMult;
+    
     dest.x += screenWidth / 2 - cameraOffset.x;
     dest.y += screenHeight / 2 + cameraOffset.y;
+    dest.x += (dest.x - screenWidth / 2.f) * adjustedZoom - (dest.x - screenWidth / 2.f);
+    dest.y += (dest.y - screenHeight / 2.f) * adjustedZoom - (dest.y - screenHeight / 2.f);
     
-    dest.x += (dest.x - screenWidth / 2.f) * zoom - (dest.x - screenWidth / 2.f);
-    dest.y += (dest.y - screenHeight / 2.f) * zoom - (dest.y - screenHeight / 2.f);
-    
-    dest.w *= zoom;
-    dest.h *= zoom;
+    dest.w *= adjustedZoom;
+    dest.h *= adjustedZoom;
     
     SDL_RenderCopyEx(
         renderer,

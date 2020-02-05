@@ -19,7 +19,10 @@ private:
     /// Input velocity of the camera with range [-1, 1]
     SDL_FPoint inputVelocity;
     
+    /// Zoom of the camera. Smaller numbers are more zoomed out.
     float zoom;
+    
+    float minZoom, maxZoom;
 };
 
 #endif /* Camera_hpp */

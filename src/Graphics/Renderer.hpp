@@ -20,6 +20,9 @@ public:
     
     inline SDL_Renderer* sdlRenderer() const { return renderer; }
     
+    /// Zoom multiplier for high dpi displays
+    float hidpiMult;
+    
     /// Defaults to 1.f, depends on the game camera
     float zoom;
     
