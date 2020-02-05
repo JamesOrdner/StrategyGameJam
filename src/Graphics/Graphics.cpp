@@ -1,8 +1,10 @@
 #include "Graphics.hpp"
 #include "GraphicsComponent.hpp"
 #include "Renderer.hpp"
+#include "../Engine/GameObject.hpp"
 
-Graphics::Graphics()
+Graphics::Graphics() :
+    camera(nullptr)
 {
 }
 
@@ -23,7 +25,11 @@ void Graphics::deinit()
 bool Graphics::execute(uint32_t deltaTime)
 {
     renderer->clear();
-    for (auto& comp : graphicsComponents) comp->draw(SDL_Point{});
+    SDL_Point cameraOffset{
+        static_cast<int>(camera->getPosition().x),
+        static_cast<int>(camera->getPosition().y)
+    };
+    for (auto& comp : graphicsComponents) comp->draw(cameraOffset);
     renderer->present();
     return true;
 }
@@ -41,4 +47,9 @@ void Graphics::unregisterComponent(GameObjectComponent* component)
     auto* graphicsComponent = dynamic_cast<GraphicsComponent*>(component);
     auto it = std::remove(graphicsComponents.begin(), graphicsComponents.end(), graphicsComponent);
     if (it != graphicsComponents.end()) graphicsComponents.erase(it);
+}
+
+void Graphics::setCamera(const class GameObject* cameraObject)
+{
+    camera = cameraObject;
 }
