@@ -19,7 +19,10 @@ Renderer::Renderer() :
     if (!renderer) throw std::runtime_error("Failed to create SDL renderer!");
     
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
-    hidpiMult = screenWidth / 640.f;
+    
+    int windowWidth;
+    SDL_GetWindowSize(window, &windowWidth, nullptr);
+    hidpiMult = static_cast<float>(screenWidth) / windowWidth;
 }
 
 Renderer::~Renderer()
@@ -60,3 +63,18 @@ void Renderer::present() const
     SDL_RenderPresent(renderer);
 }
 
+SDL_Point Renderer::screenToWorldCoords(const SDL_Point& point) const
+{
+    SDL_Rect windowSize;
+    SDL_GetWindowSize(window, &windowSize.w, &windowSize.h);
+    
+    SDL_Point worldCoords = point;
+    worldCoords.x -= windowSize.w / 2;
+    worldCoords.y -= windowSize.h / 2;
+    worldCoords.x /= zoom;
+    worldCoords.y /= zoom;
+    worldCoords.x += cameraOffset.x;
+    worldCoords.y -= cameraOffset.y;
+    
+    return worldCoords;
+}

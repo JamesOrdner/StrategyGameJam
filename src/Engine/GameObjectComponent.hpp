@@ -9,8 +9,6 @@ public:
     
     virtual ~GameObjectComponent();
     
-protected:
-    
     class GameObject* const owner;
 };
 

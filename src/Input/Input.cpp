@@ -1,8 +1,14 @@
 #include "Input.hpp"
 #include "InputComponent.hpp"
+#include "../Engine/Engine.hpp"
+#include "../Engine/GameState.hpp"
+#include "../Graphics/Graphics.hpp"
+#include "../Physics/Physics.hpp"
+#include "../Objects/Actor.hpp"
 #include <SDL_events.h>
 
-Input::Input()
+Input::Input(const Engine* engine) :
+    GameSystem(engine)
 {
     
 }
@@ -24,6 +30,18 @@ bool Input::execute(uint32_t deltaTime)
         }
         else if(event.type == SDL_MOUSEWHEEL) {
             execCallback(InputEvent::CameraZoom, static_cast<float>(event.wheel.y));
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            SDL_Point screenCoords;
+            SDL_GetMouseState(&screenCoords.x, &screenCoords.y);
+            SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
+            if (auto* selected = engine->physicsSystem()->objectAt(worldCoords)) {
+                if (auto* actor = dynamic_cast<Actor*>(selected)) {
+                    engine->gameStatePtr()->selectedActors.clear();
+                    engine->gameStatePtr()->selectedActors.push_back(actor);
+                    printf("Actor selected\n");
+                }
+            }
         }
     }
     

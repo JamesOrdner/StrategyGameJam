@@ -30,6 +30,13 @@ public:
     /// Unregisters a component from the GameSystem it is registered to
     void unregisterComponent(class GameObjectComponent* component) const;
     
+    inline class GameState* gameStatePtr() const { return gameState.get(); }
+    
+    inline class World* activeWorld() const { return worlds.front().get(); }
+    
+    inline const class Graphics* graphicsSystem() const { return graphics.get(); }
+    inline const class Physics* physicsSystem() const { return physics.get(); }
+    
 private:
     
     std::vector<std::unique_ptr<class World>> worlds;
@@ -37,6 +44,7 @@ private:
     std::unique_ptr<class Graphics> graphics;
     std::unique_ptr<class Input> input;
     std::unique_ptr<class AI> ai;
+    std::unique_ptr<class Physics> physics;
     
     std::unique_ptr<class GameState> gameState;
     

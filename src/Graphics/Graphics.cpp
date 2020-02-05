@@ -4,7 +4,8 @@
 #include "../Objects/Camera.hpp"
 #include <algorithm>
 
-Graphics::Graphics() :
+Graphics::Graphics(const Engine* engine) :
+    GameSystem(engine),
     camera(nullptr)
 {
 }
@@ -56,4 +57,9 @@ void Graphics::unregisterComponent(GameObjectComponent* component)
 void Graphics::setCamera(const Camera* cameraObject)
 {
     camera = cameraObject;
+}
+
+SDL_Point Graphics::screenToWorldCoords(const SDL_Point& point) const
+{
+    return renderer->screenToWorldCoords(point);
 }

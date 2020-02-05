@@ -46,6 +46,10 @@ target_sources(StrategyGameJam
     src/Objects/Camera.hpp
     src/Objects/DrawableObject.cpp
     src/Objects/DrawableObject.hpp
+    src/Physics/Physics.cpp
+    src/Physics/Physics.hpp
+    src/Physics/PhysicsComponent.cpp
+    src/Physics/PhysicsComponent.hpp
     src/Util/SDLMath.hpp
 )
 

@@ -9,6 +9,8 @@ class GameSystem
 {
 public:
     
+    GameSystem(const class Engine* engine) : engine(engine) {}
+    
     virtual ~GameSystem() {};
     
     /// Called during engine startup
@@ -26,6 +28,10 @@ public:
     /// Called each frame, with the number of ms since the last frame.
     /// Returns true during normal operation.
     virtual bool execute(uint32_t deltaTime) = 0;
+    
+protected:
+    
+    const class Engine* const engine;
 };
 
 #endif /* GameSystem_hpp */

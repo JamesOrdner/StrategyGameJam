@@ -2,6 +2,7 @@
 #define Graphics_hpp
 
 #include "../Engine/GameSystem.hpp"
+#include <SDL_rect.h>
 #include <memory>
 #include <vector>
 
@@ -9,7 +10,7 @@ class Graphics : public GameSystem
 {
 public:
     
-    Graphics();
+    Graphics(const class Engine* engine);
     
     ~Graphics();
     
@@ -20,6 +21,8 @@ public:
     void unregisterComponent(class GameObjectComponent* component) override;
     
     void setCamera(const class Camera* cameraObject);
+    
+    SDL_Point screenToWorldCoords(const SDL_Point& point) const;
     
 private:
     

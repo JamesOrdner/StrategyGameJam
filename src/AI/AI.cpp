@@ -4,7 +4,8 @@
 #include "../Util/SDLMath.hpp"
 #include <algorithm>
 
-AI::AI()
+AI::AI(const Engine* engine) :
+    GameSystem(engine)
 {
 }
 

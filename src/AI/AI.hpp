@@ -8,7 +8,7 @@ class AI : public GameSystem
 {
 public:
     
-    AI();
+    AI(const class Engine* engine);
     
     bool execute(uint32_t deltaTime) override;
     void registerComponent(class GameObjectComponent* component) override;

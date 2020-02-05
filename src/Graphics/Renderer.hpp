@@ -20,6 +20,8 @@ public:
     
     inline SDL_Renderer* sdlRenderer() const { return renderer; }
     
+    SDL_Point screenToWorldCoords(const SDL_Point& point) const;
+    
     /// Zoom multiplier for high dpi displays
     float hidpiMult;
     

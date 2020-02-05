@@ -9,7 +9,7 @@ class Input : public GameSystem
 {
 public:
     
-    Input();
+    Input(const class Engine* engine);
     
     ~Input();
     
