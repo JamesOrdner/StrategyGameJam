@@ -36,6 +36,8 @@ target_sources(StrategyGameJam
     src/Input/InputComponent.cpp
     src/Input/InputComponent.hpp
     src/Input/InputTypes.hpp
+    src/Objects/Actor.cpp
+    src/Objects/Actor.hpp
     src/Objects/Camera.cpp
     src/Objects/Camera.hpp
     src/Objects/DrawableObject.cpp
@@ -68,9 +70,9 @@ if (WIN32) # use precompiled binaries
       COMMAND ${CMAKE_COMMAND} -E copy_directory ${DEPENDENCIES_DIR}/src/SDL2/include ${DEPENDENCIES_DIR}/include/SDL2
   )
   target_link_libraries(StrategyGameJam PRIVATE ${DEPENDENCIES_DIR}/lib/SDL2.lib ${DEPENDENCIES_DIR}/lib/SDL2main.lib)
-  add_custom_command(TARGET StrategyGameJam POST_BUILD 
+  add_custom_command(TARGET StrategyGameJam POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${DEPENDENCIES_DIR}/lib/SDL2.dll"              
+    "${DEPENDENCIES_DIR}/lib/SDL2.dll"
     $<TARGET_FILE_DIR:StrategyGameJam>
   )
 else()
@@ -89,7 +91,7 @@ else()
     -DDIRECTX:BOOL=FALSE
     -DVIDEO_VULKAN:BOOL=FALSE
   )
-  
+
   ExternalProject_Add(SDL2
     URL http://www.libsdl.org/release/SDL2-2.0.10.tar.gz
     PREFIX ${DEPENDENCIES_DIR}
@@ -97,7 +99,7 @@ else()
     CMAKE_CACHE_ARGS ${SDL2_CACHE_ARGS}
     INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install --config Release
   )
-  
+
   if(XCODE)
     target_link_libraries(StrategyGameJam
       PRIVATE
