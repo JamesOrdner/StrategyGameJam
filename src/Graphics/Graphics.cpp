@@ -6,7 +6,8 @@
 
 Graphics::Graphics(const Engine* engine) :
     GameSystem(engine),
-    camera(nullptr)
+    camera(nullptr),
+    rootUIObject(nullptr)
 {
 }
 
@@ -35,6 +36,8 @@ bool Graphics::execute(uint32_t deltaTime)
     
     for (auto& comp : graphicsComponents) comp->draw();
     
+    drawUI();
+    
     renderer->present();
     return true;
 }
@@ -59,7 +62,17 @@ void Graphics::setCamera(const Camera* cameraObject)
     camera = cameraObject;
 }
 
+void Graphics::setRootUIObject(const struct UIObject* object)
+{
+    rootUIObject = object;
+}
+
 SDL_Point Graphics::screenToWorldCoords(const SDL_Point& point) const
 {
     return renderer->screenToWorldCoords(point);
+}
+
+void Graphics::drawUI()
+{
+    
 }

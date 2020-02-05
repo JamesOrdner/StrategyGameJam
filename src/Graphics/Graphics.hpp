@@ -22,6 +22,8 @@ public:
     
     void setCamera(const class Camera* cameraObject);
     
+    void setRootUIObject(const struct UIObject* object);
+    
     SDL_Point screenToWorldCoords(const SDL_Point& point) const;
     
 private:
@@ -32,6 +34,11 @@ private:
     std::unique_ptr<class Renderer> renderer;
     
     const class Camera* camera;
+    
+    const struct UIObject* rootUIObject;
+    
+    /// Draws the UI, called from execute()
+    void drawUI();
 };
 
 #endif /* Graphics_hpp */

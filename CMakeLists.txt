@@ -54,6 +54,7 @@ target_sources(StrategyGameJam
     src/UI/UI.hpp
     src/UI/UIComponent.cpp
     src/UI/UIComponent.hpp
+    src/UI/UIObject.hpp
     src/Util/SDLMath.hpp
 )
 

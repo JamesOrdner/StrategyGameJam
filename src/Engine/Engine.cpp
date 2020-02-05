@@ -41,6 +41,8 @@ void Engine::init()
     physics->init();
     ui->init();
     
+    graphics->setRootUIObject(ui->rootUIObjectPtr());
+    
     gameState->startGame();
     
     // TEMPORARY set up initial world

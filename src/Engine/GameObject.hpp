@@ -14,8 +14,8 @@ public:
     
     virtual ~GameObject();
     
-    /// Create an object component and register it with the corresponding system
-    /// Returns an unowned pointer to the created component
+    /// Creates an object component and registers it with the corresponding system.
+    /// Returns an unowned pointer to the created component, which may be discarded.
     template<typename T>
     T* createComponent() {
         auto* ptr = components.emplace_back(engine->createComponent<T>(this)).get();

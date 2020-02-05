@@ -1,8 +1,14 @@
 #include "UI.hpp"
 #include "UIComponent.hpp"
+#include "UIObject.hpp"
 
 UI::UI(const Engine* engine) :
     GameSystem(engine)
+{
+    rootUIObject = std::make_unique<UIObject>();
+}
+
+UI::~UI()
 {
 }
 
