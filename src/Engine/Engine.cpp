@@ -38,6 +38,10 @@ void Engine::init()
     auto& world = worlds.emplace_back(std::make_unique<World>(this));
     auto* camera = world->spawnObject<Camera>();
     world->spawnObject<DrawableObject>();
+    world->spawnObject<DrawableObject>()->position = {  100,  100 };
+    world->spawnObject<DrawableObject>()->position = { -100,  100 };
+    world->spawnObject<DrawableObject>()->position = {  100, -100 };
+    world->spawnObject<DrawableObject>()->position = { -100, -100 };
     graphics->setCamera(camera);
 }
 

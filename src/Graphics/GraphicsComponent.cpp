@@ -29,5 +29,8 @@ void GraphicsComponent::setSprite(int width, int height, SDL_Color color)
 void GraphicsComponent::draw()
 {
     if (!sprite) return;
-    renderer->draw(sprite->texture, sprite->bounds, owner->rotation);
+    SDL_Rect dest = sprite->bounds;
+    dest.x += owner->position.x;
+    dest.y -= owner->position.y;
+    renderer->draw(sprite->texture, dest, owner->rotation);
 }

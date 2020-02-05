@@ -37,13 +37,11 @@ void Renderer::draw(SDL_Texture* texture, SDL_Rect dest, double rotation) const
     dest.x += screenWidth / 2 - cameraOffset.x;
     dest.y += screenHeight / 2 + cameraOffset.y;
     
-    dest.w /= zoom;
-    dest.h /= zoom;
-    dest.x += (dest.w * zoom - dest.w) / 2;
-    dest.y += (dest.h * zoom - dest.h) / 2;
+    dest.x += (dest.x - screenWidth / 2.f) * zoom - (dest.x - screenWidth / 2.f);
+    dest.y += (dest.y - screenHeight / 2.f) * zoom - (dest.y - screenHeight / 2.f);
     
-    dest.x += ((dest.x + dest.w / 2) - screenWidth / 2) / zoom;
-    dest.y += ((dest.y + dest.h / 2) - screenHeight / 2) / zoom;
+    dest.w *= zoom;
+    dest.h *= zoom;
     
     SDL_RenderCopyEx(
         renderer,
