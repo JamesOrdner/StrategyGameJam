@@ -28,6 +28,9 @@ public:
     /// Returns the object's x and y position
     SDL_FPoint getPosition() const;
     
+    /// Rotation of the object in degrees
+    double rotation;
+    
 protected:
     
     const class Engine* const engine;

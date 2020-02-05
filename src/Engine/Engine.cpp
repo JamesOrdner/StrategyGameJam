@@ -1,5 +1,6 @@
 #include "Engine.hpp"
 #include "World.hpp"
+#include "GameState.hpp"
 #include "../Graphics/Graphics.hpp"
 #include "../Input/Input.hpp"
 #include <SDL.h>
@@ -13,6 +14,8 @@ Engine::Engine()
 {
     graphics = std::make_unique<Graphics>();
     input = std::make_unique<Input>();
+    
+    gameState = std::make_unique<GameState>();
 }
 
 Engine::~Engine()
@@ -28,6 +31,8 @@ void Engine::init()
     
     graphics->init();
     input->init();
+    
+    gameState->startGame();
     
     // TEMPORARY set up initial world
     auto& world = worlds.emplace_back(std::make_unique<World>(this));

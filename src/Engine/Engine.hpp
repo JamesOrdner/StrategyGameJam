@@ -35,8 +35,9 @@ private:
     std::vector<std::unique_ptr<class World>> worlds;
     
     std::unique_ptr<class Graphics> graphics;
-    
     std::unique_ptr<class Input> input;
+    
+    std::unique_ptr<class GameState> gameState;
     
     /// Registers a component with the appropriate GameSystem
     void registerComponent(class GameObjectComponent* component) const;

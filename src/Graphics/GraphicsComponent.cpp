@@ -1,6 +1,7 @@
 #include "GraphicsComponent.hpp"
 #include "Sprite.hpp"
 #include "Renderer.hpp"
+#include "../Engine/GameObject.hpp"
 
 GraphicsComponent::GraphicsComponent(class GameObject* owner) :
     GameObjectComponent(owner)
@@ -31,5 +32,5 @@ void GraphicsComponent::draw(const SDL_Point& cameraPosition)
     SDL_Rect dest = sprite->bounds;
     dest.x -= cameraPosition.x;
     dest.y -= cameraPosition.y;
-    renderer->draw(sprite->texture, dest, 0);
+    renderer->draw(sprite->texture, dest, owner->rotation);
 }

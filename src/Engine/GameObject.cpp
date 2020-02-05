@@ -3,6 +3,7 @@
 #include "Engine.hpp"
 
 GameObject::GameObject(const Engine* engine) :
+    rotation(0),
     engine(engine),
     position{}
 {
