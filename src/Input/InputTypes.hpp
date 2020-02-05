@@ -7,7 +7,8 @@
 enum class InputEvent
 {
     Camera_X,
-    Camera_Y
+    Camera_Y,
+    CameraZoom
 };
 
 typedef std::function<void(float)> InputCallback;

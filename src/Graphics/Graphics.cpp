@@ -1,7 +1,7 @@
 #include "Graphics.hpp"
 #include "GraphicsComponent.hpp"
 #include "Renderer.hpp"
-#include "../Engine/GameObject.hpp"
+#include "../Objects/Camera.hpp"
 #include <algorithm>
 
 Graphics::Graphics() :
@@ -26,11 +26,14 @@ void Graphics::deinit()
 bool Graphics::execute(uint32_t deltaTime)
 {
     renderer->clear();
+    
+    renderer->zoom = camera->zoomLevel();
     SDL_Point cameraOffset{
         static_cast<int>(camera->getPosition().x),
         static_cast<int>(-camera->getPosition().y)
     };
     for (auto& comp : graphicsComponents) comp->draw(cameraOffset);
+    
     renderer->present();
     return true;
 }
@@ -50,7 +53,7 @@ void Graphics::unregisterComponent(GameObjectComponent* component)
     if (it != graphicsComponents.end()) graphicsComponents.erase(it);
 }
 
-void Graphics::setCamera(const class GameObject* cameraObject)
+void Graphics::setCamera(const Camera* cameraObject)
 {
     camera = cameraObject;
 }

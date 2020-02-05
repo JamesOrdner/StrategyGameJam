@@ -12,6 +12,8 @@ target_sources(StrategyGameJam
     src/main.cpp
     src/Engine/Engine.cpp
     src/Engine/Engine.hpp
+    src/Engine/GameState.cpp
+    src/Engine/GameState.hpp
     src/Engine/GameSystem.hpp
     src/Engine/GameObject.cpp
     src/Engine/GameObject.hpp
@@ -19,8 +21,8 @@ target_sources(StrategyGameJam
     src/Engine/GameObjectComponent.hpp
     src/Engine/World.cpp
     src/Engine/World.hpp
-    src/Engine/WorldGenerator.cpp
-    src/Engine/WorldGenerator.hpp
+    src/Engine/WorldLoader.cpp
+    src/Engine/WorldLoader.hpp
     src/Graphics/Graphics.cpp
     src/Graphics/Graphics.hpp
     src/Graphics/GraphicsComponent.cpp

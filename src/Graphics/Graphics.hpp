@@ -19,7 +19,7 @@ public:
     void registerComponent(class GameObjectComponent* component) override;
     void unregisterComponent(class GameObjectComponent* component) override;
     
-    void setCamera(const class GameObject* cameraObject);
+    void setCamera(const class Camera* cameraObject);
     
 private:
     
@@ -28,7 +28,7 @@ private:
     
     std::unique_ptr<class Renderer> renderer;
     
-    const class GameObject* camera;
+    const class Camera* camera;
 };
 
 #endif /* Graphics_hpp */

@@ -22,6 +22,9 @@ bool Input::execute(uint32_t deltaTime)
         else if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
             processKeyEvent(event);
         }
+        else if(event.type == SDL_MOUSEWHEEL) {
+            execCallback(InputEvent::CameraZoom, static_cast<float>(event.wheel.y));
+        }
     }
     
     return true;

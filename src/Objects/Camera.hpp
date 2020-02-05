@@ -12,10 +12,14 @@ public:
     
     void tick(uint32_t deltaTime) override;
     
+    inline float zoomLevel() const { return zoom; }
+    
 private:
     
     /// Input velocity of the camera with range [-1, 1]
     SDL_FPoint inputVelocity;
+    
+    float zoom;
 };
 
 #endif /* Camera_hpp */
