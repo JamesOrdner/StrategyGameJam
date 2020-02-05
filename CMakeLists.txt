@@ -10,6 +10,8 @@ add_executable(StrategyGameJam)
 target_sources(StrategyGameJam
   PRIVATE
     src/main.cpp
+    src/AI/AI.cpp
+    src/AI/AI.hpp
     src/Engine/Engine.cpp
     src/Engine/Engine.hpp
     src/Engine/GameState.cpp

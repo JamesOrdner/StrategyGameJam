@@ -3,6 +3,7 @@
 #include "GameState.hpp"
 #include "../Graphics/Graphics.hpp"
 #include "../Input/Input.hpp"
+#include "../AI/AI.hpp"
 #include <SDL.h>
 #include <iostream>
 
@@ -14,6 +15,7 @@ Engine::Engine()
 {
     graphics = std::make_unique<Graphics>();
     input = std::make_unique<Input>();
+    ai = std::make_unique<AI>();
     
     gameState = std::make_unique<GameState>();
 }
@@ -31,6 +33,7 @@ void Engine::init()
     
     graphics->init();
     input->init();
+    ai->init();
     
     gameState->startGame();
     
@@ -48,6 +51,7 @@ void Engine::init()
 void Engine::deinit()
 {
     worlds.clear();
+    ai->deinit();
     input->deinit();
     graphics->deinit();
     SDL_Quit();
@@ -67,6 +71,7 @@ void Engine::run()
         for (auto& world : worlds) world->tick(deltaTime);
         
         // execute all other systems
+        ai->execute(deltaTime);
         graphics->execute(deltaTime);
     }
 }
