@@ -19,7 +19,7 @@ void GraphicsComponent::setRenderer(const Renderer* renderer)
 void GraphicsComponent::setSprite(int width, int height, SDL_Color color)
 {
     Uint32 white = 0xFFFFFFFF;
-    sprite = std::make_unique<Sprite>(renderer->sdlRenderer(), SDL_Rect{ .w = width, .h = height }, white);
+    sprite = std::make_unique<Sprite>(renderer->sdlRenderer(), SDL_Rect{ 0, 0, .w = width, .h = height }, white);
 }
 
 void GraphicsComponent::draw(const SDL_Point& cameraPosition)

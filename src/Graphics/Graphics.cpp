@@ -2,6 +2,7 @@
 #include "GraphicsComponent.hpp"
 #include "Renderer.hpp"
 #include "../Engine/GameObject.hpp"
+#include <algorithm>
 
 Graphics::Graphics() :
     camera(nullptr)
