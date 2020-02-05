@@ -1,6 +1,7 @@
 #include "UI.hpp"
 #include "UIComponent.hpp"
 #include "UIObject.hpp"
+#include <algorithm>
 
 UI::UI(const Engine* engine) :
     GameSystem(engine)
