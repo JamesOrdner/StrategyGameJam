@@ -1,6 +1,7 @@
 #include "Physics.hpp"
 #include "PhysicsComponent.hpp"
 #include "../Engine/GameObject.hpp"
+#include <algorithm>
 
 Physics::Physics(const Engine* engine) :
     GameSystem(engine)
