@@ -12,6 +12,8 @@ target_sources(StrategyGameJam
     src/main.cpp
     src/AI/AI.cpp
     src/AI/AI.hpp
+    src/AI/AIComponent.cpp
+    src/AI/AIComponent.hpp
     src/Engine/Engine.cpp
     src/Engine/Engine.hpp
     src/Engine/GameState.cpp
@@ -44,6 +46,7 @@ target_sources(StrategyGameJam
     src/Objects/Camera.hpp
     src/Objects/DrawableObject.cpp
     src/Objects/DrawableObject.hpp
+    src/Util/SDLMath.hpp
 )
 
 get_property("TARGET_SOURCE_FILES" TARGET StrategyGameJam PROPERTY SOURCES)

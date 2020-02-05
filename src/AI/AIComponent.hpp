@@ -11,6 +11,8 @@ public:
     
     AIComponent(class GameObject* owner);
     
+    float movementSpeed;
+    
 private:
     
     friend class AI;

@@ -1,5 +1,7 @@
 #include "AI.hpp"
 #include "AIComponent.hpp"
+#include "../Engine/GameObject.hpp"
+#include "../Util/SDLMath.hpp"
 #include <algorithm>
 
 AI::AI()
@@ -8,6 +10,14 @@ AI::AI()
 
 bool AI::execute(uint32_t deltaTime)
 {
+    for (auto& comp : aiComponents) {
+        if (comp->target.has_value()) {
+            // TEMP until we have real physics
+            SDL_FPoint dir = normalize(comp->target.value() - comp->owner->position);
+            comp->owner->position += dir * static_cast<float>(deltaTime) * comp->movementSpeed;
+            comp->owner->rotation = atan2(dir.x, dir.y) * 180 / 3.14159265;
+        }
+    }
     return true;
 }
 

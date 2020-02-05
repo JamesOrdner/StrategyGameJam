@@ -9,7 +9,7 @@
 
 // TEMP
 #include "../Objects/Camera.hpp"
-#include "../Objects/DrawableObject.hpp"
+#include "../Objects/Actor.hpp"
 
 Engine::Engine()
 {
@@ -40,11 +40,11 @@ void Engine::init()
     // TEMPORARY set up initial world
     auto& world = worlds.emplace_back(std::make_unique<World>(this));
     auto* camera = world->spawnObject<Camera>();
-    world->spawnObject<DrawableObject>();
-    world->spawnObject<DrawableObject>()->position = {  100,  100 };
-    world->spawnObject<DrawableObject>()->position = { -100,  100 };
-    world->spawnObject<DrawableObject>()->position = {  100, -100 };
-    world->spawnObject<DrawableObject>()->position = { -100, -100 };
+    world->spawnObject<Actor>();
+    world->spawnObject<Actor>()->position = {  100,  100 };
+    world->spawnObject<Actor>()->position = { -100,  100 };
+    world->spawnObject<Actor>()->position = {  100, -100 };
+    world->spawnObject<Actor>()->position = { -100, -100 };
     graphics->setCamera(camera);
 }
 
@@ -81,10 +81,12 @@ void Engine::registerComponent(GameObjectComponent* component) const
     // forward to all components, let them deal with dynamic casting
     graphics->registerComponent(component);
     input->registerComponent(component);
+    ai->registerComponent(component);
 }
 
 void Engine::unregisterComponent(GameObjectComponent* component) const
 {
     graphics->unregisterComponent(component);
     input->unregisterComponent(component);
+    ai->unregisterComponent(component);
 }
