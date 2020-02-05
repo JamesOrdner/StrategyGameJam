@@ -14,7 +14,11 @@ public:
     
     void clear() const;
     
+    /// Draws the world
     void draw(SDL_Texture* texture, SDL_Rect dest, double rotation) const;
+    
+    /// Draws the UI
+    void drawUI(const struct UIObject* rootObject);
     
     void present() const;
     
@@ -37,7 +41,14 @@ private:
     
     SDL_Renderer* renderer;
     
+    /// Actual HiDPI pixel resolution
     int screenWidth, screenHeight;
+    
+    /// Non-HiDPI window resolution
+    int windowWidth, windowHeight;
+    
+    /// Draws the UI recursively
+    void drawUI(const struct UIObject& object, const SDL_Rect& parentBoundsAbs);
 };
 
 #endif /* Renderer_hpp */

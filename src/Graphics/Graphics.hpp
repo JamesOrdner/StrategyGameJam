@@ -37,8 +37,8 @@ private:
     
     const struct UIObject* rootUIObject;
     
-    /// Draws the UI, called from execute()
-    void drawUI();
+    /// Draws the UI recursively, called from execute()
+    void drawUI(const struct UIObject* object, const SDL_Rect& parentBoundsAbs);
 };
 
 #endif /* Graphics_hpp */

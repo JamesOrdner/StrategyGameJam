@@ -2,6 +2,8 @@
 #define UIObject_hpp
 
 #include <SDL_rect.h>
+#include <string>
+#include <vector>
 
 enum class UIAnchor
 {
@@ -22,11 +24,16 @@ struct UIObject
     SDL_Rect bounds;
     
     /// Coordinates for this UIObject on the UI texture sheet
-    SDL_Rect textureCoords;
+    std::string textureFilepath;
+    
+    /// Rotation in degrees
+    double rotation;
     
     /// Anchor affects both the anchor position relative to the parent layer, as well
     /// as the edge/corner of this UIObject that the position is defined relative to
     UIAnchor anchor;
+    
+    std::vector<UIObject> subobjects;
 };
 
 #endif /* UIObject_hpp */

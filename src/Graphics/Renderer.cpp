@@ -1,4 +1,5 @@
 #include "Renderer.hpp"
+#include "../UI/UIObject.hpp"
 #include <iostream>
 
 Renderer::Renderer() :
@@ -10,7 +11,7 @@ Renderer::Renderer() :
     window = SDL_CreateWindow(
         "StrategyGameJam",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        640, 480,
+        1280, 720,
         SDL_WINDOW_ALLOW_HIGHDPI
     );
     if (!window) throw std::runtime_error("Failed to create SDL window!");
@@ -19,9 +20,8 @@ Renderer::Renderer() :
     if (!renderer) throw std::runtime_error("Failed to create SDL renderer!");
     
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+    SDL_GetWindowSize(window, &windowWidth, &windowHeight);
     
-    int windowWidth;
-    SDL_GetWindowSize(window, &windowWidth, nullptr);
     hidpiMult = static_cast<float>(screenWidth) / windowWidth;
 }
 
@@ -58,6 +58,19 @@ void Renderer::draw(SDL_Texture* texture, SDL_Rect dest, double rotation) const
         SDL_FLIP_NONE);
 }
 
+void Renderer::drawUI(const UIObject* rootObject)
+{
+    SDL_Rect screenBounds{ .x = 0, .y = 0, .w = windowWidth, .h = windowHeight };
+    for (const auto& object : rootObject->subobjects) {
+        drawUI(object, screenBounds);
+    }
+}
+
+void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
+{
+    
+}
+
 void Renderer::present() const
 {
     SDL_RenderPresent(renderer);
@@ -65,12 +78,9 @@ void Renderer::present() const
 
 SDL_Point Renderer::screenToWorldCoords(const SDL_Point& point) const
 {
-    SDL_Rect windowSize;
-    SDL_GetWindowSize(window, &windowSize.w, &windowSize.h);
-    
     SDL_Point worldCoords = point;
-    worldCoords.x -= windowSize.w / 2;
-    worldCoords.y -= windowSize.h / 2;
+    worldCoords.x -= windowWidth / 2;
+    worldCoords.y -= windowHeight / 2;
     worldCoords.x /= zoom;
     worldCoords.y /= zoom;
     worldCoords.x += cameraOffset.x;
