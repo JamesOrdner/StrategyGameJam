@@ -2,18 +2,24 @@
 #define Actor_hpp
 
 #include "DrawableObject.hpp"
+#include "../Engine/Types.hpp"
 
 class Actor : public DrawableObject
 {
 public:
     
-    Actor(const class Engine* engine);
+    Actor(class World* world);
     
-    virtual int getRequiredResource(int resource) const { return 0; };
+    virtual int buildCost(ResourceType resource) const { return 0; };
     
-    void reduceHealth(int amount);
+    virtual void attack(Actor* other);
+    
+    /// Reduce the actor's health by an amount, returning true if the actor is killed
+    bool reduceHealth(int amount);
     
     int getHealth();
+    
+    void setTeam(Team team);
     
     void setSelected(bool selected);
     
@@ -25,7 +31,7 @@ private:
     
     class UIComponent* uiComponent;
     
-    unsigned int health;
+    int health;
 };
 
 #endif /* Actor_hpp */

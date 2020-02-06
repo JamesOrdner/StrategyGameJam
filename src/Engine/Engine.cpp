@@ -48,7 +48,6 @@ void Engine::init()
     graphics->setCamera(camera);
     
     gameState->startGame();
-
 }
 
 void Engine::deinit()
@@ -101,5 +100,5 @@ void Engine::unregisterComponent(GameObjectComponent* component) const
     input->unregisterComponent(component);
     ai->unregisterComponent(component);
     physics->unregisterComponent(component);
-    ui->registerComponent(component);
+    ui->unregisterComponent(component);
 }

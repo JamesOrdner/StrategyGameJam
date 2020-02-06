@@ -3,8 +3,9 @@
 #include "../UI/UIComponent.hpp"
 #include "../Physics/PhysicsComponent.hpp"
 
-Actor::Actor(const Engine* engine) :
-    DrawableObject(engine)
+Actor::Actor(World* world) :
+    DrawableObject(world),
+    health(100)
 {
     aiComponent = createComponent<AIComponent>();
     
@@ -15,14 +16,28 @@ Actor::Actor(const Engine* engine) :
     physics->bounds = { .x = -50, .y = -50, .w = 100, .h = 100 };
 }
 
-void Actor::reduceHealth(int healthDeducted) 
+void Actor::attack(Actor* other)
+{
+    // simple placeholder insta-damage
+    if (other->reduceHealth(10)) {
+        world->destroyObject(other);
+    }
+}
+
+bool Actor::reduceHealth(int healthDeducted)
 {
     health -= healthDeducted;
+    return health <= 0;
 }
 
 int Actor::getHealth()
 {
     return health;
+}
+
+void Actor::setTeam(Team team)
+{
+    aiComponent->team = team;
 }
 
 void Actor::setSelected(bool selected)
@@ -32,6 +47,7 @@ void Actor::setSelected(bool selected)
 
 void Actor::setDestination(const SDL_FPoint& dest)
 {
-    aiComponent->target = dest;
+    aiComponent->movementState = AIMovementState::MovingToLocation;
+    aiComponent->activity = AIActivity::Idle;
+    aiComponent->destination = dest;
 }
-

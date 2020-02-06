@@ -1,17 +1,18 @@
 #include "GameObject.hpp"
 #include "GameObjectComponent.hpp"
+#include "World.hpp"
 #include "Engine.hpp"
 
-GameObject::GameObject(const Engine* engine) :
+GameObject::GameObject(World* world) :
     position{},
     rotation(0),
-    engine(engine)
+    world(world)
 {
 }
 
 GameObject::~GameObject()
 {
     for (const auto& comp : components) {
-        engine->unregisterComponent(comp.get());
+        world->engine->unregisterComponent(comp.get());
     }
 }

@@ -18,6 +18,10 @@ private:
     
     /// All registered AI components
     std::vector<class AIComponent*> aiComponents;
+    
+    void decideActivity(class AIComponent* component);
+    
+    void doMovement(class AIComponent* component, double deltaTime);
 };
 
 #endif /* AI_hpp */

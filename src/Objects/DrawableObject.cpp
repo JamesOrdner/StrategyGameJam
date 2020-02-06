@@ -1,8 +1,8 @@
 #include "DrawableObject.hpp"
 #include "../Graphics/GraphicsComponent.hpp"
 
-DrawableObject::DrawableObject(const class Engine* engine) :
-    GameObject(engine)
+DrawableObject::DrawableObject(World* world) :
+    GameObject(world)
 {
     graphicsComponent = createComponent<GraphicsComponent>();
 }

@@ -8,7 +8,7 @@ class Camera : public GameObject
 {
 public:
     
-    Camera(const class Engine* engine);
+    Camera(class World* world);
     
     void tick(uint32_t deltaTime) override;
     

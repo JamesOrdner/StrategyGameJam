@@ -8,7 +8,7 @@ class DrawableObject : public GameObject
 {
 public:
     
-    DrawableObject(const class Engine* engine);
+    DrawableObject(class World* world);
     
     void setSprite(int width, int height, const struct SDL_Color& color);
     

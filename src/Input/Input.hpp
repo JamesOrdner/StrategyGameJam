@@ -27,6 +27,8 @@ private:
     /// Call the registered callbacks (if any) for the given event
     void execCallback(InputEvent event, float value);
     
+    void processPrimaryClick(const union SDL_Event& event);
+    
     void processKeyEvent(const union SDL_Event& event);
 };
 

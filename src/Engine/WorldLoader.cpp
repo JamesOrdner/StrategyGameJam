@@ -62,6 +62,12 @@ void WorldLoader::createBuildings(World* world)
     auto* bruh = world->spawnObject<Actor>();
     bruh->position = { -200, 0 };
     bruh->setSprite(100, 100, SDL_Color{ 255, 255, 255, 255 });
+    
+    // badbruh
+    auto* badbruh = world->spawnObject<Actor>();
+    badbruh->position = { -100, 1000 };
+    badbruh->setSprite(100, 100, SDL_Color{ 255, 0, 0, 255 });
+    badbruh->setTeam(Team::Enemy);
 }
 
 void WorldLoader::createResources(World* world)

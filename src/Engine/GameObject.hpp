@@ -1,6 +1,7 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
+#include "World.hpp"
 #include "Engine.hpp"
 #include <vector>
 #include <memory>
@@ -10,7 +11,7 @@ class GameObject
 {
 public:
     
-    GameObject(const class Engine* engine);
+    GameObject(class World* world);
     
     virtual ~GameObject();
     
@@ -18,7 +19,7 @@ public:
     /// Returns an unowned pointer to the created component, which may be discarded.
     template<typename T>
     T* createComponent() {
-        auto* ptr = components.emplace_back(engine->createComponent<T>(this)).get();
+        auto* ptr = components.emplace_back(world->engine->createComponent<T>(this)).get();
         return static_cast<T*>(ptr);
     }
     
@@ -33,7 +34,7 @@ public:
     
 protected:
     
-    const class Engine* const engine;
+    class World* const world;
 
 private:
     

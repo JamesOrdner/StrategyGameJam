@@ -32,23 +32,7 @@ bool Input::execute(uint32_t deltaTime)
             execCallback(InputEvent::CameraZoom, static_cast<float>(event.wheel.y));
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-            SDL_Point screenCoords;
-            SDL_GetMouseState(&screenCoords.x, &screenCoords.y);
-            SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
-            if (auto* selected = engine->physicsSystem()->objectAt(worldCoords)) {
-                if (auto* actor = dynamic_cast<Actor*>(selected)) {
-                    if (!SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_LSHIFT]) {
-                        for (auto& actor : engine->gameStatePtr()->selectedActors) actor->setSelected(false);
-                        engine->gameStatePtr()->selectedActors.clear();
-                    }
-                    engine->gameStatePtr()->selectedActors.push_back(actor);
-                    actor->setSelected(true);
-                }
-            }
-            else {
-                for (auto& actor : engine->gameStatePtr()->selectedActors) actor->setSelected(false);
-                engine->gameStatePtr()->selectedActors.clear();
-            }
+            processPrimaryClick(event);
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT) {
             SDL_Point screenCoords;
@@ -80,6 +64,27 @@ void Input::unregisterComponent(GameObjectComponent* component)
 void Input::execCallback(InputEvent event, float value)
 {
     for (auto& comp : inputComponents) comp->executeEvent(event, value);
+}
+
+void Input::processPrimaryClick(const union SDL_Event& event)
+{
+    SDL_Point screenCoords;
+    SDL_GetMouseState(&screenCoords.x, &screenCoords.y);
+    SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
+    if (auto* selected = engine->physicsSystem()->objectAt(worldCoords)) {
+        if (auto* actor = dynamic_cast<Actor*>(selected)) {
+            if (!SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_LSHIFT]) {
+                for (auto& actor : engine->gameStatePtr()->selectedActors) actor->setSelected(false);
+                engine->gameStatePtr()->selectedActors.clear();
+            }
+            engine->gameStatePtr()->selectedActors.push_back(actor);
+            actor->setSelected(true);
+        }
+    }
+    else {
+        for (auto& actor : engine->gameStatePtr()->selectedActors) actor->setSelected(false);
+        engine->gameStatePtr()->selectedActors.clear();
+    }
 }
 
 void Input::processKeyEvent(const SDL_Event& event)

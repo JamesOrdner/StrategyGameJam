@@ -13,7 +13,23 @@ World::~World()
     
 }
 
+void World::destroyObject(class GameObject* object)
+{
+    destroyedObjects.emplace(object);
+}
+
 void World::tick(uint32_t deltaTime)
 {
     for (auto& obj : objects) obj->tick(deltaTime);
+    
+    // remove all destroyed objects
+    for (auto* deadObject : destroyedObjects) {
+        for (auto it = objects.begin(); it != objects.end(); it++) {
+            if (it->get() == deadObject) {
+                objects.erase(it);
+                break;
+            }
+        }
+    }
+    destroyedObjects.clear();
 }

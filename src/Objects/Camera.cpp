@@ -2,8 +2,8 @@
 #include "../Input/InputComponent.hpp"
 #include <algorithm>
 
-Camera::Camera(const Engine* engine) :
-    GameObject(engine),
+Camera::Camera(World* world) :
+    GameObject(world),
     inputVelocity{},
     zoom(0.5),
     minZoom(0.2f),

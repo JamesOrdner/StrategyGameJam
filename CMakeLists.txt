@@ -23,6 +23,7 @@ target_sources(StrategyGameJam
     src/Engine/GameObject.hpp
     src/Engine/GameObjectComponent.cpp
     src/Engine/GameObjectComponent.hpp
+    src/Engine/Types.hpp
     src/Engine/World.cpp
     src/Engine/World.hpp
     src/Engine/WorldLoader.cpp
