@@ -28,15 +28,18 @@ void Graphics::deinit()
 bool Graphics::execute(uint32_t deltaTime)
 {
     renderer->clear();
+    
     renderer->zoom = camera->zoomLevel();
     renderer->cameraOffset = {
         static_cast<int>(camera->position.x),
         static_cast<int>(camera->position.y)
     };
     
+    // draw world
     for (auto& comp : graphicsComponents) comp->draw();
     
-    drawUI();
+    // draw UI
+    renderer->drawUI(rootUIObject);
     
     renderer->present();
     return true;
@@ -70,9 +73,4 @@ void Graphics::setRootUIObject(const struct UIObject* object)
 SDL_Point Graphics::screenToWorldCoords(const SDL_Point& point) const
 {
     return renderer->screenToWorldCoords(point);
-}
-
-void Graphics::drawUI()
-{
-    
 }

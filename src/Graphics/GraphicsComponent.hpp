@@ -5,6 +5,11 @@
 #include <SDL_pixels.h>
 #include <memory>
 
+enum class RenderDepth
+{
+    Terrain
+};
+
 class GraphicsComponent : public GameObjectComponent
 {
 public:
@@ -15,9 +20,11 @@ public:
     
     void setRenderer(const class Renderer* renderer);
     
-    void setSprite(int width, int height, SDL_Color color);
+    void setSprite(int width, int height, const SDL_Color& color);
     
     void draw();
+    
+    RenderDepth renderDepth;
     
 private:
     

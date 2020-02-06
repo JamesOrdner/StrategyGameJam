@@ -13,6 +13,8 @@ public:
     
     ~UI();
     
+    void init() override;
+    void deinit() override;
     bool execute(uint32_t deltaTime) override;
     void registerComponent(class GameObjectComponent* component) override;
     void unregisterComponent(class GameObjectComponent* component) override;

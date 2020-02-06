@@ -17,7 +17,7 @@ void GraphicsComponent::setRenderer(const Renderer* renderer)
     this->renderer = renderer;
 }
 
-void GraphicsComponent::setSprite(int width, int height, SDL_Color color)
+void GraphicsComponent::setSprite(int width, int height, const SDL_Color& color)
 {
     
     auto* pixelFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA32);
