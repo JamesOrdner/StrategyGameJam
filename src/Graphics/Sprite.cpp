@@ -12,7 +12,13 @@ Sprite::Sprite(SDL_Renderer* renderer, const SDL_Rect& size, Uint32 color)
     SDL_FreeSurface(surface);
 }
 
+Sprite::Sprite(const std::string& filepath) :
+    texture(nullptr),
+    filepath(filepath)
+{
+}
+
 Sprite::~Sprite()
 {
-    SDL_DestroyTexture(texture);
+    if (texture) SDL_DestroyTexture(texture);
 }

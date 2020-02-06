@@ -16,8 +16,11 @@ public:
     
     void clear() const;
     
-    /// Draws the world
+    /// Draw a texture to the specified screen destination
     void draw(SDL_Texture* texture, SDL_Rect dest, double rotation) const;
+    
+    /// Draw a named texture to a world position
+    void draw(const std::string& filepath, const SDL_Point& position, double rotation);
     
     /// Draws the UI
     void drawUI(const struct UIObject* rootObject);
@@ -43,12 +46,18 @@ private:
     
     SDL_Renderer* renderer;
     
+    struct TextureAsset
+    {
+        SDL_Texture* texture;
+        SDL_Rect bounds;
+    };
+    
     /// Maps texture filepaths to their loaded texture, which will be created upon first access.
     /// This should only be accessed via the texture() function!
-    std::map<std::string, SDL_Texture*> textureAssets;
+    std::map<std::string, TextureAsset> textureAssets;
     
     /// Return the SDL_Texture pointer for the given texture filepath
-    SDL_Texture* texture(const std::string& filepath);
+    const TextureAsset& texture(const std::string& filepath);
     
     /// Actual HiDPI pixel resolution
     int screenWidth, screenHeight;

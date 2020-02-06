@@ -65,7 +65,7 @@ bool Graphics::execute(uint32_t deltaTime)
 void Graphics::registerComponent(GameObjectComponent* component)
 {
     if (auto* graphicsComponent = dynamic_cast<GraphicsComponent*>(component)) {
-        graphicsComponent->setRenderer(renderer.get());
+        graphicsComponent->renderer = renderer.get();
         graphicsComponents.push_back(graphicsComponent);
         renderMap[graphicsComponent->renderDepth].push_back(graphicsComponent);
     }

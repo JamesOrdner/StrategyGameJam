@@ -12,6 +12,8 @@ public:
     
     void setSprite(int width, int height, const struct SDL_Color& color);
     
+    void setSprite(const std::string& filepath);
+    
     void setRenderDepth(RenderDepth depth);
 
 private:

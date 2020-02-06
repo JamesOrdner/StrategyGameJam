@@ -3,6 +3,7 @@
 
 #include "../Engine/GameObjectComponent.hpp"
 #include <SDL_pixels.h>
+#include <string>
 #include <memory>
 
 enum class RenderDepth
@@ -18,9 +19,9 @@ public:
     
     ~GraphicsComponent();
     
-    void setRenderer(const class Renderer* renderer);
-    
     void setSprite(int width, int height, const SDL_Color& color);
+    
+    void setSprite(const std::string& filepath);
     
     void draw();
     
@@ -30,8 +31,7 @@ private:
     
     friend class Graphics;
     
-    /// TODO: Remove after implementing texture-only sprites
-    const class Renderer* renderer;
+    class Renderer* renderer;
     
     std::unique_ptr<struct Sprite> sprite;
     

@@ -29,8 +29,8 @@ Renderer::Renderer() :
 
 Renderer::~Renderer()
 {
-    for (auto& texture : textureAssets) {
-        SDL_DestroyTexture(texture.second);
+    for (const auto& texMapPair : textureAssets) {
+        SDL_DestroyTexture(texMapPair.second.texture);
     }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -63,6 +63,15 @@ void Renderer::draw(SDL_Texture* texture, SDL_Rect dest, double rotation) const
         SDL_FLIP_NONE);
 }
 
+void Renderer::draw(const std::string& filepath, const SDL_Point& position, double rotation)
+{
+    const auto& asset = texture(filepath);
+    SDL_Rect dest = asset.bounds;
+    dest.x += position.x;
+    dest.y -= position.y;
+    draw(asset.texture, dest, rotation);
+}
+
 void Renderer::drawUI(const UIObject* rootObject)
 {
     SDL_Rect screenBounds{ .x = 0, .y = 0, .w = windowWidth, .h = windowHeight };
@@ -78,7 +87,7 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
     
     SDL_RenderCopyEx(
         renderer,
-        texture(object.textureFilepath),
+        texture(object.textureFilepath).texture,
         nullptr,
         &dest,
         object.rotation,
@@ -95,14 +104,20 @@ void Renderer::present() const
     SDL_RenderPresent(renderer);
 }
 
-SDL_Texture* Renderer::texture(const std::string& filepath)
+const Renderer::TextureAsset& Renderer::texture(const std::string& filepath)
 {
     auto it = textureAssets.find(filepath);
     if (it == textureAssets.end()) {
+        TextureAsset asset;
         auto* surf = SDL_LoadBMP(filepath.c_str());
-        auto* tex = textureAssets[filepath] = SDL_CreateTextureFromSurface(renderer, surf);
+        if (!surf) throw std::runtime_error("Invalid texture path: " + filepath);
+        asset.texture = SDL_CreateTextureFromSurface(renderer, surf);
+        asset.bounds.w = surf->w;
+        asset.bounds.h = surf->h;
+        asset.bounds.x = -asset.bounds.w / 2;
+        asset.bounds.y = -asset.bounds.h / 2;
         SDL_FreeSurface(surf);
-        return tex;
+        return textureAssets[filepath] = asset;
     }
     else {
         return it->second;

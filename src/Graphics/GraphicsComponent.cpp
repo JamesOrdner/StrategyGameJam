@@ -14,25 +14,34 @@ GraphicsComponent::~GraphicsComponent()
 {
 }
 
-void GraphicsComponent::setRenderer(const Renderer* renderer)
-{
-    this->renderer = renderer;
-}
-
 void GraphicsComponent::setSprite(int width, int height, const SDL_Color& color)
 {
-    
     auto* pixelFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA32);
     Uint32 mappedColor = SDL_MapRGBA(pixelFormat, color.r, color.g, color.b, color.a);
     SDL_FreeFormat(pixelFormat);
     sprite = std::make_unique<Sprite>(renderer->sdlRenderer(), SDL_Rect{ 0, 0, .w = width, .h = height }, mappedColor);
 }
 
+void GraphicsComponent::setSprite(const std::string& filepath)
+{
+    sprite = std::make_unique<Sprite>(filepath);
+}
+
 void GraphicsComponent::draw()
 {
     if (!sprite) return;
-    SDL_Rect dest = sprite->bounds;
-    dest.x += owner->position.x;
-    dest.y -= owner->position.y;
-    renderer->draw(sprite->texture, dest, owner->rotation);
+    
+    if (sprite->texture) {
+        SDL_Rect dest = sprite->bounds;
+        dest.x += owner->position.x;
+        dest.y -= owner->position.y;
+        renderer->draw(sprite->texture, dest, owner->rotation);
+    }
+    else {
+        SDL_Point position{
+            static_cast<int>(owner->position.x),
+            static_cast<int>(owner->position.y)
+        };
+        renderer->draw(sprite->filepath, position, owner->rotation);
+    }
 }

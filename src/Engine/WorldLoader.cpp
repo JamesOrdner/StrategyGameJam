@@ -36,6 +36,23 @@ void WorldLoader::createBuildings(World* world)
         myObject->position.y = getRandomInt();
         myObject->setSprite(20,20,SDL_Color{(uint8_t)getRandomInt(),(uint8_t)getRandomInt(),(uint8_t)getRandomInt(),255});
     }
+    
+    // yeettree
+    auto* tree = world->spawnObject<DrawableObject>();
+    tree->position = { 600, 0 };
+    tree->setSprite("res/textures/world/tree_large_1.bmp");
+    
+    // yeetrock
+    auto* rock = world->spawnObject<DrawableObject>();
+    rock->position = { 600, 500 };
+    rock->rotation = static_cast<double>(getRandomInt());
+    rock->setSprite("res/textures/world/rock_medium_1.bmp");
+    
+    // yeetrock2000
+    auto* rock2000 = world->spawnObject<DrawableObject>();
+    rock2000->position = { 300, 400 };
+    rock2000->rotation = -static_cast<double>(getRandomInt());
+    rock2000->setSprite("res/textures/world/rock_medium_1.bmp");
 }
 
 void WorldLoader::createResources(World* world)
