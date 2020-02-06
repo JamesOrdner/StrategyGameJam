@@ -130,3 +130,18 @@ else()
 endif()
 target_include_directories(StrategyGameJam PRIVATE ${DEPENDENCIES_DIR}/include/SDL2)
 
+# Copy resources
+
+if(WIN32)
+  add_custom_command(TARGET StrategyGameJam POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_CURRENT_SOURCE_DIR}/res
+    ${CMAKE_BINARY_DIR}/res
+  )
+else()
+  add_custom_command(TARGET StrategyGameJam POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_CURRENT_SOURCE_DIR}/res
+    $<TARGET_FILE_DIR:StrategyGameJam>/res
+  )
+endif()

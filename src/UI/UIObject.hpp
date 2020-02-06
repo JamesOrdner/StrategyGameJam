@@ -34,6 +34,8 @@ struct UIObject
     UIAnchor anchor;
     
     std::vector<UIObject> subobjects;
+    
+    UIObject() : bounds{}, rotation(0), anchor(UIAnchor::Center) {}
 };
 
 #endif /* UIObject_hpp */

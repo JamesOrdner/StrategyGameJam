@@ -1,5 +1,6 @@
 #include "Renderer.hpp"
 #include "../UI/UIObject.hpp"
+#include <SDL_hints.h>
 #include <iostream>
 
 Renderer::Renderer() :
@@ -16,6 +17,7 @@ Renderer::Renderer() :
     );
     if (!window) throw std::runtime_error("Failed to create SDL window!");
     
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
     if (!renderer) throw std::runtime_error("Failed to create SDL renderer!");
     
@@ -27,6 +29,9 @@ Renderer::Renderer() :
 
 Renderer::~Renderer()
 {
+    for (auto& texture : textureAssets) {
+        SDL_DestroyTexture(texture.second);
+    }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 }
@@ -68,12 +73,40 @@ void Renderer::drawUI(const UIObject* rootObject)
 
 void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
 {
+    SDL_Rect dest = object.bounds;
+    // TODO: implement anchor offset
     
+    SDL_RenderCopyEx(
+        renderer,
+        texture(object.textureFilepath),
+        nullptr,
+        &dest,
+        object.rotation,
+        nullptr,
+        SDL_FLIP_NONE);
+    
+    for (const auto& subobject : object.subobjects) {
+        drawUI(subobject, dest);
+    }
 }
 
 void Renderer::present() const
 {
     SDL_RenderPresent(renderer);
+}
+
+SDL_Texture* Renderer::texture(const std::string& filepath)
+{
+    auto it = textureAssets.find(filepath);
+    if (it == textureAssets.end()) {
+        auto* surf = SDL_LoadBMP(filepath.c_str());
+        auto* tex = textureAssets[filepath] = SDL_CreateTextureFromSurface(renderer, surf);
+        SDL_FreeSurface(surf);
+        return tex;
+    }
+    else {
+        return it->second;
+    }
 }
 
 SDL_Point Renderer::screenToWorldCoords(const SDL_Point& point) const

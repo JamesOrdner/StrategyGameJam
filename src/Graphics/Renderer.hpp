@@ -3,6 +3,8 @@
 
 #include <SDL_video.h>
 #include <SDL_render.h>
+#include <map>
+#include <string>
 
 class Renderer
 {
@@ -40,6 +42,13 @@ private:
     SDL_Window* window;
     
     SDL_Renderer* renderer;
+    
+    /// Maps texture filepaths to their loaded texture, which will be created upon first access.
+    /// This should only be accessed via the texture() function!
+    std::map<std::string, SDL_Texture*> textureAssets;
+    
+    /// Return the SDL_Texture pointer for the given texture filepath
+    SDL_Texture* texture(const std::string& filepath);
     
     /// Actual HiDPI pixel resolution
     int screenWidth, screenHeight;

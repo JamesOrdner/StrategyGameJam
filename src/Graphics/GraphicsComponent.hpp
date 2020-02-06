@@ -15,7 +15,7 @@ public:
     
     void setRenderer(const class Renderer* renderer);
     
-    void setSprite(int width, int height, SDL_Color color);
+    void setSprite(int width, int height, const SDL_Color& color);
     
     void draw();
     

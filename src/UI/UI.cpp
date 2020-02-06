@@ -13,6 +13,18 @@ UI::~UI()
 {
 }
 
+void UI::init()
+{
+    auto& menu = rootUIObject->subobjects.emplace_back();
+    menu.bounds = { 0, 0, 300, 300 };
+    menu.textureFilepath = "res/textures/ui/selected_circle.bmp";
+}
+
+void UI::deinit()
+{
+    rootUIObject->subobjects.clear();
+}
+
 bool UI::execute(uint32_t deltaTime)
 {
     return true;
