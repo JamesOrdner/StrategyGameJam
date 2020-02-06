@@ -3,8 +3,8 @@
 #include "WorldLoader.hpp"
 
 GameState::GameState(const Engine* engine) :
-    money(0),
-    engine(engine)
+    engine(engine),
+    money(0)
 {
     
 }
