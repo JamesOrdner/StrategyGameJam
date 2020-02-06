@@ -28,9 +28,15 @@ public:
     
 private:
     
+    friend class Graphics;
+    
+    /// TODO: Remove after implementing texture-only sprites
     const class Renderer* renderer;
     
     std::unique_ptr<struct Sprite> sprite;
+    
+    /// Graphics checks for dirty RenderDepth if this differs from renderDepth
+    RenderDepth oldRenderDepth;
 };
 
 #endif /* GraphicsComponent_hpp */

@@ -4,7 +4,9 @@
 #include "../Engine/GameObject.hpp"
 
 GraphicsComponent::GraphicsComponent(class GameObject* owner) :
-    GameObjectComponent(owner)
+    GameObjectComponent(owner),
+    renderDepth(RenderDepth::Terrain),
+    oldRenderDepth(RenderDepth::Terrain)
 {
 }
 

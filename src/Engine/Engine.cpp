@@ -54,11 +54,13 @@ void Engine::init()
 void Engine::deinit()
 {
     worlds.clear();
-    physics->deinit();
+    
     ui->deinit();
+    physics->deinit();
     ai->deinit();
     input->deinit();
     graphics->deinit();
+    
     SDL_Quit();
 }
 

@@ -2,9 +2,11 @@
 #define Graphics_hpp
 
 #include "../Engine/GameSystem.hpp"
+#include "GraphicsComponent.hpp"
 #include <SDL_rect.h>
 #include <memory>
 #include <vector>
+#include <map>
 
 class Graphics : public GameSystem
 {
@@ -29,7 +31,10 @@ public:
 private:
     
     /// All registered graphics components
-    std::vector<class GraphicsComponent*> graphicsComponents;
+    std::vector<GraphicsComponent*> graphicsComponents;
+    
+    /// Organizes graphics components by RenderDepth for easy rendering
+    std::map<RenderDepth, std::vector<GraphicsComponent*>> renderMap;
     
     std::unique_ptr<class Renderer> renderer;
     

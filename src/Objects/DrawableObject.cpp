@@ -11,3 +11,8 @@ void DrawableObject::setSprite(int width, int height, const struct SDL_Color& co
 {
     graphicsComponent->setSprite(width, height, color);
 }
+
+void DrawableObject::setRenderDepth(RenderDepth depth)
+{
+    graphicsComponent->renderDepth = depth;
+}
