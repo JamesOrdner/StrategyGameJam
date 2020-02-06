@@ -71,8 +71,8 @@ target_include_directories(StrategyGameJam PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(StrategyGameJam ${SDL2_LIBRARIES})
 
 find_package(SDL2TTF REQUIRED)
-target_include_directories(StrategyGameJam PRIVATE ${SDL2TTF_INCLUDE_DIRS})
-target_link_libraries(StrategyGameJam ${SDL2TTF_LIBRARIES})
+target_include_directories(StrategyGameJam PRIVATE ${SDL2TTF_INCLUDE_DIR})
+target_link_libraries(StrategyGameJam ${SDL2TTF_LIBRARY})
 
 # Copy resources
 
