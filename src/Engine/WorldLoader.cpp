@@ -57,6 +57,11 @@ void WorldLoader::createBuildings(World* world)
     // yeetbreh
     auto* breh = world->spawnObject<Actor>();
     breh->setSprite(100, 100, SDL_Color{ 255, 255, 255, 255 });
+    
+    // yeetbruh
+    auto* bruh = world->spawnObject<Actor>();
+    bruh->position = { -200, 0 };
+    bruh->setSprite(100, 100, SDL_Color{ 255, 255, 255, 255 });
 }
 
 void WorldLoader::createResources(World* world)
