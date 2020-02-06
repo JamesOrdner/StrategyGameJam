@@ -8,7 +8,8 @@
 
 enum class RenderDepth
 {
-    Terrain
+    Terrain,
+    Tree
 };
 
 class GraphicsComponent : public GameObjectComponent

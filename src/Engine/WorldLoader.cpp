@@ -30,16 +30,18 @@ void WorldLoader::createBuildings(World* world)
     myObject->position.y = 0;
     myObject->setSprite(20,20,SDL_Color{255,255,255,255});
 
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<15; i++) {
         auto* myObject = world->spawnObject<DrawableObject>();
         myObject->position.x = getRandomInt();
         myObject->position.y = getRandomInt();
-        myObject->setSprite(20,20,SDL_Color{(uint8_t)getRandomInt(),(uint8_t)getRandomInt(),(uint8_t)getRandomInt(),255});
+        myObject->rotation = static_cast<double>(getRandomInt());
+        myObject->setSprite("res/textures/world/mushroom_small_1.bmp");
     }
     
     // yeettree
     auto* tree = world->spawnObject<DrawableObject>();
     tree->position = { 600, 0 };
+    tree->setRenderDepth(RenderDepth::Tree);
     tree->setSprite("res/textures/world/tree_large_1.bmp");
     
     // yeetrock
