@@ -21,7 +21,7 @@ Engine::Engine()
     physics = std::make_unique<Physics>(this);
     ui = std::make_unique<UI>(this);
     
-    gameState = std::make_unique<GameState>();
+    gameState = std::make_unique<GameState>(this);
 }
 
 Engine::~Engine()
@@ -43,17 +43,12 @@ void Engine::init()
     
     graphics->setRootUIObject(ui->rootUIObjectPtr());
     
-    gameState->startGame();
-    
-    // TEMPORARY set up initial world
     auto& world = worlds.emplace_back(std::make_unique<World>(this));
     auto* camera = world->spawnObject<Camera>();
-    world->spawnObject<Actor>();
-    world->spawnObject<Actor>()->position = {  100,  100 };
-    world->spawnObject<Actor>()->position = { -100,  100 };
-    world->spawnObject<Actor>()->position = {  100, -100 };
-    world->spawnObject<Actor>()->position = { -100, -100 };
     graphics->setCamera(camera);
+    
+    gameState->startGame();
+
 }
 
 void Engine::deinit()

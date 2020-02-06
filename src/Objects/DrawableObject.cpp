@@ -4,6 +4,10 @@
 DrawableObject::DrawableObject(const class Engine* engine) :
     GameObject(engine)
 {
-    auto* graphicsComponent = createComponent<GraphicsComponent>();
-    graphicsComponent->setSprite(100, 100, SDL_Color{ 255, 127, 255, 255 });
+    graphicsComponent = createComponent<GraphicsComponent>();
+}
+
+void DrawableObject::setSprite(int width, int height, const struct SDL_Color& color)
+{
+    graphicsComponent->setSprite(width, height, color);
 }

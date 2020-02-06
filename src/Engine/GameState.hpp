@@ -7,7 +7,7 @@ class GameState
 {
 public:
     
-    GameState();
+    GameState(const class Engine* engine);
     
     void startGame();
     
@@ -15,6 +15,8 @@ public:
     
 private:
     
+    const class Engine* const engine;
+
     unsigned int money;
 };
 
