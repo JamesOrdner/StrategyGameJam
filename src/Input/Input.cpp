@@ -37,8 +37,10 @@ bool Input::execute(uint32_t deltaTime)
             SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
             if (auto* selected = engine->physicsSystem()->objectAt(worldCoords)) {
                 if (auto* actor = dynamic_cast<Actor*>(selected)) {
+                    for (auto& actor : engine->gameStatePtr()->selectedActors) actor->setSelected(false);
                     engine->gameStatePtr()->selectedActors.clear();
                     engine->gameStatePtr()->selectedActors.push_back(actor);
+                    actor->setSelected(true);
                 }
             }
         }

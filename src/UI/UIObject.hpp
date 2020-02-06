@@ -15,11 +15,21 @@ enum class UIAnchor
     TopLeft,
     TopRight,
     BottomLeft,
-    BottomRight
+    BottomRight,
+    World // coordinates in world space
 };
 
 struct UIObject
 {
+    UIObject() :
+        bounds{},
+        rotation(0),
+        anchor(UIAnchor::Center),
+        bHidden(false),
+        uiComponent(nullptr)
+    {
+    }
+    
     /// Bounds of the UIObject, includes position
     SDL_Rect bounds;
     
@@ -33,9 +43,16 @@ struct UIObject
     /// as the edge/corner of this UIObject that the position is defined relative to
     UIAnchor anchor;
     
+    /// Should this UIObject render? Also affects all subobjects
+    bool bHidden;
+    
     std::vector<UIObject> subobjects;
     
-    UIObject() : bounds{}, rotation(0), anchor(UIAnchor::Center) {}
+private:
+    
+    friend class UI;
+    
+    class UIComponent* uiComponent;
 };
 
 #endif /* UIObject_hpp */

@@ -82,20 +82,27 @@ void Renderer::drawUI(const UIObject* rootObject)
 
 void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
 {
-    SDL_Rect dest = object.bounds;
-    // TODO: implement anchor offset
+    if (object.bHidden) return;
     
-    SDL_RenderCopyEx(
-        renderer,
-        texture(object.textureFilepath).texture,
-        nullptr,
-        &dest,
-        object.rotation,
-        nullptr,
-        SDL_FLIP_NONE);
-    
-    for (const auto& subobject : object.subobjects) {
-        drawUI(subobject, dest);
+    if (object.anchor == UIAnchor::World) {
+        draw(object.textureFilepath, { object.bounds.x, object.bounds.y }, 0);
+    }
+    else {
+        SDL_Rect dest = object.bounds;
+        // TODO: implement anchor offset
+        
+        SDL_RenderCopyEx(
+            renderer,
+            texture(object.textureFilepath).texture,
+            nullptr,
+            &dest,
+            object.rotation,
+            nullptr,
+            SDL_FLIP_NONE);
+        
+        for (const auto& subobject : object.subobjects) {
+            drawUI(subobject, dest);
+        }
     }
 }
 

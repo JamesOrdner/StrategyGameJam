@@ -53,6 +53,10 @@ void WorldLoader::createBuildings(World* world)
     rock2000->position = { 300, 400 };
     rock2000->rotation = -static_cast<double>(getRandomInt());
     rock2000->setSprite("res/textures/world/rock_medium_1.bmp");
+    
+    // yeetbreh
+    auto* breh = world->spawnObject<Actor>();
+    breh->setSprite(100, 100, SDL_Color{ 255, 255, 255, 255 });
 }
 
 void WorldLoader::createResources(World* world)
