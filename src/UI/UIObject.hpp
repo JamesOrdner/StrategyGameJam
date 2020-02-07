@@ -33,6 +33,9 @@ struct UIObject
     /// Bounds of the UIObject, includes position
     SDL_Rect bounds;
     
+    /// Rendered text
+    std::string text;
+    
     /// Coordinates for this UIObject on the UI texture sheet
     std::string textureFilepath;
     

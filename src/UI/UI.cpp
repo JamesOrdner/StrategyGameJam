@@ -16,6 +16,10 @@ UI::~UI()
 
 void UI::init()
 {
+    auto& testText = rootUIObject->subobjects.emplace_back();
+    testText.anchor = UIAnchor::TopLeft;
+    testText.bounds = { 0, 0, 0, 0 };
+    testText.text = "Testies123";
 }
 
 void UI::deinit()

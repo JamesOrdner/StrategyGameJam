@@ -1,6 +1,8 @@
 #ifndef Renderer_hpp
 #define Renderer_hpp
 
+#include "../UI/UIObject.hpp"
+#include <SDL_ttf.h>
 #include <SDL_video.h>
 #include <SDL_render.h>
 #include <map>
@@ -23,7 +25,7 @@ public:
     void draw(const std::string& filepath, const SDL_Point& position, double rotation);
     
     /// Draws the UI
-    void drawUI(const struct UIObject* rootObject);
+    void drawUI(const UIObject* rootObject);
     
     void present() const;
     
@@ -46,6 +48,8 @@ private:
     
     SDL_Renderer* renderer;
     
+    TTF_Font* font;
+    
     struct TextureAsset
     {
         SDL_Texture* texture;
@@ -56,8 +60,13 @@ private:
     /// This should only be accessed via the texture() function!
     std::map<std::string, TextureAsset> textureAssets;
     
+    void drawSurface(SDL_Surface* surface, const SDL_Point& point, UIAnchor anchor);
+    
     /// Return the SDL_Texture pointer for the given texture filepath
     const TextureAsset& texture(const std::string& filepath);
+    
+    /// Caller is responsible for freeing texture
+    SDL_Surface* genTextTexture(const std::string& text, SDL_Color color);
     
     /// Actual HiDPI pixel resolution
     int screenWidth, screenHeight;

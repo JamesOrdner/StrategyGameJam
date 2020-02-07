@@ -1,5 +1,4 @@
 #include "Renderer.hpp"
-#include "../UI/UIObject.hpp"
 #include <SDL_hints.h>
 #include <iostream>
 
@@ -25,6 +24,10 @@ Renderer::Renderer() :
     SDL_GetWindowSize(window, &windowWidth, &windowHeight);
     
     hidpiMult = static_cast<float>(screenWidth) / windowWidth;
+    
+    TTF_Init();
+    font = TTF_OpenFont("res/fonts/Capture_it.ttf", 64 * screenWidth / windowWidth);
+    if (!font) throw std::runtime_error("Failed to open font!");
 }
 
 Renderer::~Renderer()
@@ -32,6 +35,10 @@ Renderer::~Renderer()
     for (const auto& texMapPair : textureAssets) {
         SDL_DestroyTexture(texMapPair.second.texture);
     }
+    
+    TTF_CloseFont(font);
+    TTF_Quit();
+    
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 }
@@ -72,6 +79,21 @@ void Renderer::draw(const std::string& filepath, const SDL_Point& position, doub
     draw(asset.texture, dest, rotation);
 }
 
+void Renderer::drawSurface(SDL_Surface* surface, const SDL_Point& point, UIAnchor anchor)
+{
+    auto* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_Rect dest{ point.x, point.y, surface->w, surface->h };
+    SDL_RenderCopyEx(
+        renderer,
+        texture,
+        nullptr,
+        &dest,
+        0,
+        nullptr,
+        SDL_FLIP_NONE);
+    SDL_DestroyTexture(texture);
+}
+
 void Renderer::drawUI(const UIObject* rootObject)
 {
     SDL_Rect screenBounds{ .x = 0, .y = 0, .w = windowWidth, .h = windowHeight };
@@ -91,14 +113,23 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
         SDL_Rect dest = object.bounds;
         // TODO: implement anchor offset
         
-        SDL_RenderCopyEx(
-            renderer,
-            texture(object.textureFilepath).texture,
-            nullptr,
-            &dest,
-            object.rotation,
-            nullptr,
-            SDL_FLIP_NONE);
+        if (!object.textureFilepath.empty()) {
+            SDL_RenderCopyEx(
+                renderer,
+                texture(object.textureFilepath).texture,
+                nullptr,
+                &dest,
+                object.rotation,
+                nullptr,
+                SDL_FLIP_NONE);
+        }
+        
+        
+        if (!object.text.empty()) {
+            auto* textSurface = TTF_RenderText_Solid(font, object.text.c_str(), { 255, 255, 255, 255 });
+            drawSurface(textSurface, { object.bounds.x, object.bounds.y }, UIAnchor::TopLeft);
+            SDL_FreeSurface(textSurface);
+        }
         
         for (const auto& subobject : object.subobjects) {
             drawUI(subobject, dest);
@@ -129,6 +160,11 @@ const Renderer::TextureAsset& Renderer::texture(const std::string& filepath)
     else {
         return it->second;
     }
+}
+
+SDL_Surface* Renderer::genTextTexture(const std::string& text, SDL_Color color)
+{
+    return TTF_RenderText_Solid(font, text.c_str(), color);
 }
 
 SDL_Point Renderer::screenToWorldCoords(const SDL_Point& point) const
