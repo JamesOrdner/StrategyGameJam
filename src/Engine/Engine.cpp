@@ -73,13 +73,15 @@ void Engine::run()
         // process input and check for exit request
         if (!input->execute(deltaTime)) break;
         
-        // tick all worlds/objects
-        for (auto& world : worlds) world->tick(deltaTime);
-        
         // execute all other systems
         ai->execute(deltaTime);
         physics->execute(deltaTime);
         ui->execute(deltaTime);
+        
+        // tick all worlds/objects
+        for (auto& world : worlds) world->tick(deltaTime);
+        
+        // render
         graphics->execute(deltaTime);
     }
 }
