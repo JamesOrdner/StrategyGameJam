@@ -22,11 +22,16 @@ private:
     
     void processFriendlyActor(class AIComponent* component, uint32_t deltaTime);
     
+    void processEnemyActor(class AIComponent* component, uint32_t deltaTime);
+    
     /// Return enemy for component in range of Actor, or nullptr if no enemies found
     class Actor* searchForEnemy(class AIComponent* component);
     
     /// Return enemy for component in range of searchOrigin, or nullptr if no enemies found
     class Actor* searchForEnemy(class AIComponent* component, const SDL_FPoint& searchOrigin);
+    
+    /// Return an enemy structure, or nullptr if no enemy structures found
+    class Actor* searchForEnemyStructure(class AIComponent* component);
     
     /// If target is nullptr, attacker's current target is used
     bool targetInRange(class AIComponent* attacker, class Actor* target = nullptr);
