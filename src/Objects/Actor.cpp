@@ -7,15 +7,11 @@ Actor::Actor(World* world, const SDL_FPoint& position) :
     DrawableObject(world, position),
     health(100)
 {
+    createComponent<PhysicsComponent>();
+    uiComponent = createComponent<UIComponent>();
     aiComponent = createComponent<AIComponent>();
     aiComponent->bMobile = true;
     aiComponent->setDestination(position);
-    
-    uiComponent = createComponent<UIComponent>();
-    uiComponent->outlineBounds = { .x = -50, .y = -50, .w = 100, .h = 100 };
-    
-    auto* physics = createComponent<PhysicsComponent>();
-    physics->bounds = { .x = -50, .y = -50, .w = 100, .h = 100 };
 }
 
 void Actor::attack(Actor* other)

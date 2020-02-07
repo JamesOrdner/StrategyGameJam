@@ -3,6 +3,7 @@
 
 #include "../Engine/GameObjectComponent.hpp"
 #include <SDL_pixels.h>
+#include <SDL_rect.h>
 #include <string>
 #include <memory>
 
@@ -22,7 +23,8 @@ public:
     
     void setSprite(int width, int height, const SDL_Color& color);
     
-    void setSprite(const std::string& filepath);
+    /// Returns sprite bounds
+    SDL_Point setSprite(const std::string& filepath);
     
     void draw();
     

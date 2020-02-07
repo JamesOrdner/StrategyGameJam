@@ -30,10 +30,17 @@ void Physics::unregisterComponent(class GameObjectComponent* component)
 GameObject* Physics::objectAt(const SDL_Point& coords) const
 {
     for (const auto& comp : physicsComponents) {
-        SDL_Rect absBounds = comp->bounds;
-        absBounds.x += comp->owner->position.x;
-        absBounds.y += comp->owner->position.y;
-        if (SDL_PointInRect(&coords, &absBounds)) return comp->owner;
+        if (comp->owner->bounds.has_value()) {
+            const SDL_FPoint& pos = comp->owner->position;
+            const SDL_Point& bounds = comp->owner->bounds.value();
+            SDL_Rect rect{
+                static_cast<int>(pos.x) - bounds.x / 2,
+                static_cast<int>(pos.y) - bounds.y / 2,
+                bounds.x,
+                bounds.y
+            };
+            if (SDL_PointInRect(&coords, &rect)) return comp->owner;
+        }
     }
     return nullptr;
 }

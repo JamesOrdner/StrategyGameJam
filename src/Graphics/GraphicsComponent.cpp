@@ -22,9 +22,10 @@ void GraphicsComponent::setSprite(int width, int height, const SDL_Color& color)
     sprite = std::make_unique<Sprite>(renderer->sdlRenderer(), SDL_Rect{ 0, 0, .w = width, .h = height }, mappedColor);
 }
 
-void GraphicsComponent::setSprite(const std::string& filepath)
+SDL_Point GraphicsComponent::setSprite(const std::string& filepath)
 {
     sprite = std::make_unique<Sprite>(filepath);
+    return { sprite->bounds.w, sprite->bounds.h };
 }
 
 void GraphicsComponent::draw()

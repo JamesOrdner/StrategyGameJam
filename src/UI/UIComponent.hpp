@@ -11,8 +11,6 @@ public:
     UIComponent(class GameObject* owner);
     
     bool bSelected;
-    
-    SDL_Rect outlineBounds;
 };
 
 #endif /* UIComponent_hpp */

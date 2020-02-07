@@ -16,6 +16,13 @@ Sprite::Sprite(const std::string& filepath) :
     texture(nullptr),
     filepath(filepath)
 {
+    auto* surf = SDL_LoadBMP(filepath.c_str());
+    if (!surf) throw std::runtime_error("Invalid texture path: " + filepath);
+    bounds.w = surf->w;
+    bounds.h = surf->h;
+    bounds.x = -bounds.w / 2;
+    bounds.y = -bounds.h / 2;
+    SDL_FreeSurface(surf);
 }
 
 Sprite::~Sprite()

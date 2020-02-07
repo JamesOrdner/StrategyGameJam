@@ -2,7 +2,6 @@
 
 UIComponent::UIComponent(class GameObject* owner) :
     GameObjectComponent(owner),
-    bSelected(false),
-    outlineBounds{}
+    bSelected(false)
 {
 }

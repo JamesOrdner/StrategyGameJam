@@ -10,11 +10,12 @@ DrawableObject::DrawableObject(World* world, const SDL_FPoint& position) :
 void DrawableObject::setSprite(int width, int height, const struct SDL_Color& color)
 {
     graphicsComponent->setSprite(width, height, color);
+    bounds = { width, height };
 }
 
 void DrawableObject::setSprite(const std::string& filepath)
 {
-    graphicsComponent->setSprite(filepath);
+    bounds = graphicsComponent->setSprite(filepath);
 }
 
 void DrawableObject::setRenderDepth(RenderDepth depth)

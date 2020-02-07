@@ -6,6 +6,7 @@
 #include <SDL_rect.h>
 #include <vector>
 #include <memory>
+#include <optional>
 
 class GameObject
 {
@@ -25,9 +26,13 @@ public:
     
     /// Called each frame, with the time since the last frame (ms)
     virtual void tick(uint32_t deltaTime) {};
-
+    
     /// Position of the object
     SDL_FPoint position;
+    
+    /// Bounds of the object, used for collision, selection, etc.
+    /// May be set manually, but will be overridden if a sprite is loaded.
+    std::optional<SDL_Point> bounds;
     
     /// Rotation of the object in degrees
     double rotation;
