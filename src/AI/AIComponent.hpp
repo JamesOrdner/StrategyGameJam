@@ -43,6 +43,8 @@ public:
     
     void setDestination(const SDL_FPoint& dest);
     
+    void setTarget(class Actor* target);
+    
 private:
     
     friend class AI;

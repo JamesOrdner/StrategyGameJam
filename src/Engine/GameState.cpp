@@ -15,14 +15,23 @@ void GameState::startGame()
     WorldLoader::createWorld(engine, engine->activeWorld());
 }
 
-void GameState::actorSelected(Actor* actor, bool bMultiSelect)
+void GameState::actorSelected(Actor* actor, bool bMultiSelect, bool bCommand)
 {
-    if (!bMultiSelect) {
-        for (auto& actor : selectedActors) actor->setSelected(false);
-        selectedActors.clear();
+    if (bCommand) {
+        if (actor->team() == Team::Enemy) {
+            for (auto& selectedActor : selectedActors) selectedActor->setTarget(actor);
+        }
     }
-    selectedActors.push_back(actor);
-    actor->setSelected(true);
+    else { // selection
+        if (actor->team() == Team::Player) {
+            if (!bMultiSelect) {
+                for (auto& selectedActor : selectedActors) selectedActor->setSelected(false);
+                selectedActors.clear();
+            }
+            selectedActors.push_back(actor);
+            actor->setSelected(true);
+        }
+    }
 }
 
 void GameState::terrainSelected(const SDL_Point& position, bool bCommand)

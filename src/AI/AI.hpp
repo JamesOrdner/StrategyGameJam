@@ -28,6 +28,9 @@ private:
     /// Return enemy for component in range of searchOrigin, or nullptr if no enemies found
     class Actor* searchForEnemy(class AIComponent* component, const SDL_FPoint& searchOrigin);
     
+    /// If target is nullptr, attacker's current target is used
+    bool targetInRange(class AIComponent* attacker, class Actor* target = nullptr);
+    
     void doMovement(class AIComponent* component, double deltaTime);
 };
 

@@ -3,6 +3,7 @@
 
 #include "../Engine/GameSystem.hpp"
 #include "InputTypes.hpp"
+#include <SDL_events.h>
 #include <unordered_set>
 
 class Input : public GameSystem
@@ -27,9 +28,11 @@ private:
     /// Call the registered callbacks (if any) for the given event
     void execCallback(InputEvent event, float value);
     
-    void processPrimaryClick(const union SDL_Event& event);
+    void processPrimaryClick(const SDL_Event& event);
     
-    void processKeyEvent(const union SDL_Event& event);
+    void processSecondaryClick(const SDL_Event& event);
+    
+    void processKeyEvent(const SDL_Event& event);
 };
 
 #endif /* Input_hpp */

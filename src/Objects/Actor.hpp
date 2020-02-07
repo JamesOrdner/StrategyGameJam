@@ -21,9 +21,13 @@ public:
     
     void setTeam(Team team);
     
+    Team team() const;
+    
     void setSelected(bool selected);
     
     void setDestination(const SDL_FPoint& dest);
+    
+    void setTarget(Actor* target);
     
 protected:
     

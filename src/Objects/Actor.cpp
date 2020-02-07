@@ -42,6 +42,11 @@ void Actor::setTeam(Team team)
     aiComponent->team = team;
 }
 
+Team Actor::team() const
+{
+    return aiComponent->team;
+}
+
 void Actor::setSelected(bool selected)
 {
     uiComponent->bSelected = selected;
@@ -50,4 +55,9 @@ void Actor::setSelected(bool selected)
 void Actor::setDestination(const SDL_FPoint& dest)
 {
     aiComponent->setDestination(dest);
+}
+
+void Actor::setTarget(Actor* target)
+{
+    aiComponent->setTarget(target);
 }

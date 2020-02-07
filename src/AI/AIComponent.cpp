@@ -24,3 +24,12 @@ void AIComponent::setDestination(const SDL_FPoint& dest)
     activity = AIActivity::Idle;
     destination = dest;
 }
+
+void AIComponent::setTarget(Actor* target)
+{
+    if (target->team() != team) {
+        movementState = AIMovementState::MovingToEnemy;
+        activity = AIActivity::Attacking;
+        this->target = target;
+    }
+}

@@ -5,7 +5,6 @@
 #include "../Graphics/Graphics.hpp"
 #include "../Physics/Physics.hpp"
 #include "../Objects/Actor.hpp"
-#include <SDL_events.h>
 
 Input::Input(const Engine* engine) :
     GameSystem(engine)
@@ -35,10 +34,7 @@ bool Input::execute(uint32_t deltaTime)
             processPrimaryClick(event);
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT) {
-            SDL_Point screenCoords;
-            SDL_GetMouseState(&screenCoords.x, &screenCoords.y);
-            SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
-            engine->gameStatePtr()->terrainSelected(worldCoords, true);
+            processSecondaryClick(event);
         }
     }
     
@@ -70,11 +66,28 @@ void Input::processPrimaryClick(const union SDL_Event& event)
     SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
     if (auto* selected = engine->physicsSystem()->objectAt(worldCoords)) {
         if (auto* actor = dynamic_cast<Actor*>(selected)) {
-            engine->gameStatePtr()->actorSelected(actor, SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_LSHIFT]);
+            bool bMultiSelect = SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_LSHIFT];
+            engine->gameStatePtr()->actorSelected(actor, bMultiSelect, false);
         }
     }
     else {
         engine->gameStatePtr()->terrainSelected(worldCoords, false);
+    }
+}
+
+void Input::processSecondaryClick(const union SDL_Event& event)
+{
+    SDL_Point screenCoords;
+    SDL_GetMouseState(&screenCoords.x, &screenCoords.y);
+    SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
+    if (auto* selected = engine->physicsSystem()->objectAt(worldCoords)) {
+        if (auto* actor = dynamic_cast<Actor*>(selected)) {
+            bool bMultiSelect = SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_LSHIFT];
+            engine->gameStatePtr()->actorSelected(actor, bMultiSelect, true);
+        }
+    }
+    else {
+        engine->gameStatePtr()->terrainSelected(worldCoords, true);
     }
 }
 

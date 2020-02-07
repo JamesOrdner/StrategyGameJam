@@ -96,7 +96,7 @@ void AI::processFriendlyActor(class AIComponent* component, uint32_t deltaTime)
         doMovement(component, deltaTime);
     }
     
-    if (component->target) {
+    if (component->target && targetInRange(component)) {
         component->attackTimer += deltaTime;
         if (component->attackTimer >= component->attackRate) {
             component->actor->attack(component->target);
@@ -121,6 +121,13 @@ Actor* AI::searchForEnemy(AIComponent* component, const SDL_FPoint& searchOrigin
     }
     
     return nullptr;
+}
+
+bool AI::targetInRange(AIComponent* attacker, Actor* target)
+{
+    if (!target) target = attacker->target;
+    if (!target) return false;
+    return dist(attacker->actor->position, target->position) <= attacker->attackRadius;
 }
 
 void AI::doMovement(class AIComponent* component, double deltaTime)

@@ -12,10 +12,11 @@ public:
     
     void startGame();
     
-    /// bMultiSelect == true if modifier key like shift is held
-    void actorSelected(class Actor* actor, bool bMultiSelect);
+    /// bMultiSelect == true if modifier key like shift is held.
+    /// bCommand == true when right click (command), false if left click (selection)
+    void actorSelected(class Actor* actor, bool bMultiSelect, bool bCommand);
     
-    /// bCommand == true when right click (command), false if left click (deselection)
+    /// bCommand == true when right click (command), false if left click (selection)
     void terrainSelected(const SDL_Point& position, bool bCommand);
     
 private:
