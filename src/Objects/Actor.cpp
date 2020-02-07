@@ -1,17 +1,18 @@
 #include "Actor.hpp"
 #include "../AI/AIComponent.hpp"
 #include "../UI/UIComponent.hpp"
-#include "../Physics/PhysicsComponent.hpp"
 
 Actor::Actor(World* world, const SDL_FPoint& position) :
     DrawableObject(world, position),
     health(100)
 {
-    createComponent<PhysicsComponent>();
     uiComponent = createComponent<UIComponent>();
+    
     aiComponent = createComponent<AIComponent>();
     aiComponent->bMobile = true;
     aiComponent->setDestination(position);
+    
+    setPhysics(PhysicsType::Actor);
 }
 
 void Actor::attack(Actor* other)

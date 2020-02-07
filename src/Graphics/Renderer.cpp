@@ -11,7 +11,7 @@ Renderer::Renderer() :
     window = SDL_CreateWindow(
         "StrategyGameJam",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        1280, 720,
+        640, 480,
         SDL_WINDOW_ALLOW_HIGHDPI
     );
     if (!window) throw std::runtime_error("Failed to create SDL window!");

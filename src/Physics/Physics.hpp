@@ -20,8 +20,15 @@ public:
     
 private:
     
-    /// All registered AI components
+    /// All registered Physics components
     std::vector<class PhysicsComponent*> physicsComponents;
+    
+    SDL_FPoint getForce(const class PhysicsComponent* component) const;
+    
+    bool colliding(const class PhysicsComponent* a, const class PhysicsComponent* b) const;
+    
+    /// World-space bounding box
+    SDL_Rect componentBounds(const class PhysicsComponent* component) const;
 };
 
 #endif /* Physics_hpp */

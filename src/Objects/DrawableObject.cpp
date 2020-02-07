@@ -1,10 +1,11 @@
 #include "DrawableObject.hpp"
-#include "../Graphics/GraphicsComponent.hpp"
 
 DrawableObject::DrawableObject(World* world, const SDL_FPoint& position) :
     GameObject(world, position)
 {
     graphicsComponent = createComponent<GraphicsComponent>();
+    physicsComponent = createComponent<PhysicsComponent>();
+    physicsComponent->physicsType = PhysicsType::None;
 }
 
 void DrawableObject::setSprite(int width, int height, const struct SDL_Color& color)
@@ -21,4 +22,9 @@ void DrawableObject::setSprite(const std::string& filepath)
 void DrawableObject::setRenderDepth(RenderDepth depth)
 {
     graphicsComponent->renderDepth = depth;
+}
+
+void DrawableObject::setPhysics(PhysicsType type)
+{
+    physicsComponent->physicsType = type;
 }

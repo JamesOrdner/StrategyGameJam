@@ -3,6 +3,7 @@
 
 #include "../Engine/GameObject.hpp"
 #include "../Graphics/GraphicsComponent.hpp"
+#include "../Physics/PhysicsComponent.hpp"
 
 class DrawableObject : public GameObject
 {
@@ -15,9 +16,14 @@ public:
     void setSprite(const std::string& filepath);
     
     void setRenderDepth(RenderDepth depth);
+    
+    void setPhysics(PhysicsType type);
 
 private:
-    GraphicsComponent* graphicsComponent;
+    
+    class GraphicsComponent* graphicsComponent;
+    
+    class PhysicsComponent* physicsComponent;
 };
 
 #endif /* DrawableObject_hpp */

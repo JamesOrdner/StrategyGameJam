@@ -70,6 +70,9 @@ void WorldLoader::createBuildings(World* world)
     auto* bruh = world->spawnObject<Actor>({ 0, 0 });
     bruh->setSprite("res/textures/world/tree_large_1.bmp");
     
+    auto* breh = world->spawnObject<Actor>({ 500, 0 });
+    breh->setSprite("res/textures/world/tree_large_1.bmp");
+    
     // badbruh
     auto* badbruh = world->spawnObject<Actor>({ -100, 1000 });
     badbruh->setSprite(100, 100, SDL_Color{ 255, 0, 0, 255 });
