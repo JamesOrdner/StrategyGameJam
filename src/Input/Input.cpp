@@ -38,10 +38,7 @@ bool Input::execute(uint32_t deltaTime)
             SDL_Point screenCoords;
             SDL_GetMouseState(&screenCoords.x, &screenCoords.y);
             SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
-            for (auto& actor : engine->gameStatePtr()->selectedActors) {
-                SDL_FPoint dest{ static_cast<float>(worldCoords.x), static_cast<float>(worldCoords.y) };
-                actor->setDestination(dest);
-            }
+            engine->gameStatePtr()->terrainSelected(worldCoords, true);
         }
     }
     
@@ -73,17 +70,11 @@ void Input::processPrimaryClick(const union SDL_Event& event)
     SDL_Point worldCoords = engine->graphicsSystem()->screenToWorldCoords(screenCoords);
     if (auto* selected = engine->physicsSystem()->objectAt(worldCoords)) {
         if (auto* actor = dynamic_cast<Actor*>(selected)) {
-            if (!SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_LSHIFT]) {
-                for (auto& actor : engine->gameStatePtr()->selectedActors) actor->setSelected(false);
-                engine->gameStatePtr()->selectedActors.clear();
-            }
-            engine->gameStatePtr()->selectedActors.push_back(actor);
-            actor->setSelected(true);
+            engine->gameStatePtr()->actorSelected(actor, SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_LSHIFT]);
         }
     }
     else {
-        for (auto& actor : engine->gameStatePtr()->selectedActors) actor->setSelected(false);
-        engine->gameStatePtr()->selectedActors.clear();
+        engine->gameStatePtr()->terrainSelected(worldCoords, false);
     }
 }
 

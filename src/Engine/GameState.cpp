@@ -1,6 +1,7 @@
 #include "GameState.hpp"
 #include "Engine.hpp"
 #include "WorldLoader.hpp"
+#include "../Objects/Actor.hpp"
 
 GameState::GameState(const Engine* engine) :
     engine(engine),
@@ -11,8 +12,29 @@ GameState::GameState(const Engine* engine) :
 
 void GameState::startGame()
 {
-    // load world
     WorldLoader::createWorld(engine, engine->activeWorld());
+}
 
-    // start game
+void GameState::actorSelected(Actor* actor, bool bMultiSelect)
+{
+    if (!bMultiSelect) {
+        for (auto& actor : selectedActors) actor->setSelected(false);
+        selectedActors.clear();
+    }
+    selectedActors.push_back(actor);
+    actor->setSelected(true);
+}
+
+void GameState::terrainSelected(const SDL_Point& position, bool bCommand)
+{
+    if (bCommand) {
+        for (auto& actor : selectedActors) {
+            SDL_FPoint dest{ static_cast<float>(position.x), static_cast<float>(position.y) };
+            actor->setDestination(dest);
+        }
+    }
+    else {
+        for (auto& actor : selectedActors) actor->setSelected(false);
+        selectedActors.clear();
+    }
 }
