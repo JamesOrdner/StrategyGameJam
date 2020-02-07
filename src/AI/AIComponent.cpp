@@ -23,6 +23,7 @@ void AIComponent::setDestination(const SDL_FPoint& dest)
     movementState = AIMovementState::MovingToLocation;
     activity = AIActivity::Idle;
     destination = dest;
+    target = nullptr;
 }
 
 void AIComponent::setTarget(Actor* target)

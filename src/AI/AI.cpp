@@ -5,6 +5,7 @@
 #include "../Objects/Structure.hpp"
 #include "../Util/SDLMath.hpp"
 #include <algorithm>
+#include <cfloat>
 #include <random>
 
 AI::AI(const Engine* engine) :
@@ -114,10 +115,26 @@ void AI::processEnemyActor(AIComponent* component, uint32_t deltaTime)
 {
     // 1) Think
     if (!component->target) {
-        // must have just spawned, find a structure to attack
+        // we should always have a target, find a structure to attack
         if (Actor* structure = searchForEnemyStructure(component)) {
             component->target = structure;
             component->destination = structure->position;
+            component->movementState = AIMovementState::MovingToLocation;
+        }
+    }
+    
+    if (component->movementState == AIMovementState::MovingToLocation) {
+        if (Actor* enemy = searchForEnemy(component)) {
+            // prioritize attacking units over structures
+            component->target = enemy;
+            component->movementState = AIMovementState::MovingToEnemy;
+        }
+    }
+    else if (component->movementState == AIMovementState::MovingToEnemy) {
+        // check enemy still in range
+        if (dist(component->actor->position, component->target->position) > component->attackRadius) {
+            component->target = searchForEnemyStructure(component);
+            component->movementState = AIMovementState::MovingToLocation;
         }
     }
     
@@ -142,15 +159,18 @@ Actor* AI::searchForEnemy(AIComponent* component)
 
 Actor* AI::searchForEnemy(AIComponent* component, const SDL_FPoint& searchOrigin)
 {
+    Actor* enemy = nullptr;
+    float nearest = FLT_MAX;
     for (auto* compOther : aiComponents) {
         if (component->team != compOther->team) {
-            if (dist(searchOrigin, compOther->owner->position) < component->attackRadius) {
-                return compOther->actor;
+            float d = dist(searchOrigin, compOther->owner->position);
+            if (d < component->attackRadius && d < nearest) {
+                enemy = compOther->actor;
+                nearest = d;
             }
         }
     }
-    
-    return nullptr;
+    return enemy;
 }
 
 Actor* AI::searchForEnemyStructure(AIComponent* component)
