@@ -2,6 +2,7 @@
 #define AI_hpp
 
 #include "../Engine/GameSystem.hpp"
+#include <SDL_rect.h>
 #include <vector>
 
 class AI : public GameSystem
@@ -19,7 +20,13 @@ private:
     /// All registered AI components
     std::vector<class AIComponent*> aiComponents;
     
-    void decideActivity(class AIComponent* component);
+    void processFriendlyActor(class AIComponent* component, uint32_t deltaTime);
+    
+    /// Return enemy for component in range of Actor, or nullptr if no enemies found
+    class Actor* searchForEnemy(class AIComponent* component);
+    
+    /// Return enemy for component in range of searchOrigin, or nullptr if no enemies found
+    class Actor* searchForEnemy(class AIComponent* component, const SDL_FPoint& searchOrigin);
     
     void doMovement(class AIComponent* component, double deltaTime);
 };

@@ -8,7 +8,7 @@ class Actor : public DrawableObject
 {
 public:
     
-    Actor(class World* world);
+    Actor(class World* world, const SDL_FPoint& position);
     
     virtual int buildCost(ResourceType resource) const { return 0; };
     

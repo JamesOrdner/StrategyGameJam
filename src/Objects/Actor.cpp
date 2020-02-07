@@ -3,11 +3,13 @@
 #include "../UI/UIComponent.hpp"
 #include "../Physics/PhysicsComponent.hpp"
 
-Actor::Actor(World* world) :
-    DrawableObject(world),
+Actor::Actor(World* world, const SDL_FPoint& position) :
+    DrawableObject(world, position),
     health(100)
 {
     aiComponent = createComponent<AIComponent>();
+    aiComponent->bMobile = true;
+    aiComponent->setDestination(position);
     
     uiComponent = createComponent<UIComponent>();
     uiComponent->outlineBounds = { .x = -50, .y = -50, .w = 100, .h = 100 };
@@ -47,7 +49,5 @@ void Actor::setSelected(bool selected)
 
 void Actor::setDestination(const SDL_FPoint& dest)
 {
-    aiComponent->movementState = AIMovementState::MovingToLocation;
-    aiComponent->activity = AIActivity::Idle;
-    aiComponent->destination = dest;
+    aiComponent->setDestination(dest);
 }

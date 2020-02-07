@@ -3,15 +3,15 @@
 
 #include "World.hpp"
 #include "Engine.hpp"
+#include <SDL_rect.h>
 #include <vector>
 #include <memory>
-#include <SDL_rect.h>
 
 class GameObject
 {
 public:
     
-    GameObject(class World* world);
+    GameObject(class World* world, const SDL_FPoint& position);
     
     virtual ~GameObject();
     

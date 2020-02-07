@@ -8,7 +8,7 @@ class Camera : public GameObject
 {
 public:
     
-    Camera(class World* world);
+    Camera(class World* world, const SDL_FPoint& position);
     
     void tick(uint32_t deltaTime) override;
     

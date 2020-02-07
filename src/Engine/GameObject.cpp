@@ -3,8 +3,8 @@
 #include "World.hpp"
 #include "Engine.hpp"
 
-GameObject::GameObject(World* world) :
-    position{},
+GameObject::GameObject(World* world, const SDL_FPoint& position) :
+    position(position),
     rotation(0),
     world(world)
 {

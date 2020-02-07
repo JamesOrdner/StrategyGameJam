@@ -2,8 +2,8 @@
 #include "../Input/InputComponent.hpp"
 #include <algorithm>
 
-Camera::Camera(World* world) :
-    GameObject(world),
+Camera::Camera(World* world, const SDL_FPoint& position) :
+    GameObject(world, position),
     inputVelocity{},
     zoom(0.5),
     minZoom(0.02f),
