@@ -25,6 +25,14 @@ public:
     void tick(uint32_t deltaTime);
     
     const class Engine* const engine;
+
+    int getHeight();
+
+    int getWidth();
+
+    int getHalfHeight();
+
+    int getHalfWidth();
     
 private:
     
@@ -32,6 +40,12 @@ private:
     
     /// Keeps track of destroyed objects, which will be removed at some point
     std::set<class GameObject*> destroyedObjects;
+
+    /// World bounds from origin in cm
+    int height = 21000;
+    int width  = 21000;
+    int halfHeight = height/2;
+    int halfWidth = width/2;
 };
 
 #endif /* GWorld_hpp */

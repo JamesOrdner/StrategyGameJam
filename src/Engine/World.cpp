@@ -33,3 +33,23 @@ void World::tick(uint32_t deltaTime)
     }
     destroyedObjects.clear();
 }
+
+int World::getWidth()
+{
+    return width;
+}
+
+int World::getHeight()
+{
+    return height;
+}
+
+int World::getHalfWidth()
+{
+    return halfWidth;
+}
+
+int World::getHalfHeight()
+{
+    return halfHeight;
+}

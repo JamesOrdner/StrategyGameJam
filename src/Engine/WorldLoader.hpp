@@ -8,10 +8,11 @@ public:
     static void createWorld(const class Engine* engine, class World* world);
         
 private:
-    static int getRandomInt();
+    static int getRandomInt(int min, int max);
     static void createBuildings(class World* world);
     static void createResources(class World* world);
     static void createScenery(class World* world);
+    static int getStructureOrigin();
 };
 
 #endif /* WorldLoader_hpp */

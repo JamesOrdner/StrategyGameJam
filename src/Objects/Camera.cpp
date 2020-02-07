@@ -6,7 +6,7 @@ Camera::Camera(World* world) :
     GameObject(world),
     inputVelocity{},
     zoom(0.5),
-    minZoom(0.2f),
+    minZoom(0.02f),
     maxZoom(1)
 {
     auto* inputComponent = createComponent<InputComponent>();
@@ -26,6 +26,6 @@ Camera::Camera(World* world) :
 
 void Camera::tick(uint32_t deltaTime)
 {
-    position.x += inputVelocity.x * deltaTime;
-    position.y += inputVelocity.y * deltaTime; 
+    position.x += inputVelocity.x * deltaTime / zoom;
+    position.y += inputVelocity.y * deltaTime / zoom; 
 }
