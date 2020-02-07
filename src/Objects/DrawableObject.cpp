@@ -1,8 +1,8 @@
 #include "DrawableObject.hpp"
 #include "../Graphics/GraphicsComponent.hpp"
 
-DrawableObject::DrawableObject(World* world) :
-    GameObject(world)
+DrawableObject::DrawableObject(World* world, const SDL_FPoint& position) :
+    GameObject(world, position)
 {
     graphicsComponent = createComponent<GraphicsComponent>();
 }

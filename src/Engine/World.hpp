@@ -1,6 +1,7 @@
 #ifndef GWorld_hpp
 #define GWorld_hpp
 
+#include <SDL_rect.h>
 #include <vector>
 #include <memory>
 #include <set>
@@ -14,8 +15,8 @@ public:
     ~World();
     
     template<typename T>
-    T* spawnObject() {
-        auto* ptr = objects.emplace_back(std::make_unique<T>(this)).get();
+    T* spawnObject(const SDL_FPoint& position = {}) {
+        auto* ptr = objects.emplace_back(std::make_unique<T>(this, position)).get();
         return static_cast<T*>(ptr);
     }
     

@@ -9,7 +9,7 @@ enum class AIMovementState
 {
     Idle,
     MovingToLocation,
-    MovingToObject
+    MovingToEnemy
 };
 
 enum class AIActivity
@@ -27,24 +27,21 @@ public:
     
     Team team;
     
-    AIActivity activity;
-    
+    /// Engagement distance, for both ranged and melee units
     float attackRadius;
     
     /// The number of ms between each attack
     uint32_t attackRate;
     
-    AIMovementState movementState;
-    
+    /// Can this Actor move?
     bool bMobile;
+    
+    /// True if the Actor has a ranged attack, false if it has a melee attack
+    bool bAttacksRanged;
     
     float movementSpeed;
     
-    /// The actor's movement target when movementState == MovingToLocation
-    SDL_FPoint destination;
-    
-    /// The actor's movement target when movementState == MovingToObject
-    class Actor* target;
+    void setDestination(const SDL_FPoint& dest);
     
 private:
     
@@ -52,6 +49,16 @@ private:
     
     /// Owning actor object
     class Actor* actor;
+    
+    AIActivity activity;
+    
+    AIMovementState movementState;
+    
+    /// The actor's movement target when movementState == MovingToLocation
+    SDL_FPoint destination;
+    
+    /// The actor's movement target when movementState == MovingToObject
+    class Actor* target;
     
     /// Time since last attack
     uint32_t attackTimer;
