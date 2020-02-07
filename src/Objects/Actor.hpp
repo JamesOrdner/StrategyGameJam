@@ -25,7 +25,7 @@ public:
     
     void setDestination(const SDL_FPoint& dest);
     
-private:
+protected:
     
     class AIComponent* aiComponent;
     

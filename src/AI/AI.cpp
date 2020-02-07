@@ -107,15 +107,7 @@ void AI::processFriendlyActor(class AIComponent* component, uint32_t deltaTime)
 
 Actor* AI::searchForEnemy(AIComponent* component)
 {
-    for (auto* compOther : aiComponents) {
-        if (component->team != compOther->team) {
-            if (dist(component->owner->position, compOther->owner->position) < component->attackRadius) {
-                return compOther->actor;
-            }
-        }
-    }
-    
-    return nullptr;
+    return searchForEnemy(component, component->owner->position);
 }
 
 Actor* AI::searchForEnemy(AIComponent* component, const SDL_FPoint& searchOrigin)

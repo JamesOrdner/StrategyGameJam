@@ -2,6 +2,7 @@
 #include "World.hpp"
 #include "Engine.hpp"
 #include "../Objects/Actor.hpp"
+#include "../Objects/Structure.hpp"
 #include <random>
 
 
@@ -52,32 +53,27 @@ void WorldLoader::createBuildings(World* world)
     }
     
     // yeetrock
-    auto* rock = world->spawnObject<DrawableObject>();
-    rock->position = { 600, 500 };
+    auto* rock = world->spawnObject<DrawableObject>({ 600, 500 });
     rock->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
     rock->setSprite("res/textures/world/rock_medium_1.bmp");
     
     // yeetrock2000
-    auto* rock2000 = world->spawnObject<DrawableObject>();
-    rock2000->position = { 300, 400 };
+    auto* rock2000 = world->spawnObject<DrawableObject>({ 300, 400 });
     rock2000->rotation = -static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
     rock2000->setSprite("res/textures/world/rock_medium_1.bmp");
     
     // structure
-    auto* structure = world->spawnObject<Actor>();
-    structure->position = { -500, -500};
+    auto* structure = world->spawnObject<Structure>({ -500, -500 });
     structure->setSprite(200, 200, SDL_Color{ 255, 255, 255, 255 });
     
     // yeetbruh
-    auto* bruh = world->spawnObject<Actor>();
-    bruh->position = { 0, 0};
+    auto* bruh = world->spawnObject<Actor>({ 0, 0 });
     bruh->setSprite(2, 2, SDL_Color{ 255, 0, 0, 255 });
-//    
-//    // badbruh
-//    auto* badbruh = world->spawnObject<Actor>();
-//    badbruh->position = { -100, 1000 };
-//    badbruh->setSprite(100, 100, SDL_Color{ 255, 0, 0, 255 });
-//    badbruh->setTeam(Team::Enemy);
+    
+    // badbruh
+    auto* badbruh = world->spawnObject<Actor>({ -100, 1000 });
+    badbruh->setSprite(100, 100, SDL_Color{ 255, 0, 0, 255 });
+    badbruh->setTeam(Team::Enemy);
 }
 
 void WorldLoader::createResources(World* world)
