@@ -19,6 +19,10 @@ public:
     /// bCommand == true when right click (command), false if left click (selection)
     void terrainSelected(const SDL_Point& position, bool bCommand);
     
+    void actorKilled(class Actor* actor);
+    
+    inline unsigned int getMoney() const { return money; }
+    
 private:
     
     const class Engine* const engine;

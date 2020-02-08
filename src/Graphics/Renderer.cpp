@@ -82,7 +82,12 @@ void Renderer::draw(const std::string& filepath, const SDL_Point& position, doub
 void Renderer::drawSurface(SDL_Surface* surface, const SDL_Point& point, UIAnchor anchor)
 {
     auto* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_Rect dest{ point.x, point.y, surface->w, surface->h };
+    SDL_Rect dest = {
+        static_cast<int>(point.x * hidpiMult),
+        static_cast<int>(point.y * hidpiMult),
+        surface->w,
+        surface->h
+    };
     SDL_RenderCopyEx(
         renderer,
         texture,
@@ -126,7 +131,7 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
         
         
         if (!object.text.empty()) {
-            auto* textSurface = TTF_RenderText_Solid(font, object.text.c_str(), { 255, 255, 255, 255 });
+            auto* textSurface = TTF_RenderText_Blended(font, object.text.c_str(), { 255, 255, 255, 255 });
             drawSurface(textSurface, { object.bounds.x, object.bounds.y }, UIAnchor::TopLeft);
             SDL_FreeSurface(textSurface);
         }
@@ -160,11 +165,6 @@ const Renderer::TextureAsset& Renderer::texture(const std::string& filepath)
     else {
         return it->second;
     }
-}
-
-SDL_Surface* Renderer::genTextTexture(const std::string& text, SDL_Color color)
-{
-    return TTF_RenderText_Solid(font, text.c_str(), color);
 }
 
 SDL_Point Renderer::screenToWorldCoords(const SDL_Point& point) const

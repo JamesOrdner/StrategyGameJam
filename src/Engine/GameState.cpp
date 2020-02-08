@@ -47,3 +47,10 @@ void GameState::terrainSelected(const SDL_Point& position, bool bCommand)
         selectedActors.clear();
     }
 }
+
+void GameState::actorKilled(Actor* actor)
+{
+    if (actor->team() == Team::Enemy) {
+        money += actor->getKillValue();
+    }
+}

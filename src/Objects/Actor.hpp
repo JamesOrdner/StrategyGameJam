@@ -19,6 +19,8 @@ public:
     
     int getHealth();
     
+    inline int getKillValue() const { return killValue; }
+    
     void setTeam(Team team);
     
     Team team() const;
@@ -36,6 +38,9 @@ protected:
     class UIComponent* uiComponent;
     
     int health;
+    
+    /// Money granted for killing this unit
+    int killValue;
 };
 
 #endif /* Actor_hpp */

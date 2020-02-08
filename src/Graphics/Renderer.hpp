@@ -65,9 +65,6 @@ private:
     /// Return the SDL_Texture pointer for the given texture filepath
     const TextureAsset& texture(const std::string& filepath);
     
-    /// Caller is responsible for freeing texture
-    SDL_Surface* genTextTexture(const std::string& text, SDL_Color color);
-    
     /// Actual HiDPI pixel resolution
     int screenWidth, screenHeight;
     
