@@ -95,8 +95,13 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
         draw(object.textureFilepath, { object.bounds.x, object.bounds.y }, 0);
     }
     else {
-        SDL_Rect dest = getUIDrawDest(object.anchor, object.bounds, parentBoundsAbs);
+        if (!object.text.empty()) {
+            drawUIText(object, parentBoundsAbs);
+        }
+        
+        SDL_Rect dest = parentBoundsAbs;
         if (!object.textureFilepath.empty()) {
+            dest = getUIDrawDest(object.anchor, object.bounds, parentBoundsAbs);
             SDL_RenderCopyEx(
                 renderer,
                 texture(object.textureFilepath).texture,
@@ -105,10 +110,6 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
                 object.rotation,
                 nullptr,
                 SDL_FLIP_NONE);
-        }
-        
-        if (!object.text.empty()) {
-            drawUIText(object, parentBoundsAbs);
         }
         
         for (const auto& subobject : object.subobjects) {

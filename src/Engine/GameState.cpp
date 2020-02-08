@@ -50,6 +50,9 @@ void GameState::terrainSelected(const SDL_Point& position, bool bCommand)
 
 void GameState::actorKilled(Actor* actor)
 {
+    auto deleteIter = std::remove(selectedActors.begin(), selectedActors.end(), actor);
+    if (deleteIter != selectedActors.end()) selectedActors.erase(deleteIter);
+    
     if (actor->team() == Team::Enemy) {
         money += actor->getKillValue();
     }

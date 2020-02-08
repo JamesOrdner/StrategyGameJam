@@ -5,10 +5,20 @@
 #include "../Engine/GameObject.hpp"
 #include <algorithm>
 
+constexpr int virtualWidth = 1280;
+constexpr int virtualHeight = 720;
+
 UI::UI(const Engine* engine) :
     GameSystem(engine)
 {
     rootUIObject = std::make_unique<UIObject>();
+    rootUIObject->subobjects.emplace_back().bounds = { virtualWidth, virtualHeight }; // UI-reserved
+    rootUIObject->subobjects.emplace_back().bounds = { virtualWidth, virtualHeight }; // UIComponents
+    
+    auto& money = rootUIObject->subobjects[0].subobjects.emplace_back();
+    money.anchor = UIAnchor::TopRight;
+    money.bounds = { -15, 0, 0, 0 };
+    money.text = "0";
 }
 
 UI::~UI()
@@ -17,21 +27,17 @@ UI::~UI()
 
 void UI::init()
 {
-    auto& money = rootUIObject->subobjects.emplace_back();
-    money.anchor = UIAnchor::TopRight;
-    money.bounds = { -15, 0, 0, 0 };
-    money.text = "0";
 }
 
 void UI::deinit()
 {
-    rootUIObject->subobjects.clear();
+    rootUIObject->subobjects[1].subobjects.clear();
 }
 
 bool UI::execute(uint32_t deltaTime)
 {
-    // update on screen selection
-    for (auto& selectHUD : rootUIObject->subobjects) {
+    // update UIComponent UIObjects
+    for (auto& selectHUD : rootUIObject->subobjects[1].subobjects) {
         if (selectHUD.uiComponent) {
             selectHUD.bHidden = !selectHUD.uiComponent->bSelected;
             selectHUD.bounds.x = selectHUD.uiComponent->owner->position.x;
@@ -40,7 +46,7 @@ bool UI::execute(uint32_t deltaTime)
     }
     
     // update money
-    rootUIObject->subobjects[0].text = std::to_string(engine->gameStatePtr()->getMoney());
+    rootUIObject->subobjects[0].subobjects[0].text = std::to_string(engine->gameStatePtr()->getMoney());
     
     return true;
 }
@@ -50,7 +56,7 @@ void UI::registerComponent(class GameObjectComponent* component)
     if (auto* uiComponent = dynamic_cast<UIComponent*>(component)) {
         uiComponents.emplace_back(uiComponent);
         
-        auto& selectImage = rootUIObject->subobjects.emplace_back();
+        auto& selectImage = rootUIObject->subobjects[1].subobjects.emplace_back();
         selectImage.anchor = UIAnchor::World;
         selectImage.bounds = { 0, 0, 300, 300 };
         selectImage.textureFilepath = "res/textures/ui/selected_circle.bmp";
@@ -63,10 +69,10 @@ void UI::unregisterComponent(class GameObjectComponent* component)
     if (auto* uiComponent = dynamic_cast<UIComponent*>(component)) {
         uiComponents.erase(std::remove(uiComponents.begin(), uiComponents.end(), uiComponent));
         
-        auto& rootObjects = rootUIObject->subobjects;
-        for (auto it = rootObjects.begin(); it != rootObjects.end(); it++) {
+        auto& uiCompObjects = rootUIObject->subobjects[1].subobjects;
+        for (auto it = uiCompObjects.begin(); it != uiCompObjects.end(); it++) {
             if (it->uiComponent == uiComponent) {
-                rootObjects.erase(it);
+                uiCompObjects.erase(it);
                 break;
             }
         }

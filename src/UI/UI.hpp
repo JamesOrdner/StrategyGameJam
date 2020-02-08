@@ -26,6 +26,8 @@ private:
     /// All registered AI components
     std::vector<class UIComponent*> uiComponents;
     
+    /// Subobject 0 of rootUIObject is reserved for UI-only components
+    /// Subobject 1 is for UIComponents
     std::unique_ptr<struct UIObject> rootUIObject;
 };
 
