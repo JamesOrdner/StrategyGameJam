@@ -4,16 +4,15 @@
 #include "../Objects/Actor.hpp"
 #include "../Objects/Structure.hpp"
 #include "../Objects/DrawableObject.hpp"
+#include "../Util/SDLMath.hpp"
 #include <random>
 #include <cmath>
 
+
 void WorldLoader::createWorld(const Engine* engine, World* world)
 {
-
-    createBuildings(world);
-    /// createResources();
-    /// createScenery();
-
+    createStructures(world);
+    createScenery(world);
 }
 
 int WorldLoader::getRandomInt(int min, int max)
@@ -25,85 +24,100 @@ int WorldLoader::getRandomInt(int min, int max)
     return distribution(randIntGenerator);
 }
 
-int mapMinMax = 2000;
-void WorldLoader::createBuildings(World* world)
+const int WorldLoader::minDistanceBetweenStructures;
+void WorldLoader::createStructures(World* world)
 {
-    auto* enemyBase = world->spawnObject<DrawableObject>();
-    enemyBase->setSprite(1000,1000,SDL_Color{0, 100, 0, 255});
-    createStructureOrigin(world, enemyBase);
+    int resourceSize = 500;
 
-/*    for (int i=0; i<50; i++) {
-        auto* myObject = world->spawnObject<DrawableObject>();
-        myObject->position.x = getRandomInt(-world->getHalfWidth(), world->getHalfWidth());
-        myObject->position.y = getRandomInt(-world->getHalfHeight(), world->getHalfHeight());
-        myObject->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
-        myObject->setSprite("res/textures/world/mushroom_small_1.bmp");
-    }
+    auto* enemyBase = world->spawnObject<DrawableObject>({0,0});
+    enemyBase->setSprite(1000,1000,SDL_Color{0, 100, 0, 255});
+    createdStructures.push_back(enemyBase);
+
+    auto* wood = world->spawnObject<DrawableObject>();
+    wood->setSprite(resourceSize,resourceSize,SDL_Color{ 120, 95, 60, 255});
+    createStructureOrigin(world, wood, minDistanceBetweenStructures);
+    createdStructures.push_back(wood);
     
-    // yeettree
-    for (int i=0; i<100; i++) {
-        auto* tree = world->spawnObject<DrawableObject>();
-        tree->position = { static_cast<float>(getRandomInt(-world->getWidth(), world->getWidth())), static_cast<float>(getRandomInt(-world->getHeight(), world->getHeight()))};
-        tree->setRenderDepth(RenderDepth::Tree);
-        tree->setSprite("res/textures/world/tree_large_1.bmp");
-    }
+    auto* iron = world->spawnObject<DrawableObject>();
+    iron->setSprite(resourceSize,resourceSize,SDL_Color{ 60, 100, 100, 255});
+    createStructureOrigin(world, iron, minDistanceBetweenStructures);
+    createdStructures.push_back(iron);
     
-    // yeetrock
-    auto* rock = world->spawnObject<DrawableObject>({ 600, 500 });
-    rock->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
-    rock->setSprite("res/textures/world/rock_medium_1.bmp");
+    auto* crystal = world->spawnObject<DrawableObject>();
+    crystal->setSprite(resourceSize,resourceSize,SDL_Color{ 128, 128, 255, 255});
+    createStructureOrigin(world, crystal, minDistanceBetweenStructures);
+    createdStructures.push_back(crystal);
     
-    // yeetrock2000
-    auto* rock2000 = world->spawnObject<DrawableObject>({ 300, 400 });
-    rock2000->rotation = -static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
-    rock2000->setSprite("res/textures/world/rock_medium_1.bmp");
-    
-    // structure
-    auto* structure = world->spawnObject<Structure>({ -500, -500 });
-    structure->setSprite(200, 200, SDL_Color{ 255, 255, 255, 255 });
-    
-    // yeetbruh
-    auto* bruh = world->spawnObject<Actor>({ 0, 0 });
-    bruh->setSprite("res/textures/world/tree_large_1.bmp");
-    
-    auto* breh = world->spawnObject<Actor>({ 500, 0 });
-    breh->setSprite("res/textures/world/tree_large_1.bmp");
+    auto* wolf = world->spawnObject<DrawableObject>();
+    wolf->setSprite(resourceSize,resourceSize,SDL_Color{ 144, 118, 150, 255});
+    createStructureOrigin(world, wolf, minDistanceBetweenStructures);
+    createdStructures.push_back(wolf);
     
     // badbruh
     auto* badbruh = world->spawnObject<Actor>({ -100, 1000 });
     badbruh->setSprite(100, 100, SDL_Color{ 255, 0, 0, 255 });
     badbruh->setTeam(Team::Enemy);
-*/
 }
 
-void WorldLoader::createResources(World* world)
-{
-}
-
+const int WorldLoader::minDistanceFromStructures;
 void WorldLoader::createScenery(World* world)
 {
+    int numTrees = 200;
+    int numRocks = 50;
+    int numMushrooms = 500;
+
+    // Trees
+    for (int i=0; i<numTrees; i++) {
+        auto* tree = world->spawnObject<DrawableObject>();
+        tree->position.x = getRandomInt(-world->getHalfWidth(), world->getHalfWidth());
+        tree->position.y = getRandomInt(-world->getHalfHeight(), world->getHalfHeight());
+        tree->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
+        tree->setSprite("res/textures/world/tree_large_1.bmp");
+        createStructureOrigin(world, tree, minDistanceFromStructures); 
+    }
+    
+    for (int i=0; i<numRocks; i++) {
+        auto* rock = world->spawnObject<DrawableObject>();
+        rock->position.x = getRandomInt(-world->getHalfWidth(), world->getHalfWidth());
+        rock->position.y = getRandomInt(-world->getHalfHeight(), world->getHalfHeight());
+        rock->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
+        rock->setSprite("res/textures/world/rock_medium_1.bmp");
+        createStructureOrigin(world, rock, minDistanceFromStructures); 
+    }
+
+    for (int i=0; i<numMushrooms; i++) {
+        auto* mushroom = world->spawnObject<DrawableObject>();
+        mushroom->position.x = getRandomInt(-world->getHalfWidth(), world->getHalfWidth());
+        mushroom->position.y = getRandomInt(-world->getHalfHeight(), world->getHalfHeight());
+        mushroom->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
+        mushroom->setSprite("res/textures/world/mushroom_small_1.bmp");
+        createStructureOrigin(world, mushroom, minDistanceFromStructures);
+    }
+    
 }
 
-std::vector<DrawableObject> WorldLoader::createdStructures;
-void WorldLoader::createStructureOrigin(World* world, DrawableObject* newStructure)
+std::vector<DrawableObject*> WorldLoader::createdStructures;
+void WorldLoader::createStructureOrigin(World* world, DrawableObject* newStructure, int minDistance)
 {
     SDL_FPoint randomOrigin = { static_cast<float>(getRandomInt(-world->getWidth(), world->getWidth())), static_cast<float>(getRandomInt(-world->getHeight(), world->getHeight()))};
-
+    //printf("Origin: (%f,%f)\n", randomOrigin.x, randomOrigin.y);
+    newStructure->position = randomOrigin;
     for (int i=0; i<createdStructures.size(); i++) {
-        DrawableObject* exisitingStructure = &(createdStructures[i]);
+        DrawableObject* exisitingStructure = createdStructures[i];
         newStructure->position = randomOrigin;
 
-        if (isTooClose( newStructure, exisitingStructure)) {
+        if (isTooClose( newStructure, exisitingStructure, minDistance)) {
             randomOrigin = { static_cast<float>(getRandomInt(-world->getWidth(), world->getWidth())), static_cast<float>(getRandomInt(-world->getHeight(), world->getHeight()))};
             i=0;
+            printf("If this don't stop it's an infinite loop\n");
         }
     }
 }
 
-bool WorldLoader::isTooClose(DrawableObject* newStructure, DrawableObject* existingStructure) {
-    float newStructureRadius = getRadius(newStructure);
+bool WorldLoader::isTooClose(DrawableObject* newStructure, DrawableObject* existingStructure, int minDistanceLimit) {
+    float distanceBetweenStructures = dist(newStructure->position, existingStructure->position);
 
-    return true;
+    return minDistanceLimit > distanceBetweenStructures; //getRadius(newStructure)+getRadius(existingStructure);
 }
 
 float WorldLoader::getRadius(DrawableObject* structure) {
