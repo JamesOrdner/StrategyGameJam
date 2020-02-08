@@ -24,6 +24,9 @@ bool Input::execute(uint32_t deltaTime)
         if (event.type == SDL_QUIT) {
             return false;
         }
+        else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
+            return false;
+        }
         else if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
             processKeyEvent(event);
         }

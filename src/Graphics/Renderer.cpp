@@ -12,7 +12,7 @@ Renderer::Renderer() :
         "StrategyGameJam",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         640, 480,
-        SDL_WINDOW_ALLOW_HIGHDPI
+        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_FULLSCREEN_DESKTOP
     );
     if (!window) throw std::runtime_error("Failed to create SDL window!");
     
@@ -26,7 +26,7 @@ Renderer::Renderer() :
     hidpiMult = static_cast<float>(screenWidth) / windowWidth;
     
     TTF_Init();
-    font = TTF_OpenFont("res/fonts/Capture_it.ttf", 64 * screenWidth / windowWidth);
+    font = TTF_OpenFont("res/fonts/Capture_it.ttf", 128);
     if (!font) throw std::runtime_error("Failed to open font!");
 }
 
@@ -79,24 +79,9 @@ void Renderer::draw(const std::string& filepath, const SDL_Point& position, doub
     draw(asset.texture, dest, rotation);
 }
 
-void Renderer::drawSurface(SDL_Surface* surface, const SDL_Point& point, UIAnchor anchor)
-{
-    auto* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_Rect dest{ point.x, point.y, surface->w, surface->h };
-    SDL_RenderCopyEx(
-        renderer,
-        texture,
-        nullptr,
-        &dest,
-        0,
-        nullptr,
-        SDL_FLIP_NONE);
-    SDL_DestroyTexture(texture);
-}
-
 void Renderer::drawUI(const UIObject* rootObject)
 {
-    SDL_Rect screenBounds{ .x = 0, .y = 0, .w = windowWidth, .h = windowHeight };
+    SDL_Rect screenBounds{ .x = 0, .y = 0, .w = screenWidth, .h = screenHeight };
     for (const auto& object : rootObject->subobjects) {
         drawUI(object, screenBounds);
     }
@@ -110,9 +95,7 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
         draw(object.textureFilepath, { object.bounds.x, object.bounds.y }, 0);
     }
     else {
-        SDL_Rect dest = object.bounds;
-        // TODO: implement anchor offset
-        
+        SDL_Rect dest = getUIDrawDest(object.anchor, object.bounds, parentBoundsAbs);
         if (!object.textureFilepath.empty()) {
             SDL_RenderCopyEx(
                 renderer,
@@ -124,17 +107,92 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
                 SDL_FLIP_NONE);
         }
         
-        
         if (!object.text.empty()) {
-            auto* textSurface = TTF_RenderText_Solid(font, object.text.c_str(), { 255, 255, 255, 255 });
-            drawSurface(textSurface, { object.bounds.x, object.bounds.y }, UIAnchor::TopLeft);
-            SDL_FreeSurface(textSurface);
+            drawUIText(object, parentBoundsAbs);
         }
         
         for (const auto& subobject : object.subobjects) {
             drawUI(subobject, dest);
         }
     }
+}
+
+void Renderer::drawUIText(const struct UIObject& object, const SDL_Rect& parentBoundsAbs)
+{
+    auto* textSurface = TTF_RenderText_Blended(font, object.text.c_str(), { 255, 255, 255, 255 });
+    SDL_Rect textBounds{
+        object.bounds.x,
+        object.bounds.y,
+        textSurface->w,
+        textSurface->h
+    };
+    SDL_Rect dest = getUIDrawDest(object.anchor, textBounds, parentBoundsAbs);
+    
+    auto* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_RenderCopyEx(
+        renderer,
+        texture,
+        nullptr,
+        &dest,
+        object.rotation,
+        nullptr,
+        SDL_FLIP_NONE);
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(textSurface);
+}
+
+SDL_Rect Renderer::getUIDrawDest(UIAnchor anchor, const struct SDL_Rect& objectBounds, const SDL_Rect& parentBoundsAbs)
+{
+    SDL_Rect dest = objectBounds;
+    dest.x *= hidpiMult;
+    dest.y *= hidpiMult;
+    // UI assets are 2x size for HiDPI, scale down for non-HiDPI screens
+    dest.w /= 2 / hidpiMult;
+    dest.h /= 2 / hidpiMult;
+    
+    // x
+    switch(anchor) {
+        case UIAnchor::TopLeft:
+        case UIAnchor::Left:
+        case UIAnchor::BottomLeft:
+            dest.x += parentBoundsAbs.x;
+            break;
+        case UIAnchor::Top:
+        case UIAnchor::Center:
+        case UIAnchor::Bottom:
+            dest.x += parentBoundsAbs.x + parentBoundsAbs.w / 2 - dest.w / 2;
+            break;
+        case UIAnchor::TopRight:
+        case UIAnchor::Right:
+        case UIAnchor::BottomRight:
+            dest.x += parentBoundsAbs.x + parentBoundsAbs.w - dest.w;
+            break;
+        case UIAnchor::World:
+            break;
+    }
+    
+    // y
+    switch(anchor) {
+        case UIAnchor::TopLeft:
+        case UIAnchor::Top:
+        case UIAnchor::TopRight:
+            dest.y += parentBoundsAbs.y;
+            break;
+        case UIAnchor::Left:
+        case UIAnchor::Center:
+        case UIAnchor::Right:
+            dest.y += parentBoundsAbs.y + parentBoundsAbs.h / 2 - dest.h / 2;
+            break;
+        case UIAnchor::BottomLeft:
+        case UIAnchor::Bottom:
+        case UIAnchor::BottomRight:
+            dest.y += parentBoundsAbs.y + parentBoundsAbs.h - dest.h;
+            break;
+        case UIAnchor::World:
+            break;
+    }
+    
+    return dest;
 }
 
 void Renderer::present() const
@@ -160,11 +218,6 @@ const Renderer::TextureAsset& Renderer::texture(const std::string& filepath)
     else {
         return it->second;
     }
-}
-
-SDL_Surface* Renderer::genTextTexture(const std::string& text, SDL_Color color)
-{
-    return TTF_RenderText_Solid(font, text.c_str(), color);
 }
 
 SDL_Point Renderer::screenToWorldCoords(const SDL_Point& point) const

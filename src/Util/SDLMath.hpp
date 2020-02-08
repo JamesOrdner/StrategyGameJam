@@ -2,7 +2,6 @@
 #define SDLMath_hpp
 
 #include <SDL_rect.h>
-#include <cfloat>
 
 SDL_Point operator+(const SDL_Point& lhs, const SDL_Point& rhs);
 

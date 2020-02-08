@@ -60,13 +60,8 @@ private:
     /// This should only be accessed via the texture() function!
     std::map<std::string, TextureAsset> textureAssets;
     
-    void drawSurface(SDL_Surface* surface, const SDL_Point& point, UIAnchor anchor);
-    
     /// Return the SDL_Texture pointer for the given texture filepath
     const TextureAsset& texture(const std::string& filepath);
-    
-    /// Caller is responsible for freeing texture
-    SDL_Surface* genTextTexture(const std::string& text, SDL_Color color);
     
     /// Actual HiDPI pixel resolution
     int screenWidth, screenHeight;
@@ -76,6 +71,10 @@ private:
     
     /// Draws the UI recursively
     void drawUI(const struct UIObject& object, const SDL_Rect& parentBoundsAbs);
+    
+    void drawUIText(const struct UIObject& object, const SDL_Rect& parentBoundsAbs);
+    
+    SDL_Rect getUIDrawDest(UIAnchor anchor, const struct SDL_Rect& objectBounds, const SDL_Rect& parentBoundsAbs);
 };
 
 #endif /* Renderer_hpp */

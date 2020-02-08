@@ -4,7 +4,8 @@
 
 Actor::Actor(World* world, const SDL_FPoint& position) :
     DrawableObject(world, position),
-    health(100)
+    health(100),
+    killValue(1)
 {
     uiComponent = createComponent<UIComponent>();
     

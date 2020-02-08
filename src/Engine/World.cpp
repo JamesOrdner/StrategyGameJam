@@ -1,6 +1,8 @@
 #include "World.hpp"
 #include "Engine.hpp"
+#include "GameState.hpp"
 #include "GameObject.hpp"
+#include "../Objects/Actor.hpp"
 
 World::World(const Engine* engine) :
     engine(engine)
@@ -16,6 +18,10 @@ World::~World()
 void World::destroyObject(class GameObject* object)
 {
     destroyedObjects.emplace(object);
+    
+    if (auto* actor = dynamic_cast<Actor*>(object)) {
+        engine->gameStatePtr()->actorKilled(actor);
+    }
 }
 
 void World::tick(uint32_t deltaTime)

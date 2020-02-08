@@ -1,6 +1,7 @@
 #include "UI.hpp"
 #include "UIComponent.hpp"
 #include "UIObject.hpp"
+#include "../Engine/GameState.hpp"
 #include "../Engine/GameObject.hpp"
 #include <algorithm>
 
@@ -16,10 +17,10 @@ UI::~UI()
 
 void UI::init()
 {
-    auto& testText = rootUIObject->subobjects.emplace_back();
-    testText.anchor = UIAnchor::TopLeft;
-    testText.bounds = { 0, 0, 0, 0 };
-    testText.text = "TestText";
+    auto& money = rootUIObject->subobjects.emplace_back();
+    money.anchor = UIAnchor::TopRight;
+    money.bounds = { -15, 0, 0, 0 };
+    money.text = "0";
 }
 
 void UI::deinit()
@@ -37,6 +38,9 @@ bool UI::execute(uint32_t deltaTime)
             selectHUD.bounds.y = selectHUD.uiComponent->owner->position.y;
         }
     }
+    
+    // update money
+    rootUIObject->subobjects[0].text = std::to_string(engine->gameStatePtr()->getMoney());
     
     return true;
 }
