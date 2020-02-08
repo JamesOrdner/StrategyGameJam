@@ -4,6 +4,7 @@
 #include <SDL_rect.h>
 #include <string>
 #include <vector>
+#include <functional>
 
 enum class UIAnchor
 {
@@ -25,6 +26,7 @@ struct UIObject
         bounds{},
         rotation(0),
         anchor(UIAnchor::Center),
+        bAcceptsInput(false),
         bHidden(false),
         uiComponent(nullptr)
     {
@@ -45,6 +47,12 @@ struct UIObject
     /// Anchor affects both the anchor position relative to the parent layer, as well
     /// as the edge/corner of this UIObject that the position is defined relative to
     UIAnchor anchor;
+    
+    /// Does this UIObject accept (and block) input?
+    bool bAcceptsInput;
+    
+    /// Callback function called when this UIObject is selected
+    std::function<void()> callback;
     
     /// Should this UIObject render? Also affects all subobjects
     bool bHidden;

@@ -42,6 +42,7 @@ void Engine::init()
     ui->init();
     
     graphics->setRootUIObject(ui->rootUIObjectPtr());
+    input->ui = ui.get();
     
     auto& world = worlds.emplace_back(std::make_unique<World>(this));
     auto* camera = world->spawnObject<Camera>();

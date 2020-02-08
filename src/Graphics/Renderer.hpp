@@ -33,6 +33,9 @@ public:
     
     SDL_Point screenToWorldCoords(const SDL_Point& point) const;
     
+    /// Returns the UIObject at the given position, or nullptr if none
+    const UIObject* uiObjectAt(const UIObject* rootObject, const SDL_Point& screenCoords) const;
+    
     /// Zoom multiplier for high dpi displays
     float hidpiMult;
     
@@ -70,11 +73,13 @@ private:
     int windowWidth, windowHeight;
     
     /// Draws the UI recursively
-    void drawUI(const struct UIObject& object, const SDL_Rect& parentBoundsAbs);
+    void drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs);
     
-    void drawUIText(const struct UIObject& object, const SDL_Rect& parentBoundsAbs);
+    const UIObject* uiObjectAtRecursive(const UIObject& object, const SDL_Rect& parentBoundsAbs, const SDL_Point& screenCoords) const;
     
-    SDL_Rect getUIDrawDest(UIAnchor anchor, const struct SDL_Rect& objectBounds, const SDL_Rect& parentBoundsAbs);
+    void drawUIText(const UIObject& object, const SDL_Rect& parentBoundsAbs);
+    
+    SDL_Rect getUIDrawDest(UIAnchor anchor, const SDL_Rect& objectBounds, const SDL_Rect& parentBoundsAbs) const;
 };
 
 #endif /* Renderer_hpp */

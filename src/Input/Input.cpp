@@ -4,10 +4,12 @@
 #include "../Engine/GameState.hpp"
 #include "../Graphics/Graphics.hpp"
 #include "../Physics/Physics.hpp"
+#include "../UI/UI.hpp"
 #include "../Objects/Actor.hpp"
 
 Input::Input(const Engine* engine) :
-    GameSystem(engine)
+    GameSystem(engine),
+    ui(nullptr)
 {
     
 }
@@ -21,13 +23,19 @@ bool Input::execute(uint32_t deltaTime)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT) {
+        if ((event.type == SDL_QUIT) ||
+            (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
             return false;
         }
-        else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
-            return false;
+        
+        // UI input
+        if (event.type == SDL_MOUSEBUTTONDOWN ||
+            event.type == SDL_MOUSEMOTION) {
+            const UIObject* uiObject = engine->graphicsSystem()->uiObjectAt({ event.motion.x, event.motion.y });
+            if (ui->processInput(event, uiObject)) continue;
         }
-        else if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+        
+        if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
             processKeyEvent(event);
         }
         else if(event.type == SDL_MOUSEWHEEL) {

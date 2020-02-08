@@ -6,8 +6,6 @@
 
 struct Sprite
 {
-public:
-    
     /// Create a simple rectangular, solid-colored sprite
     Sprite(SDL_Renderer* renderer, const SDL_Rect& size, Uint32 color);
     

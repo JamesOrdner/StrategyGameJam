@@ -99,3 +99,8 @@ SDL_Point Graphics::screenToWorldCoords(const SDL_Point& point) const
 {
     return renderer->screenToWorldCoords(point);
 }
+
+const struct UIObject* Graphics::uiObjectAt(const SDL_Point& screenCoords) const
+{
+    return renderer->uiObjectAt(rootUIObject, screenCoords);
+}

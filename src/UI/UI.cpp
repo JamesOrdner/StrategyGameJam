@@ -19,6 +19,13 @@ UI::UI(const Engine* engine) :
     money.anchor = UIAnchor::TopRight;
     money.bounds = { -15, 0, 0, 0 };
     money.text = "0";
+    
+    auto& spawnUnit1 = rootUIObject->subobjects[0].subobjects.emplace_back();
+    spawnUnit1.anchor = UIAnchor::Bottom;
+    spawnUnit1.bounds = { 0, 0, 160, 160 };
+    spawnUnit1.textureFilepath = "res/textures/ui/item_box.bmp";
+    spawnUnit1.bAcceptsInput = true;
+    spawnUnit1.callback = []{ printf("button\n"); };
 }
 
 UI::~UI()
@@ -77,4 +84,11 @@ void UI::unregisterComponent(class GameObjectComponent* component)
             }
         }
     }
+}
+
+bool UI::processInput(const SDL_Event& event, const UIObject* object)
+{
+    if (!object || event.type != SDL_MOUSEBUTTONDOWN) return false;
+    if (object->callback) object->callback();
+    return event.type == SDL_MOUSEBUTTONDOWN;
 }

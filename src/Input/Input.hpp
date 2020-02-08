@@ -20,6 +20,9 @@ public:
     void registerComponent(class GameObjectComponent* component) override;
     void unregisterComponent(class GameObjectComponent* component) override;
     
+    /// Pointer to UI system
+    class UI* ui;
+    
 private:
     
     /// All registered input components

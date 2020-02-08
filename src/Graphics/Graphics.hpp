@@ -28,6 +28,9 @@ public:
     
     SDL_Point screenToWorldCoords(const SDL_Point& point) const;
     
+    /// Returns the UIObject at the given position, or nullptr if none
+    const struct UIObject* uiObjectAt(const SDL_Point& screenCoords) const;
+    
 private:
     
     /// All registered graphics components

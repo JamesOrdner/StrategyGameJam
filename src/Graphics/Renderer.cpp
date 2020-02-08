@@ -12,7 +12,7 @@ Renderer::Renderer() :
         "StrategyGameJam",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         640, 480,
-        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_FULLSCREEN_DESKTOP
+        0 | SDL_WINDOW_FULLSCREEN_DESKTOP
     );
     if (!window) throw std::runtime_error("Failed to create SDL window!");
     
@@ -142,7 +142,7 @@ void Renderer::drawUIText(const struct UIObject& object, const SDL_Rect& parentB
     SDL_FreeSurface(textSurface);
 }
 
-SDL_Rect Renderer::getUIDrawDest(UIAnchor anchor, const struct SDL_Rect& objectBounds, const SDL_Rect& parentBoundsAbs)
+SDL_Rect Renderer::getUIDrawDest(UIAnchor anchor, const struct SDL_Rect& objectBounds, const SDL_Rect& parentBoundsAbs) const
 {
     SDL_Rect dest = objectBounds;
     dest.x *= hidpiMult;
@@ -233,4 +233,33 @@ SDL_Point Renderer::screenToWorldCoords(const SDL_Point& point) const
     worldCoords.y *= -1;
     
     return worldCoords;
+}
+
+const UIObject* Renderer::uiObjectAt(const UIObject* rootObject, const SDL_Point& screenCoords) const
+{
+    SDL_Rect screenBounds{ .x = 0, .y = 0, .w = screenWidth, .h = screenHeight };
+    SDL_Point coords{ (int)(screenCoords.x * hidpiMult), (int)(screenCoords.y * hidpiMult) };
+    for (auto it = rootObject->subobjects.rbegin(); it != rootObject->subobjects.rend(); it++) {
+        if (auto* p = uiObjectAtRecursive(*it, screenBounds, coords)) return p;
+    }
+    return nullptr;
+}
+
+const UIObject* Renderer::uiObjectAtRecursive(const UIObject& object, const SDL_Rect& parentBoundsAbs, const SDL_Point& screenCoords) const
+{
+    SDL_Rect dest = parentBoundsAbs;
+    if (!object.textureFilepath.empty()) {
+        dest = getUIDrawDest(object.anchor, object.bounds, parentBoundsAbs);
+    }
+    
+    for (auto it = object.subobjects.rbegin(); it != object.subobjects.rend(); it++) {
+        if (auto* p = uiObjectAtRecursive(*it, dest, screenCoords)) return p;
+    }
+    
+    if (object.bAcceptsInput && SDL_PointInRect(&screenCoords, &dest)) {
+        return &object;
+    }
+    else {
+        return nullptr;
+    }
 }
