@@ -3,8 +3,9 @@
 #include "Engine.hpp"
 #include "../Objects/Actor.hpp"
 #include "../Objects/Structure.hpp"
+#include "../Objects/DrawableObject.hpp"
 #include <random>
-
+#include <cmath>
 
 void WorldLoader::createWorld(const Engine* engine, World* world)
 {
@@ -24,19 +25,14 @@ int WorldLoader::getRandomInt(int min, int max)
     return distribution(randIntGenerator);
 }
 
-int WorldLoader::getStructureOrigin()
-{
-    return 0;
-}
-
 int mapMinMax = 2000;
 void WorldLoader::createBuildings(World* world)
 {
     auto* enemyBase = world->spawnObject<DrawableObject>();
-    enemyBase->position = {0,0};
     enemyBase->setSprite(1000,1000,SDL_Color{0, 100, 0, 255});
+    createStructureOrigin(world, enemyBase);
 
-    for (int i=0; i<50; i++) {
+/*    for (int i=0; i<50; i++) {
         auto* myObject = world->spawnObject<DrawableObject>();
         myObject->position.x = getRandomInt(-world->getHalfWidth(), world->getHalfWidth());
         myObject->position.y = getRandomInt(-world->getHalfHeight(), world->getHalfHeight());
@@ -47,7 +43,7 @@ void WorldLoader::createBuildings(World* world)
     // yeettree
     for (int i=0; i<100; i++) {
         auto* tree = world->spawnObject<DrawableObject>();
-        tree->position = { static_cast<float>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth())), static_cast<float>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()))};
+        tree->position = { static_cast<float>(getRandomInt(-world->getWidth(), world->getWidth())), static_cast<float>(getRandomInt(-world->getHeight(), world->getHeight()))};
         tree->setRenderDepth(RenderDepth::Tree);
         tree->setSprite("res/textures/world/tree_large_1.bmp");
     }
@@ -77,6 +73,7 @@ void WorldLoader::createBuildings(World* world)
     auto* badbruh = world->spawnObject<Actor>({ -100, 1000 });
     badbruh->setSprite(100, 100, SDL_Color{ 255, 0, 0, 255 });
     badbruh->setTeam(Team::Enemy);
+*/
 }
 
 void WorldLoader::createResources(World* world)
@@ -85,5 +82,31 @@ void WorldLoader::createResources(World* world)
 
 void WorldLoader::createScenery(World* world)
 {
+}
+
+std::vector<DrawableObject> WorldLoader::createdStructures;
+void WorldLoader::createStructureOrigin(World* world, DrawableObject* newStructure)
+{
+    SDL_FPoint randomOrigin = { static_cast<float>(getRandomInt(-world->getWidth(), world->getWidth())), static_cast<float>(getRandomInt(-world->getHeight(), world->getHeight()))};
+
+    for (int i=0; i<createdStructures.size(); i++) {
+        DrawableObject* exisitingStructure = &(createdStructures[i]);
+        newStructure->position = randomOrigin;
+
+        if (isTooClose( newStructure, exisitingStructure)) {
+            randomOrigin = { static_cast<float>(getRandomInt(-world->getWidth(), world->getWidth())), static_cast<float>(getRandomInt(-world->getHeight(), world->getHeight()))};
+            i=0;
+        }
+    }
+}
+
+bool WorldLoader::isTooClose(DrawableObject* newStructure, DrawableObject* existingStructure) {
+    float newStructureRadius = getRadius(newStructure);
+
+    return true;
+}
+
+float WorldLoader::getRadius(DrawableObject* structure) {
+    return sqrt(pow(structure->bounds.value().x,2) + pow(structure->bounds.value().y,2));
 }
 
