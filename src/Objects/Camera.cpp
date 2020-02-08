@@ -5,7 +5,7 @@
 Camera::Camera(World* world, const SDL_FPoint& position) :
     GameObject(world, position),
     inputVelocity{},
-    zoom(0.5),
+    zoom(0.02),
     minZoom(0.02f),
     maxZoom(1)
 {

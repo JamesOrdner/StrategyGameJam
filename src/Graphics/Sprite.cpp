@@ -1,5 +1,6 @@
 #include "Sprite.hpp"
 #include <SDL_render.h>
+#include <stdexcept>
 
 Sprite::Sprite(SDL_Renderer* renderer, const SDL_Rect& size, Uint32 color)
 {
