@@ -18,8 +18,8 @@ UI::~UI()
 void UI::init()
 {
     auto& money = rootUIObject->subobjects.emplace_back();
-    money.anchor = UIAnchor::TopLeft;
-    money.bounds = { 15, 0, 0, 0 };
+    money.anchor = UIAnchor::TopRight;
+    money.bounds = { -15, 0, 0, 0 };
     money.text = "0";
 }
 
