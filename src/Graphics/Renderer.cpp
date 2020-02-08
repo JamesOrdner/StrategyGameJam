@@ -12,7 +12,7 @@ Renderer::Renderer() :
         "StrategyGameJam",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         640, 480,
-        SDL_WINDOW_ALLOW_HIGHDPI
+        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_FULLSCREEN_DESKTOP
     );
     if (!window) throw std::runtime_error("Failed to create SDL window!");
     
