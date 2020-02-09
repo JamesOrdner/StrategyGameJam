@@ -31,22 +31,27 @@ void WorldLoader::createStructures(World* world)
 {
     auto* enemyBase = world->spawnObject<DrawableObject>({0,0});
     enemyBase->setSprite("res/textures/world/enemy_base.bmp");
+    enemyBase->setRenderDepth(RenderDepth::Structure);
     createdStructures.push_back(enemyBase);
 
     auto* wood = world->spawnResourcePoint(ResourceType::Wood);
     createStructureOrigin(world, wood, minDistanceBetweenStructures);
+    wood->setRenderDepth(RenderDepth::Structure);
     createdStructures.push_back(wood);
     
     auto* iron = world->spawnResourcePoint(ResourceType::Iron);
     createStructureOrigin(world, iron, minDistanceBetweenStructures);
+    iron->setRenderDepth(RenderDepth::Structure);
     createdStructures.push_back(iron);
     
     auto* crystal = world->spawnResourcePoint(ResourceType::Crystal);
     createStructureOrigin(world, crystal, minDistanceBetweenStructures);
+    crystal->setRenderDepth(RenderDepth::Structure);
     createdStructures.push_back(crystal);
     
     auto* wolf = world->spawnResourcePoint(ResourceType::Wolf);
     createStructureOrigin(world, wolf, minDistanceBetweenStructures);
+    wolf->setRenderDepth(RenderDepth::Structure);
     createdStructures.push_back(wolf);
 }
 
@@ -64,6 +69,7 @@ void WorldLoader::createScenery(World* world)
         tree->position.y = getRandomInt(-world->getHalfHeight(), world->getHalfHeight());
         tree->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
         tree->setSprite("res/textures/world/tree_large_1.bmp");
+        tree->setRenderDepth(RenderDepth::Tree);
         createStructureOrigin(world, tree, minDistanceFromStructures); 
     }
     
@@ -73,6 +79,7 @@ void WorldLoader::createScenery(World* world)
         rock->position.y = getRandomInt(-world->getHalfHeight(), world->getHalfHeight());
         rock->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
         rock->setSprite("res/textures/world/rock_medium_1.bmp");
+        rock->setRenderDepth(RenderDepth::Rock);
         createStructureOrigin(world, rock, minDistanceFromStructures); 
     }
 
@@ -82,6 +89,7 @@ void WorldLoader::createScenery(World* world)
         mushroom->position.y = getRandomInt(-world->getHalfHeight(), world->getHalfHeight());
         mushroom->rotation = static_cast<double>(getRandomInt(-world->getHalfWidth(), world->getHalfWidth()));
         mushroom->setSprite("res/textures/world/mushroom_small_1.bmp");
+        mushroom->setRenderDepth(RenderDepth::Mushroom);
         createStructureOrigin(world, mushroom, minDistanceFromStructures);
     }
     
@@ -108,10 +116,6 @@ void WorldLoader::createStructureOrigin(World* world, DrawableObject* newStructu
 bool WorldLoader::isTooClose(DrawableObject* newStructure, DrawableObject* existingStructure, int minDistanceLimit) {
     float distanceBetweenStructures = dist(newStructure->position, existingStructure->position);
 
-    return minDistanceLimit > distanceBetweenStructures; //getRadius(newStructure)+getRadius(existingStructure);
-}
-
-float WorldLoader::getRadius(DrawableObject* structure) {
-    return sqrt(pow(structure->bounds.value().x,2) + pow(structure->bounds.value().y,2));
+    return minDistanceLimit > distanceBetweenStructures;
 }
 
