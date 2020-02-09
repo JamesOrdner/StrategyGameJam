@@ -51,6 +51,9 @@ void GameState::startGame()
             resources.wolf.resourcePoint->aiComponent->team = Team::Player;
             break;
     }
+    
+    // TEMP DEBUG
+    resources.wood.resourcePoint->aiComponent->team = Team::Player;
 }
 
 void GameState::tick(uint32_t deltaTime)
