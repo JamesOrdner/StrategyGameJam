@@ -76,6 +76,17 @@ GameObject* Physics::objectAt(const SDL_Point& coords) const
     return nullptr;
 }
 
+std::vector<GameObject*> Physics::objectsIn(const SDL_Rect& rect) const
+{
+    std::vector<GameObject*> objects;
+    for (const auto& comp : physicsComponents) {
+        if (comp->physicsType != PhysicsType::None && comp->owner->bounds.has_value()) {
+            if (colliding(comp->owner, rect)) objects.push_back(comp->owner);
+        }
+    }
+    return objects;
+}
+
 bool Physics::colliding(const GameObject* a, const GameObject* b) const
 {
     if (!a->bounds.has_value() || !b->bounds.has_value()) return false;
@@ -86,5 +97,17 @@ bool Physics::colliding(const GameObject* a, const GameObject* b) const
     if (bBounds.x >= aBounds.x + aBounds.w) return false;
     if (aBounds.y >= bBounds.y + bBounds.h) return false;
     if (bBounds.y >= aBounds.y + aBounds.h) return false;
+    return true;
+}
+
+bool Physics::colliding(const GameObject* a, const SDL_Rect& rect) const
+{
+    if (!a->bounds.has_value()) return false;
+    SDL_Rect aBounds = objectWorldBounds(a);
+    
+    if (aBounds.x >= rect.x + rect.w) return false;
+    if (rect.x >= aBounds.x + aBounds.w) return false;
+    if (aBounds.y >= rect.y + rect.h) return false;
+    if (rect.y >= aBounds.y + aBounds.h) return false;
     return true;
 }

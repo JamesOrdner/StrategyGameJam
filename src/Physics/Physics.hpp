@@ -18,7 +18,11 @@ public:
     /// Returns the GameObject at the given world coordinates, or nullptr if failed
     class GameObject* objectAt(const SDL_Point& coords) const;
     
+    /// Returns the GameObjects at the given world coordinates, or empty if none
+    std::vector<class GameObject*> objectsIn(const SDL_Rect& rect) const;
+    
     bool colliding(const class GameObject* a, const class GameObject* b) const;
+    bool colliding(const class GameObject* a, const SDL_Rect& rect) const;
     
 private:
     

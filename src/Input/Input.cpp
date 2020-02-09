@@ -43,9 +43,16 @@ bool Input::execute(uint32_t deltaTime)
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
             processPrimaryClick(event);
+            beginBoxSelect({ event.motion.x, event.motion.y });
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT) {
             processSecondaryClick(event);
+        }
+        else if (event.type == SDL_MOUSEMOTION) {
+            if (boxSelection.has_value()) updateBoxSelect({ event.motion.x, event.motion.y });
+        }
+        else if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT) {
+            if (boxSelection.has_value()) endBoxSelect();
         }
     }
     
@@ -129,4 +136,33 @@ void Input::processKeyEvent(const SDL_Event& event)
             execCallback(InputEvent::Camera_Y, 0.f);
         }
     }
+}
+
+void Input::beginBoxSelect(const SDL_Point& screenCoord)
+{
+    boxSelection = { screenCoord.x, screenCoord.y, 0, 0 };
+}
+
+void Input::updateBoxSelect(const SDL_Point& screenCoord)
+{
+    boxSelection.value().w = screenCoord.x - boxSelection.value().x;
+    boxSelection.value().h = screenCoord.y - boxSelection.value().y;
+}
+
+void Input::endBoxSelect()
+{
+    auto& selection = boxSelection.value();
+    if (selection.w < 0) {
+        selection.x += selection.w;
+        selection.w = -selection.w;
+    }
+    if (selection.h < 0) {
+        selection.y += selection.h;
+        selection.h = -selection.h;
+    }
+    
+    SDL_Point wOrig = engine->graphicsSystem()->screenToWorldCoords({ selection.x, selection.y });
+    SDL_Point wOrig2 = engine->graphicsSystem()->screenToWorldCoords({ selection.x + selection.w, selection.y + selection.h });
+    auto objects = engine->physicsSystem()->objectsIn({ wOrig.x, wOrig2.y, wOrig2.x - wOrig.x, wOrig.y - wOrig2.y});
+    for (auto& obj : objects) engine->gameStatePtr()->actorSelected(dynamic_cast<Actor*>(obj), true, false);
 }

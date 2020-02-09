@@ -5,6 +5,7 @@
 #include "InputTypes.hpp"
 #include <SDL_events.h>
 #include <unordered_set>
+#include <optional>
 
 class Input : public GameSystem
 {
@@ -36,6 +37,11 @@ private:
     void processSecondaryClick(const SDL_Event& event);
     
     void processKeyEvent(const SDL_Event& event);
+    
+    std::optional<SDL_Rect> boxSelection;
+    void beginBoxSelect(const SDL_Point& screenCoord);
+    void updateBoxSelect(const SDL_Point& screenCoord);
+    void endBoxSelect();
 };
 
 #endif /* Input_hpp */
