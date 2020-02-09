@@ -49,11 +49,6 @@ void WorldLoader::createStructures(World* world)
     auto* wolf = world->spawnResourcePoint(ResourceType::Wolf);
     createStructureOrigin(world, wolf, minDistanceBetweenStructures);
     createdStructures.push_back(wolf);
-    
-    // badbruh
-    auto* badbruh = world->spawnObject<Actor>({ -100, 1000 });
-    badbruh->setSprite("res/textures/world/enemy.bmp");
-    badbruh->aiComponent->team = Team::Enemy;
 }
 
 const int WorldLoader::minDistanceFromStructures;
