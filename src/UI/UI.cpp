@@ -56,7 +56,7 @@ UI::UI(const Engine* engine) :
         auto& unit = spawnBox.subobjects.emplace_back();
         unit.anchor = UIAnchor::Center;
         unit.bounds = { 0, 0, 150, 150 };
-        unit.textureFilepath = "res/textures/world/club.bmp";
+        unit.textureFilepath = ActorFactory::unitImagePath(static_cast<PlayerUnit>(i)ds);
     }
 }
 

@@ -6,7 +6,7 @@
 
 struct ActorFactory
 {
-    static constexpr int uniqueUnitCount = 6;
+    static constexpr int uniqueUnitCount = 4;
     
     static int unitCost(PlayerUnit unit, ResourceType resouce);
     
