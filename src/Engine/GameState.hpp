@@ -13,6 +13,8 @@ public:
     
     void startGame();
     
+    void setResourcePoint(class ResourcePoint* point, ResourceType type);
+    
     /// bMultiSelect == true if modifier key like shift is held.
     /// bCommand == true when right click (command), false if left click (selection)
     void actorSelected(class Actor* actor, bool bMultiSelect, bool bCommand);
@@ -36,11 +38,16 @@ private:
     
     unsigned int money;
     
+    struct Resource {
+        class ResourcePoint* resourcePoint;
+        int value;
+    };
+    
     struct Resources {
-        int wood;
-        int iron;
-        int crystal;
-        int wolf;
+        Resource wood;
+        Resource iron;
+        Resource crystal;
+        Resource wolf;
     } resources;
 };
 

@@ -3,6 +3,7 @@
 #include "WorldLoader.hpp"
 #include "ActorFactory.hpp"
 #include "../Objects/Actor.hpp"
+#include "../Objects/ResourcePoint.hpp"
 
 GameState::GameState(const Engine* engine) :
     engine(engine),
@@ -15,6 +16,16 @@ GameState::GameState(const Engine* engine) :
 void GameState::startGame()
 {
     WorldLoader::createWorld(engine, engine->activeWorld());
+}
+
+void GameState::setResourcePoint(class ResourcePoint* point, ResourceType type)
+{
+    switch (type) {
+        case ResourceType::Wood:    resources.wood.resourcePoint = point;
+        case ResourceType::Iron:    resources.iron.resourcePoint = point;
+        case ResourceType::Crystal: resources.crystal.resourcePoint = point;
+        case ResourceType::Wolf:    resources.wolf.resourcePoint = point;
+    }
 }
 
 void GameState::actorSelected(Actor* actor, bool bMultiSelect, bool bCommand)
@@ -58,24 +69,43 @@ void GameState::actorKilled(Actor* actor)
     if (actor->team() == Team::Enemy) {
         money += actor->getKillValue();
     }
+    
+    if (auto* respt = dynamic_cast<ResourcePoint*>(actor)) {
+        switch(respt->resource) {
+            case ResourceType::Wood:    resources.wood = {};
+            case ResourceType::Iron:    resources.iron = {};
+            case ResourceType::Crystal: resources.crystal = {};
+            case ResourceType::Wolf:    resources.wolf = {};
+        }
+    }
 }
 
 bool GameState::isUnitBuildable(PlayerUnit unit) const
 {
     return
-        (resources.wood    >= ActorFactory::unitCost(unit, ResourceType::Wood)) &&
-        (resources.iron    >= ActorFactory::unitCost(unit, ResourceType::Iron)) &&
-        (resources.crystal >= ActorFactory::unitCost(unit, ResourceType::Crystal)) &&
-        (resources.wolf    >= ActorFactory::unitCost(unit, ResourceType::Wolf));
+        (resources.wood.value    >= ActorFactory::unitCost(unit, ResourceType::Wood)) &&
+        (resources.iron.value    >= ActorFactory::unitCost(unit, ResourceType::Iron)) &&
+        (resources.crystal.value >= ActorFactory::unitCost(unit, ResourceType::Crystal)) &&
+        (resources.wolf.value    >= ActorFactory::unitCost(unit, ResourceType::Wolf));
 }
 
 bool GameState::buildUnit(PlayerUnit unit)
 {
     if (!isUnitBuildable(unit)) return false;
-    resources.wood    -= ActorFactory::unitCost(unit, ResourceType::Wood);
-    resources.iron    -= ActorFactory::unitCost(unit, ResourceType::Iron);
-    resources.crystal -= ActorFactory::unitCost(unit, ResourceType::Crystal);
-    resources.wolf    -= ActorFactory::unitCost(unit, ResourceType::Wolf);
-    ActorFactory::spawnUnit(engine->activeWorld(), unit, {});
+    resources.wood.value    -= ActorFactory::unitCost(unit, ResourceType::Wood);
+    resources.iron.value    -= ActorFactory::unitCost(unit, ResourceType::Iron);
+    resources.crystal.value -= ActorFactory::unitCost(unit, ResourceType::Crystal);
+    resources.wolf.value    -= ActorFactory::unitCost(unit, ResourceType::Wolf);
+    
+    // resource base location
+    SDL_FPoint spawnLoc;
+    switch (ActorFactory::unitSpawnLocation(unit)) {
+        case ResourceType::Wood:    spawnLoc = resources.wood.resourcePoint->position;
+        case ResourceType::Iron:    spawnLoc = resources.iron.resourcePoint->position;
+        case ResourceType::Crystal: spawnLoc = resources.crystal.resourcePoint->position;
+        case ResourceType::Wolf:    spawnLoc = resources.wolf.resourcePoint->position;
+    }
+    
+    ActorFactory::spawnUnit(engine->activeWorld(), unit, spawnLoc);
     return true;
 }

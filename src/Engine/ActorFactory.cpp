@@ -17,6 +17,13 @@ int ActorFactory::unitCost(PlayerUnit unit, ResourceType resouce)
     }
 }
 
+ResourceType ActorFactory::unitSpawnLocation(PlayerUnit unit)
+{
+    switch (unit) {
+        case PlayerUnit::Clubman: return ResourceType::Wood;
+    }
+}
+
 void ActorFactory::spawnUnit(World* world, PlayerUnit unit, const SDL_FPoint& position)
 {
     switch (unit) {

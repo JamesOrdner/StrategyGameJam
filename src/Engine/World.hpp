@@ -1,6 +1,7 @@
 #ifndef GWorld_hpp
 #define GWorld_hpp
 
+#include "Types.hpp"
 #include <SDL_rect.h>
 #include <vector>
 #include <memory>
@@ -19,6 +20,8 @@ public:
         auto* ptr = objects.emplace_back(std::make_unique<T>(this, position)).get();
         return static_cast<T*>(ptr);
     }
+    
+    class ResourcePoint* spawnResourcePoint(ResourceType type);
     
     void destroyObject(class GameObject* object);
     

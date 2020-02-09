@@ -4,6 +4,7 @@
 #include "../Objects/Actor.hpp"
 #include "../Objects/Structure.hpp"
 #include "../Objects/DrawableObject.hpp"
+#include "../Objects/ResourcePoint.hpp"
 #include "../Util/SDLMath.hpp"
 #include <random>
 #include <cmath>
@@ -33,22 +34,22 @@ void WorldLoader::createStructures(World* world)
     enemyBase->setSprite(1000,1000,SDL_Color{0, 100, 0, 255});
     createdStructures.push_back(enemyBase);
 
-    auto* wood = world->spawnObject<DrawableObject>();
+    auto* wood = world->spawnResourcePoint(ResourceType::Wood);
     wood->setSprite(resourceSize,resourceSize,SDL_Color{ 120, 95, 60, 255});
     createStructureOrigin(world, wood, minDistanceBetweenStructures);
     createdStructures.push_back(wood);
     
-    auto* iron = world->spawnObject<DrawableObject>();
+    auto* iron = world->spawnResourcePoint(ResourceType::Iron);
     iron->setSprite(resourceSize,resourceSize,SDL_Color{ 60, 100, 100, 255});
     createStructureOrigin(world, iron, minDistanceBetweenStructures);
     createdStructures.push_back(iron);
     
-    auto* crystal = world->spawnObject<DrawableObject>();
+    auto* crystal = world->spawnResourcePoint(ResourceType::Crystal);
     crystal->setSprite(resourceSize,resourceSize,SDL_Color{ 128, 128, 255, 255});
     createStructureOrigin(world, crystal, minDistanceBetweenStructures);
     createdStructures.push_back(crystal);
     
-    auto* wolf = world->spawnObject<DrawableObject>();
+    auto* wolf = world->spawnResourcePoint(ResourceType::Wolf);
     wolf->setSprite(resourceSize,resourceSize,SDL_Color{ 144, 118, 150, 255});
     createStructureOrigin(world, wolf, minDistanceBetweenStructures);
     createdStructures.push_back(wolf);

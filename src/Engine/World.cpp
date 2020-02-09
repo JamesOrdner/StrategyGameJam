@@ -3,6 +3,7 @@
 #include "GameState.hpp"
 #include "GameObject.hpp"
 #include "../Objects/Actor.hpp"
+#include "../Objects/ResourcePoint.hpp"
 
 World::World(const Engine* engine) :
     engine(engine)
@@ -13,6 +14,12 @@ World::World(const Engine* engine) :
 World::~World()
 {
     
+}
+
+ResourcePoint* World::spawnResourcePoint(ResourceType type)
+{
+    auto* ptr = objects.emplace_back(std::make_unique<ResourcePoint>(this, SDL_FPoint{}, type)).get();
+    return static_cast<ResourcePoint*>(ptr);
 }
 
 void World::destroyObject(class GameObject* object)
