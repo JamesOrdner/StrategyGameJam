@@ -18,6 +18,8 @@ public:
     /// Returns the GameObject at the given world coordinates, or nullptr if failed
     class GameObject* objectAt(const SDL_Point& coords) const;
     
+    bool colliding(const class GameObject* a, const class GameObject* b) const;
+    
 private:
     
     /// All registered Physics components
@@ -25,10 +27,8 @@ private:
     
     SDL_FPoint getForce(const class PhysicsComponent* component) const;
     
-    bool colliding(const class PhysicsComponent* a, const class PhysicsComponent* b) const;
-    
     /// World-space bounding box
-    SDL_Rect componentBounds(const class PhysicsComponent* component) const;
+    SDL_Rect objectWorldBounds(const class GameObject* object) const;
 };
 
 #endif /* Physics_hpp */
