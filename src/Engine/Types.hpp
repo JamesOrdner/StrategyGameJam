@@ -18,7 +18,10 @@ enum class ResourceType
 
 enum class PlayerUnit
 {
-    Clubman
+    Clubman,
+    Ninja,
+    Wizard,
+    Wolf
 };
 
 #endif /* Types_hpp */
