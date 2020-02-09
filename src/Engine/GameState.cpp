@@ -20,6 +20,17 @@ GameState::GameState(const Engine* engine) :
     
 }
 
+void GameState::Resources::addResouces(int amount) {
+    if (wood.resourcePoint &&
+        wood.resourcePoint->aiComponent->team == Team::Player) wood.value += amount;
+    if (iron.resourcePoint &&
+        iron.resourcePoint->aiComponent->team == Team::Player) iron.value += amount;
+    if (crystal.resourcePoint &&
+        crystal.resourcePoint->aiComponent->team == Team::Player) crystal.value += amount;
+    if (wolf.resourcePoint &&
+        wolf.resourcePoint->aiComponent->team == Team::Player) wolf.value += amount;
+}
+
 void GameState::startGame()
 {
     WorldLoader::createWorld(engine, engine->activeWorld());
@@ -29,10 +40,18 @@ void GameState::startGame()
     static std::default_random_engine randomGenerator(r());
     static std::uniform_int_distribution<int> distribution(0, 3);
     switch (distribution(randomGenerator)) {
-        case 0: resources.wood.bOwned    = true; break;
-        case 1: resources.iron.bOwned    = true; break;
-        case 2: resources.crystal.bOwned = true; break;
-        case 3: resources.wolf.bOwned    = true; break;
+        case 0:
+            resources.wood.resourcePoint->aiComponent->team = Team::Player;
+            break;
+        case 1:
+            resources.iron.resourcePoint->aiComponent->team = Team::Player;
+            break;
+        case 2:
+            resources.crystal.resourcePoint->aiComponent->team = Team::Player;
+            break;
+        case 3:
+            resources.wolf.resourcePoint->aiComponent->team = Team::Player;
+            break;
     }
 }
 
@@ -71,7 +90,7 @@ void GameState::tick(uint32_t deltaTime)
     }
 }
 
-void GameState::setResourcePoint(class ResourcePoint* point, ResourceType type)
+void GameState::setResourcePoint(ResourcePoint* point, ResourceType type)
 {
     switch (type) {
         case ResourceType::Wood:

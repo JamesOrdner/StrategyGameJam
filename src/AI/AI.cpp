@@ -105,8 +105,10 @@ void AI::processFriendlyActor(class AIComponent* component, uint32_t deltaTime)
     if (component->target && targetInRange(component)) {
         component->attackTimer += deltaTime;
         if (component->attackTimer >= component->attackRate) {
-            component->actor->attack(component->target);
-            component->attackTimer = 0;
+            if (component->actor->attack(component->target)) {
+                // only reset if Actor able to attack
+                component->attackTimer = 0;
+            }
         }
     }
 }
@@ -146,8 +148,10 @@ void AI::processEnemyActor(AIComponent* component, uint32_t deltaTime)
     if (component->target && targetInRange(component)) {
         component->attackTimer += deltaTime;
         if (component->attackTimer >= component->attackRate) {
-            component->actor->attack(component->target);
-            component->attackTimer = 0;
+            if (component->actor->attack(component->target)) {
+                // only reset if Actor able to attack
+                component->attackTimer = 0;
+            }
         }
     }
 }
@@ -177,7 +181,7 @@ Actor* AI::searchForEnemyStructure(AIComponent* component)
 {
     std::vector<Structure*> structures;
     for (auto* compOther : aiComponents) {
-        if (component->team == compOther->team && compOther->team != Team::None) continue;
+        if (component->team == compOther->team || compOther->team == Team::None) continue;
         if (auto* s = dynamic_cast<Structure*>(compOther->actor)) {
             structures.push_back(s);
         }

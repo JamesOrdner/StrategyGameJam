@@ -1,6 +1,7 @@
 #include "Actor.hpp"
 #include "../AI/AIComponent.hpp"
 #include "../UI/UIComponent.hpp"
+#include "../Physics/Physics.hpp"
 
 Actor::Actor(World* world, const SDL_FPoint& position) :
     DrawableObject(world, position),
@@ -17,12 +18,22 @@ Actor::Actor(World* world, const SDL_FPoint& position) :
     setPhysics(PhysicsType::Actor);
 }
 
-void Actor::attack(Actor* other)
+bool Actor::attack(Actor* other)
 {
-    // simple placeholder insta-damage
-    if (other->reduceHealth(attackDamage)) {
-        world->destroyObject(other);
+    if (aiComponent->bAttacksRanged) {
+        
+        return true;
     }
+    else {
+        if (world->engine->physicsSystem()->colliding(this, other)) {
+            if (other->reduceHealth(attackDamage)) {
+                world->destroyObject(other);
+            }
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 bool Actor::reduceHealth(int healthDeducted)

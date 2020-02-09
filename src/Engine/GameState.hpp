@@ -65,12 +65,7 @@ private:
         Resource crystal;
         Resource wolf;
         
-        void addResouces(int amount) {
-            if (wood.bOwned)    wood.value    += amount;
-            if (iron.bOwned)    iron.value    += amount;
-            if (crystal.bOwned) crystal.value += amount;
-            if (wolf.bOwned)    wolf.value    += amount;
-        }
+        void addResouces(int amount);
     } resources;
 };
 

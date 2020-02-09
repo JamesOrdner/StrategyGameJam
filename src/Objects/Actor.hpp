@@ -12,7 +12,8 @@ public:
     
     virtual int buildCost(ResourceType resource) const { return 0; };
     
-    virtual void attack(Actor* other);
+    /// Returns if the attack was attempted (for example, returns false for melee attacks out of range)
+    virtual bool attack(Actor* other);
     
     /// Reduce the actor's health by an amount, returning true if the actor is killed
     bool reduceHealth(int amount);

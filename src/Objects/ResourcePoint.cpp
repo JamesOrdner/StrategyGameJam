@@ -1,4 +1,5 @@
 #include "ResourcePoint.hpp"
+#include "../AI/AIComponent.hpp"
 
 ResourcePoint::ResourcePoint(class World* world, const SDL_FPoint& position, ResourceType resource) :
     Structure(world, position),
@@ -18,4 +19,6 @@ ResourcePoint::ResourcePoint(class World* world, const SDL_FPoint& position, Res
             setSprite("res/textures/world/wolf_source.bmp");
             break;
     }
+    
+    aiComponent->team = Team::None;
 }
