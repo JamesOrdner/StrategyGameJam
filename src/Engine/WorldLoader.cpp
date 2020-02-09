@@ -1,6 +1,7 @@
 #include "WorldLoader.hpp"
 #include "World.hpp"
 #include "Engine.hpp"
+#include "../AI/AIComponent.hpp"
 #include "../Objects/Actor.hpp"
 #include "../Objects/Structure.hpp"
 #include "../Objects/DrawableObject.hpp"
@@ -47,7 +48,7 @@ void WorldLoader::createStructures(World* world)
     
     auto* wolf = world->spawnResourcePoint(ResourceType::Wolf);
     createStructureOrigin(world, wolf, minDistanceBetweenStructures);
-    createdStructures.push_back(wolf); 
+    createdStructures.push_back(wolf);
 }
 
 const int WorldLoader::minDistanceFromStructures;

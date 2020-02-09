@@ -4,12 +4,13 @@
 
 Actor::Actor(World* world, const SDL_FPoint& position) :
     DrawableObject(world, position),
+    attackDamage(10),
+    aiComponent(createComponent<AIComponent>()),
     health(100),
     killValue(1)
 {
     uiComponent = createComponent<UIComponent>();
     
-    aiComponent = createComponent<AIComponent>();
     aiComponent->bMobile = true;
     aiComponent->setDestination(position);
     
@@ -19,7 +20,7 @@ Actor::Actor(World* world, const SDL_FPoint& position) :
 void Actor::attack(Actor* other)
 {
     // simple placeholder insta-damage
-    if (other->reduceHealth(10)) {
+    if (other->reduceHealth(attackDamage)) {
         world->destroyObject(other);
     }
 }
@@ -35,27 +36,7 @@ int Actor::getHealth()
     return health;
 }
 
-void Actor::setTeam(Team team)
-{
-    aiComponent->team = team;
-}
-
-Team Actor::team() const
-{
-    return aiComponent->team;
-}
-
 void Actor::setSelected(bool selected)
 {
     uiComponent->bSelected = selected;
-}
-
-void Actor::setDestination(const SDL_FPoint& dest)
-{
-    aiComponent->setDestination(dest);
-}
-
-void Actor::setTarget(Actor* target)
-{
-    aiComponent->setTarget(target);
 }

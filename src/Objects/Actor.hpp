@@ -21,19 +21,13 @@ public:
     
     inline int getKillValue() const { return killValue; }
     
-    void setTeam(Team team);
-    
-    Team team() const;
-    
     void setSelected(bool selected);
     
-    void setDestination(const SDL_FPoint& dest);
+    int attackDamage;
     
-    void setTarget(Actor* target);
+    class AIComponent* const aiComponent;
     
 protected:
-    
-    class AIComponent* aiComponent;
     
     class UIComponent* uiComponent;
     
