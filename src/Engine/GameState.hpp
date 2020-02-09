@@ -41,10 +41,15 @@ private:
     std::vector<class Actor*> selectedActors;
     
     unsigned int money;
-    
+
+    uint32_t spawnTime;
+
     /// Time since last money update
     uint32_t moneyTimer;
     
+    /// Time since last enemy unit spawn
+    uint32_t enemyTimer;
+
     /// Time since last resource update
     uint32_t resourceTimer;
     

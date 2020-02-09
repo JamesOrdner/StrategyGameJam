@@ -12,6 +12,8 @@ GameState::GameState(const Engine* engine) :
     money(0),
     moneyTimer(0),
     resourceTimer(0),
+    enemyTimer(0),
+    spawnTime(3000),
     resources{}
 {
     
@@ -45,6 +47,14 @@ void GameState::tick(uint32_t deltaTime)
     while (moneyTimer >= 2000) {
         money++;
         moneyTimer -= 2000;
+    }
+
+    enemyTimer += deltaTime;
+    if (enemyTimer >= spawnTime) {
+        auto* badbruh = engine->activeWorld()->spawnObject<Actor>({0,0});
+        badbruh->setSprite("res/textures/world/enemy.bmp");
+        badbruh->setTeam(Team::Enemy);
+        enemyTimer -= spawnTime;
     }
 }
 

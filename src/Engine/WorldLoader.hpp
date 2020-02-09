@@ -19,10 +19,10 @@ public:
     static const int minDistanceBetweenStructures = 18000;
 
     static const int minDistanceFromStructures = 1000;
-        
-private:
     
-    static int getRandomInt(int min, int max);
+    static int getRandomInt(int min, int max);       
+
+private:
     
     static void createStructures(class World* world);
     
