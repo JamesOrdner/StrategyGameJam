@@ -29,7 +29,8 @@ const int WorldLoader::minDistanceBetweenStructures;
 void WorldLoader::createStructures(World* world)
 {
     auto* enemyBase = world->spawnObject<DrawableObject>({0,0});
-    enemyBase->setSprite(1000,1000,SDL_Color{0, 100, 0, 255});
+    //enemyBase->setSprite(1000,1000,SDL_Color{0, 100, 0, 255});
+    enemyBase->setSprite("res/textures/world/enemy_base.bmp");
     createdStructures.push_back(enemyBase);
 
     auto* wood = world->spawnResourcePoint(ResourceType::Wood);
@@ -50,7 +51,7 @@ void WorldLoader::createStructures(World* world)
     
     // badbruh
     auto* badbruh = world->spawnObject<Actor>({ -100, 1000 });
-    badbruh->setSprite(100, 100, SDL_Color{ 255, 0, 0, 255 });
+    badbruh->setSprite("res/textures/world/enemy.bmp");
     badbruh->setTeam(Team::Enemy);
 }
 
