@@ -7,7 +7,7 @@ AIComponent::AIComponent(class GameObject* owner) :
     attackRadius(500.f),
     attackRate(500),
     bMobile(false),
-    movementSpeed(0.5f),
+    movementSpeed(0.3f),
     activity(AIActivity::Idle),
     movementState(AIMovementState::Idle),
     destination(owner->position),

@@ -14,7 +14,7 @@ GameState::GameState(const Engine* engine) :
     moneyTimer(0),
     resourceTimer(0),
     enemyTimer(0),
-    spawnTime(3000),
+    spawnTime(10000),
     resources{}
 {
     
@@ -50,12 +50,24 @@ void GameState::tick(uint32_t deltaTime)
         moneyTimer -= 2000;
     }
 
+    static int numEnemies = 0;
     enemyTimer += deltaTime;
     if (enemyTimer >= spawnTime) {
         auto* badbruh = engine->activeWorld()->spawnObject<Actor>({0,0});
         badbruh->setSprite("res/textures/world/enemy.bmp");
-        badbruh->setTeam(Team::Enemy);
-        enemyTimer -= spawnTime;
+        badbruh->aiComponent->team = Team::Enemy;
+
+        printf("\ndelta time: %d\n", deltaTime);
+        printf("enemy time: %d\n", enemyTimer);
+        printf("spawn time: %d\n", spawnTime);
+        
+        numEnemies += 1;
+        if (numEnemies % 6 == 0 && numEnemies <= 30) {
+            spawnTime -= 1500;
+            badbruh->aiComponent->movementSpeed *= 5;
+        }
+
+        enemyTimer = 0;
     }
 }
 
