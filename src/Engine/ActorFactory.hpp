@@ -5,6 +5,8 @@
 
 struct ActorFactory
 {
+    static constexpr int uniqueUnitCount = 6;
+    
     static int unitCost(PlayerUnit unit, ResourceType resouce);
     
     /// Returns the ResourcePoint to spawn the unit at

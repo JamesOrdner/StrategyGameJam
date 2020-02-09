@@ -3,6 +3,7 @@
 #include "UIObject.hpp"
 #include "../Engine/GameState.hpp"
 #include "../Engine/GameObject.hpp"
+#include "../Engine/ActorFactory.hpp"
 #include <algorithm>
 
 UI::UI(const Engine* engine) :
@@ -43,12 +44,20 @@ UI::UI(const Engine* engine) :
     wolf.bounds = { 15, 105, 0, 0 };
     wolf.text = "Wolf: 0";
     
-    auto& spawnUnit1 = rootUIObject->subobjects[0].subobjects.emplace_back();
-    spawnUnit1.anchor = UIAnchor::Bottom;
-    spawnUnit1.bounds = { 0, 0, 160, 160 };
-    spawnUnit1.textureFilepath = "res/textures/ui/item_box_red.bmp";
-    spawnUnit1.bAcceptsInput = true;
-    spawnUnit1.unitSpawnType = PlayerUnit::Clubman;
+    for (int i = 0; i < ActorFactory::uniqueUnitCount; i++) {
+        auto& spawnBox = rootUIObject->subobjects[0].subobjects.emplace_back();
+        spawnBox.anchor = UIAnchor::Bottom;
+        int offsetStart = -(ActorFactory::uniqueUnitCount - 1) * 40;
+        spawnBox.bounds = { offsetStart + 80 * i, 0, 160, 160 };
+        spawnBox.textureFilepath = "res/textures/ui/item_box_red.bmp";
+        spawnBox.bAcceptsInput = true;
+        spawnBox.unitSpawnType = static_cast<PlayerUnit>(i);
+        
+        auto& unit = spawnBox.subobjects.emplace_back();
+        unit.anchor = UIAnchor::Center;
+        unit.bounds = { 0, 0, 150, 150 };
+        unit.textureFilepath = "res/textures/world/club.bmp";
+    }
 }
 
 UI::~UI()
