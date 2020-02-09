@@ -13,6 +13,8 @@ public:
     
     void startGame();
     
+    void tick(uint32_t deltaTime);
+    
     void setResourcePoint(class ResourcePoint* point, ResourceType type);
     
     /// bMultiSelect == true if modifier key like shift is held.
@@ -26,6 +28,8 @@ public:
     
     inline unsigned int getMoney() const { return money; }
     
+    int getResourceCount(ResourceType resouce) const;
+    
     bool isUnitBuildable(PlayerUnit unit) const;
     
     bool buildUnit(PlayerUnit unit);
@@ -38,8 +42,15 @@ private:
     
     unsigned int money;
     
+    /// Time since last money update
+    uint32_t moneyTimer;
+    
+    /// Time since last resource update
+    uint32_t resourceTimer;
+    
     struct Resource {
         class ResourcePoint* resourcePoint;
+        bool bOwned;
         int value;
     };
     
@@ -48,6 +59,13 @@ private:
         Resource iron;
         Resource crystal;
         Resource wolf;
+        
+        void addResouces(int amount) {
+            if (wood.bOwned)    wood.value    += amount;
+            if (iron.bOwned)    iron.value    += amount;
+            if (crystal.bOwned) crystal.value += amount;
+            if (wolf.bOwned)    wolf.value    += amount;
+        }
     } resources;
 };
 

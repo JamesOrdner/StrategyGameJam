@@ -19,7 +19,7 @@ bool AI::execute(uint32_t deltaTime)
         if (component->team == Team::Player) {
             processFriendlyActor(component, deltaTime);
         }
-        else {
+        else if (component->team == Team::Enemy){
             processEnemyActor(component, deltaTime);
         }
     }
@@ -162,7 +162,7 @@ Actor* AI::searchForEnemy(AIComponent* component, const SDL_FPoint& searchOrigin
     Actor* enemy = nullptr;
     float nearest = FLT_MAX;
     for (auto* compOther : aiComponents) {
-        if (component->team != compOther->team) {
+        if (component->team != compOther->team && compOther->team != Team::None) {
             float d = dist(searchOrigin, compOther->owner->position);
             if (d < component->attackRadius && d < nearest) {
                 enemy = compOther->actor;
@@ -177,7 +177,7 @@ Actor* AI::searchForEnemyStructure(AIComponent* component)
 {
     std::vector<Structure*> structures;
     for (auto* compOther : aiComponents) {
-        if (component->team == compOther->team) continue;
+        if (component->team == compOther->team || compOther->team != Team::None) continue;
         if (auto* s = dynamic_cast<Structure*>(compOther->actor)) {
             structures.push_back(s);
         }

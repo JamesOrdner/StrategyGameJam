@@ -13,9 +13,35 @@ UI::UI(const Engine* engine) :
     rootUIObject->subobjects.emplace_back(); // UIComponents
     
     auto& money = rootUIObject->subobjects[0].subobjects.emplace_back();
+    money.name = "money";
     money.anchor = UIAnchor::TopRight;
     money.bounds = { -15, 0, 0, 0 };
     money.text = "0";
+    money.textSize = TextSize::Large;
+    
+    auto& wood = rootUIObject->subobjects[0].subobjects.emplace_back();
+    wood.name = "wood";
+    wood.anchor = UIAnchor::TopLeft;
+    wood.bounds = { 15, 0, 0, 0 };
+    wood.text = "Wood: 0";
+    
+    auto& iron = rootUIObject->subobjects[0].subobjects.emplace_back();
+    iron.name = "iron";
+    iron.anchor = UIAnchor::TopLeft;
+    iron.bounds = { 15, 35, 0, 0 };
+    iron.text = "Iron: 0";
+    
+    auto& crystal = rootUIObject->subobjects[0].subobjects.emplace_back();
+    crystal.name = "crystal";
+    crystal.anchor = UIAnchor::TopLeft;
+    crystal.bounds = { 15, 70, 0, 0 };
+    crystal.text = "Crysal: 0";
+    
+    auto& wolf = rootUIObject->subobjects[0].subobjects.emplace_back();
+    wolf.name = "wolf";
+    wolf.anchor = UIAnchor::TopLeft;
+    wolf.bounds = { 15, 105, 0, 0 };
+    wolf.text = "Wolf: 0";
     
     auto& spawnUnit1 = rootUIObject->subobjects[0].subobjects.emplace_back();
     spawnUnit1.anchor = UIAnchor::Bottom;
@@ -49,18 +75,31 @@ bool UI::execute(uint32_t deltaTime)
         }
     }
     
-    // update money
-    rootUIObject->subobjects[0].subobjects[0].text = std::to_string(engine->gameStatePtr()->getMoney());
-    
-    // update buildables
+    auto* gameState = engine->gameStatePtr();
     for (auto& object : rootUIObject->subobjects[0].subobjects) {
+        // update buildables
         if (object.unitSpawnType.has_value()) {
-            if (engine->gameStatePtr()->isUnitBuildable(object.unitSpawnType.value())) {
+            if (gameState->isUnitBuildable(object.unitSpawnType.value())) {
                 object.textureFilepath = "res/textures/ui/item_box.bmp";
             }
             else {
                 object.textureFilepath = "res/textures/ui/item_box_red.bmp";
             }
+        }
+        else if (object.name == "money") {
+            object.text = std::to_string(gameState->getMoney());
+        }
+        else if (object.name == "wood") {
+            object.text = "Wood: " + std::to_string(gameState->getResourceCount(ResourceType::Wood));
+        }
+        else if (object.name == "iron") {
+            object.text = "Iron: " + std::to_string(gameState->getResourceCount(ResourceType::Iron));
+        }
+        else if (object.name == "crystal") {
+            object.text = "Crystal: " + std::to_string(gameState->getResourceCount(ResourceType::Crystal));
+        }
+        else if (object.name == "wolf") {
+            object.text = "Wolf: " + std::to_string(gameState->getResourceCount(ResourceType::Wolf));
         }
     }
     

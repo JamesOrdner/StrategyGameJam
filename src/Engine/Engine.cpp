@@ -81,6 +81,7 @@ void Engine::run()
         
         // tick all worlds/objects
         for (auto& world : worlds) world->tick(deltaTime);
+        gameState->tick(deltaTime);
         
         // render
         graphics->execute(deltaTime);

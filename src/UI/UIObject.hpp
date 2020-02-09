@@ -21,10 +21,18 @@ enum class UIAnchor
     World // coordinates in world space
 };
 
+enum class TextSize
+{
+    Small,
+    Large
+};
+
 struct UIObject
 {
     UIObject() :
         bounds{},
+        textColor{ 255, 255, 255, 255 },
+        textSize(TextSize::Small),
         rotation(0),
         anchor(UIAnchor::Center),
         bAcceptsInput(false),
@@ -33,11 +41,15 @@ struct UIObject
     {
     }
     
+    std::string name;
+    
     /// Bounds of the UIObject, includes position
     SDL_Rect bounds;
     
     /// Rendered text
     std::string text;
+    SDL_Color textColor;
+    TextSize textSize;
     
     /// Coordinates for this UIObject on the UI texture sheet
     std::string textureFilepath;

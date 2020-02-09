@@ -51,7 +51,7 @@ private:
     
     SDL_Renderer* renderer;
     
-    TTF_Font* font;
+    TTF_Font *fontLarge, *fontSmall;
     
     struct TextureAsset
     {
@@ -77,7 +77,7 @@ private:
     
     const UIObject* uiObjectAtRecursive(const UIObject& object, const SDL_Rect& parentBoundsAbs, const SDL_Point& screenCoords) const;
     
-    void drawUIText(const UIObject& object, const SDL_Rect& parentBoundsAbs);
+    void drawUIText(const UIObject& object, const SDL_Rect& parentBoundsAbs, TextSize size);
     
     SDL_Rect getUIDrawDest(UIAnchor anchor, const SDL_Rect& objectBounds, const SDL_Rect& parentBoundsAbs) const;
 };

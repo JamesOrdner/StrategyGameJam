@@ -5,10 +5,13 @@
 #include "../Objects/Actor.hpp"
 #include "../Objects/ResourcePoint.hpp"
 #include <algorithm>
+#include <random>
 
 GameState::GameState(const Engine* engine) :
     engine(engine),
     money(0),
+    moneyTimer(0),
+    resourceTimer(0),
     resources{}
 {
     
@@ -17,6 +20,32 @@ GameState::GameState(const Engine* engine) :
 void GameState::startGame()
 {
     WorldLoader::createWorld(engine, engine->activeWorld());
+    
+    // select starting base
+    static std::random_device r;
+    static std::default_random_engine randomGenerator(r());
+    static std::uniform_int_distribution<int> distribution(0, 3);
+    switch (distribution(randomGenerator)) {
+        case 0: resources.wood.bOwned    = true; break;
+        case 1: resources.iron.bOwned    = true; break;
+        case 2: resources.crystal.bOwned = true; break;
+        case 3: resources.wolf.bOwned    = true; break;
+    }
+}
+
+void GameState::tick(uint32_t deltaTime)
+{
+    resourceTimer += deltaTime;
+    while (resourceTimer >= 1000) {
+        resources.addResouces(1);
+        resourceTimer -= 1000;
+    }
+    
+    moneyTimer += deltaTime;
+    while (moneyTimer >= 2000) {
+        money++;
+        moneyTimer -= 2000;
+    }
 }
 
 void GameState::setResourcePoint(class ResourcePoint* point, ResourceType type)
@@ -94,6 +123,16 @@ void GameState::actorKilled(Actor* actor)
                 resources.wolf = {};
                 break;
         }
+    }
+}
+
+int GameState::getResourceCount(ResourceType resouce) const
+{
+    switch (resouce) {
+        case ResourceType::Wood:    return resources.wood.value;
+        case ResourceType::Iron:    return resources.iron.value;
+        case ResourceType::Crystal: return resources.crystal.value;
+        case ResourceType::Wolf:    return resources.wolf.value;
     }
 }
 

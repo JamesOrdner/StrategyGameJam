@@ -26,8 +26,11 @@ Renderer::Renderer() :
     hidpiMult = static_cast<float>(screenWidth) / windowWidth;
     
     TTF_Init();
-    font = TTF_OpenFont("res/fonts/Capture_it.ttf", 128);
-    if (!font) throw std::runtime_error("Failed to open font!");
+    fontLarge = TTF_OpenFont("res/fonts/Capture_it.ttf", 128);
+    if (!fontLarge) throw std::runtime_error("Failed to open font!");
+    
+    fontSmall = TTF_OpenFont("res/fonts/Capture_it.ttf", 64);
+    if (!fontSmall) throw std::runtime_error("Failed to open font!");
 }
 
 Renderer::~Renderer()
@@ -36,7 +39,7 @@ Renderer::~Renderer()
         SDL_DestroyTexture(texMapPair.second.texture);
     }
     
-    TTF_CloseFont(font);
+    TTF_CloseFont(fontLarge);
     TTF_Quit();
     
     SDL_DestroyRenderer(renderer);
@@ -96,7 +99,7 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
     }
     else {
         if (!object.text.empty()) {
-            drawUIText(object, parentBoundsAbs);
+            drawUIText(object, parentBoundsAbs, object.textSize);
         }
         
         SDL_Rect dest = parentBoundsAbs;
@@ -118,9 +121,10 @@ void Renderer::drawUI(const UIObject& object, const SDL_Rect& parentBoundsAbs)
     }
 }
 
-void Renderer::drawUIText(const struct UIObject& object, const SDL_Rect& parentBoundsAbs)
+void Renderer::drawUIText(const struct UIObject& object, const SDL_Rect& parentBoundsAbs, TextSize size)
 {
-    auto* textSurface = TTF_RenderText_Blended(font, object.text.c_str(), { 255, 255, 255, 255 });
+    TTF_Font* font = size == TextSize::Small ? fontSmall : fontLarge;
+    auto* textSurface = TTF_RenderText_Blended(font, object.text.c_str(), object.textColor);
     SDL_Rect textBounds{
         object.bounds.x,
         object.bounds.y,

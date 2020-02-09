@@ -19,7 +19,9 @@ World::~World()
 ResourcePoint* World::spawnResourcePoint(ResourceType type)
 {
     auto* ptr = objects.emplace_back(std::make_unique<ResourcePoint>(this, SDL_FPoint{}, type)).get();
-    return static_cast<ResourcePoint*>(ptr);
+    auto* respt = static_cast<ResourcePoint*>(ptr);
+    engine->gameStatePtr()->setResourcePoint(respt, type);
+    return respt;
 }
 
 void World::destroyObject(class GameObject* object)

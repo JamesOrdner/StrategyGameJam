@@ -4,7 +4,8 @@
 enum class Team
 {
     Player,
-    Enemy
+    Enemy,
+    None
 };
 
 enum class ResourceType
