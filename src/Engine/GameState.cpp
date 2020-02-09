@@ -115,6 +115,9 @@ void GameState::actorSelected(Actor* actor, bool bMultiSelect, bool bCommand)
         if (actor->aiComponent->team == Team::Enemy) {
             for (auto& selectedActor : selectedActors) selectedActor->aiComponent->setTarget(actor);
         }
+        else if (dynamic_cast<ResourcePoint*>(actor) && actor->aiComponent->team == Team::None) {
+            for (auto& selectedActor : selectedActors) selectedActor->aiComponent->setTarget(actor);
+        }
     }
     else { // selection
         if (actor->aiComponent->team == Team::Player) {

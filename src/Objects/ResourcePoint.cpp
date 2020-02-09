@@ -3,7 +3,8 @@
 
 ResourcePoint::ResourcePoint(class World* world, const SDL_FPoint& position, ResourceType resource) :
     Structure(world, position),
-    resource(resource)
+    resource(resource),
+    captureTime(15 * 1000)
 {
     switch (resource) {
         case ResourceType::Wood:
@@ -21,4 +22,16 @@ ResourcePoint::ResourcePoint(class World* world, const SDL_FPoint& position, Res
     }
     
     aiComponent->team = Team::None;
+}
+
+bool ResourcePoint::waitCapture(uint32_t deltaTimeWaited)
+{
+    if (captureTime <= deltaTimeWaited) {
+        captureTime = 0;
+        return true;
+    }
+    else {
+        captureTime -= deltaTimeWaited;
+        return false;
+    }
 }

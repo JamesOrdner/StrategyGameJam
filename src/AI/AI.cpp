@@ -2,7 +2,7 @@
 #include "AIComponent.hpp"
 #include "../Engine/GameObject.hpp"
 #include "../Objects/Actor.hpp"
-#include "../Objects/Structure.hpp"
+#include "../Objects/ResourcePoint.hpp"
 #include "../Util/SDLMath.hpp"
 #include <algorithm>
 #include <cfloat>
@@ -42,11 +42,14 @@ void AI::unregisterComponent(class GameObjectComponent* component)
     // remove from any objects' targets
     for (auto* comp : aiComponents) {
         if (comp->target == aiComponent->actor) {
-            comp->target = nullptr;
-            comp->activity = AIActivity::Idle;
             if (comp->movementState == AIMovementState::MovingToEnemy) {
                 comp->movementState = AIMovementState::Idle;
             }
+            if (comp->activity == AIActivity::Capturing) {
+                comp->movementState = AIMovementState::Idle;
+            }
+            comp->target = nullptr;
+            comp->activity = AIActivity::Idle;
         }
     }
 }
@@ -68,8 +71,8 @@ void AI::processFriendlyActor(class AIComponent* component, uint32_t deltaTime)
                 component->target = nullptr;
             }
         }
-        else {
-            // building
+        else { // component->activity == AIActivity::Capturing
+            
         }
     }
     else if (component->movementState == AIMovementState::MovingToLocation) {
@@ -111,6 +114,17 @@ void AI::processFriendlyActor(class AIComponent* component, uint32_t deltaTime)
             }
         }
     }
+    
+    if (component->activity == AIActivity::Capturing) {
+        if (dist(component->owner->position, component->target->position) < component->attackRadius) {
+            auto* respt = dynamic_cast<ResourcePoint*>(component->target);
+            if (respt->waitCapture(deltaTime)) {
+                respt->aiComponent->team = Team::Player;
+                component->activity = AIActivity::Idle;
+                component->target = nullptr;
+            }
+        }
+    }
 }
 
 void AI::processEnemyActor(AIComponent* component, uint32_t deltaTime)
@@ -145,7 +159,7 @@ void AI::processEnemyActor(AIComponent* component, uint32_t deltaTime)
         doMovement(component, deltaTime);
     }
     
-    if (component->target && targetInRange(component)) {
+    if (component->target && component->activity != AIActivity::Capturing && targetInRange(component)) {
         component->attackTimer += deltaTime;
         if (component->attackTimer >= component->attackRate) {
             if (component->actor->attack(component->target)) {

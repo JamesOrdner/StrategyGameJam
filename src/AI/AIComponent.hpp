@@ -16,7 +16,7 @@ enum class AIActivity
 {
     Idle,
     Attacking,
-    Building
+    Capturing
 };
 
 class AIComponent : public GameObjectComponent
