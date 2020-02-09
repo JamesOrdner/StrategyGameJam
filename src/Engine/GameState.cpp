@@ -2,6 +2,7 @@
 #include "Engine.hpp"
 #include "WorldLoader.hpp"
 #include "../Objects/Actor.hpp"
+#include <algorithm>
 
 GameState::GameState(const Engine* engine) :
     engine(engine),
