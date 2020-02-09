@@ -1,10 +1,11 @@
 #ifndef UIObject_hpp
 #define UIObject_hpp
 
+#include "../Engine/Types.hpp"
 #include <SDL_rect.h>
 #include <string>
 #include <vector>
-#include <functional>
+#include <optional>
 
 enum class UIAnchor
 {
@@ -51,11 +52,11 @@ struct UIObject
     /// Does this UIObject accept (and block) input?
     bool bAcceptsInput;
     
-    /// Callback function called when this UIObject is selected
-    std::function<void()> callback;
-    
     /// Should this UIObject render? Also affects all subobjects
     bool bHidden;
+    
+    /// If this value exists, this UIObject will spawn the corresponding PlayerUnit type
+    std::optional<PlayerUnit> unitSpawnType;
     
     std::vector<UIObject> subobjects;
     

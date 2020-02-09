@@ -14,6 +14,8 @@ target_sources(StrategyGameJam
     src/AI/AI.hpp
     src/AI/AIComponent.cpp
     src/AI/AIComponent.hpp
+    src/Engine/ActorFactory.cpp
+    src/Engine/ActorFactory.hpp
     src/Engine/Engine.cpp
     src/Engine/Engine.hpp
     src/Engine/GameState.cpp
@@ -47,6 +49,8 @@ target_sources(StrategyGameJam
     src/Objects/Camera.hpp
     src/Objects/DrawableObject.cpp
     src/Objects/DrawableObject.hpp
+    src/Objects/ResourcePoint.cpp
+    src/Objects/ResourcePoint.hpp
     src/Objects/Structure.cpp
     src/Objects/Structure.hpp
     src/Physics/Physics.cpp

@@ -5,15 +5,12 @@
 #include "../Engine/GameObject.hpp"
 #include <algorithm>
 
-constexpr int virtualWidth = 1280;
-constexpr int virtualHeight = 720;
-
 UI::UI(const Engine* engine) :
     GameSystem(engine)
 {
     rootUIObject = std::make_unique<UIObject>();
-    rootUIObject->subobjects.emplace_back().bounds = { virtualWidth, virtualHeight }; // UI-reserved
-    rootUIObject->subobjects.emplace_back().bounds = { virtualWidth, virtualHeight }; // UIComponents
+    rootUIObject->subobjects.emplace_back(); // UI-reserved
+    rootUIObject->subobjects.emplace_back(); // UIComponents
     
     auto& money = rootUIObject->subobjects[0].subobjects.emplace_back();
     money.anchor = UIAnchor::TopRight;
@@ -23,9 +20,9 @@ UI::UI(const Engine* engine) :
     auto& spawnUnit1 = rootUIObject->subobjects[0].subobjects.emplace_back();
     spawnUnit1.anchor = UIAnchor::Bottom;
     spawnUnit1.bounds = { 0, 0, 160, 160 };
-    spawnUnit1.textureFilepath = "res/textures/ui/item_box.bmp";
+    spawnUnit1.textureFilepath = "res/textures/ui/item_box_red.bmp";
     spawnUnit1.bAcceptsInput = true;
-    spawnUnit1.callback = []{ printf("button\n"); };
+    spawnUnit1.unitSpawnType = PlayerUnit::Swordsman;
 }
 
 UI::~UI()
@@ -54,6 +51,18 @@ bool UI::execute(uint32_t deltaTime)
     
     // update money
     rootUIObject->subobjects[0].subobjects[0].text = std::to_string(engine->gameStatePtr()->getMoney());
+    
+    // update buildables
+    for (auto& object : rootUIObject->subobjects[0].subobjects) {
+        if (object.unitSpawnType.has_value()) {
+            if (engine->gameStatePtr()->isUnitBuildable(object.unitSpawnType.value())) {
+                object.textureFilepath = "res/textures/ui/item_box.bmp";
+            }
+            else {
+                object.textureFilepath = "res/textures/ui/item_box_red.bmp";
+            }
+        }
+    }
     
     return true;
 }
@@ -89,6 +98,8 @@ void UI::unregisterComponent(class GameObjectComponent* component)
 bool UI::processInput(const SDL_Event& event, const UIObject* object)
 {
     if (!object || event.type != SDL_MOUSEBUTTONDOWN) return false;
-    if (object->callback) object->callback();
+    if (object->unitSpawnType.has_value()) {
+        engine->gameStatePtr()->buildUnit(object->unitSpawnType.value());
+    }
     return event.type == SDL_MOUSEBUTTONDOWN;
 }

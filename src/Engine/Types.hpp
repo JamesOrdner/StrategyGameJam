@@ -12,4 +12,9 @@ enum class ResourceType
     Wood
 };
 
+enum class PlayerUnit
+{
+    Swordsman
+};
+
 #endif /* Types_hpp */

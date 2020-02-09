@@ -1,6 +1,7 @@
 #ifndef GameState_hpp
 #define GameState_hpp
 
+#include "Types.hpp"
 #include <SDL_rect.h>
 #include <vector>
 
@@ -23,6 +24,10 @@ public:
     
     inline unsigned int getMoney() const { return money; }
     
+    bool isUnitBuildable(PlayerUnit unit) const;
+    
+    bool buildUnit(PlayerUnit unit);
+    
 private:
     
     const class Engine* const engine;
@@ -30,6 +35,10 @@ private:
     std::vector<class Actor*> selectedActors;
     
     unsigned int money;
+    
+    struct Resources {
+        int wood;
+    } resources;
 };
 
 #endif /* GameState_hpp */

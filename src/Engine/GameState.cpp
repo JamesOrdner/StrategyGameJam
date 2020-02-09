@@ -1,11 +1,13 @@
 #include "GameState.hpp"
 #include "Engine.hpp"
 #include "WorldLoader.hpp"
+#include "ActorFactory.hpp"
 #include "../Objects/Actor.hpp"
 
 GameState::GameState(const Engine* engine) :
     engine(engine),
-    money(0)
+    money(0),
+    resources{}
 {
     
 }
@@ -56,4 +58,17 @@ void GameState::actorKilled(Actor* actor)
     if (actor->team() == Team::Enemy) {
         money += actor->getKillValue();
     }
+}
+
+bool GameState::isUnitBuildable(PlayerUnit unit) const
+{
+    return (resources.wood >= ActorFactory::unitCost(unit, ResourceType::Wood));
+}
+
+bool GameState::buildUnit(PlayerUnit unit)
+{
+    if (!isUnitBuildable(unit)) return false;
+    resources.wood -= ActorFactory::unitCost(unit, ResourceType::Wood);
+    ActorFactory::spawnUnit(engine->activeWorld(), unit, {});
+    return true;
 }
