@@ -22,7 +22,7 @@ UI::UI(const Engine* engine) :
     spawnUnit1.bounds = { 0, 0, 160, 160 };
     spawnUnit1.textureFilepath = "res/textures/ui/item_box_red.bmp";
     spawnUnit1.bAcceptsInput = true;
-    spawnUnit1.unitSpawnType = PlayerUnit::Swordsman;
+    spawnUnit1.unitSpawnType = PlayerUnit::Clubman;
 }
 
 UI::~UI()

@@ -9,12 +9,15 @@ enum class Team
 
 enum class ResourceType
 {
-    Wood
+    Wood,
+    Iron,
+    Crystal,
+    Wolf
 };
 
 enum class PlayerUnit
 {
-    Swordsman
+    Clubman
 };
 
 #endif /* Types_hpp */

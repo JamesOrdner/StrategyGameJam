@@ -38,6 +38,9 @@ private:
     
     struct Resources {
         int wood;
+        int iron;
+        int crystal;
+        int wolf;
     } resources;
 };
 

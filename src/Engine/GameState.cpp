@@ -62,13 +62,20 @@ void GameState::actorKilled(Actor* actor)
 
 bool GameState::isUnitBuildable(PlayerUnit unit) const
 {
-    return (resources.wood >= ActorFactory::unitCost(unit, ResourceType::Wood));
+    return
+        (resources.wood    >= ActorFactory::unitCost(unit, ResourceType::Wood)) &&
+        (resources.iron    >= ActorFactory::unitCost(unit, ResourceType::Iron)) &&
+        (resources.crystal >= ActorFactory::unitCost(unit, ResourceType::Crystal)) &&
+        (resources.wolf    >= ActorFactory::unitCost(unit, ResourceType::Wolf));
 }
 
 bool GameState::buildUnit(PlayerUnit unit)
 {
     if (!isUnitBuildable(unit)) return false;
-    resources.wood -= ActorFactory::unitCost(unit, ResourceType::Wood);
+    resources.wood    -= ActorFactory::unitCost(unit, ResourceType::Wood);
+    resources.iron    -= ActorFactory::unitCost(unit, ResourceType::Iron);
+    resources.crystal -= ActorFactory::unitCost(unit, ResourceType::Crystal);
+    resources.wolf    -= ActorFactory::unitCost(unit, ResourceType::Wolf);
     ActorFactory::spawnUnit(engine->activeWorld(), unit, {});
     return true;
 }
