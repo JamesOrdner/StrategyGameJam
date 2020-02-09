@@ -15,6 +15,7 @@ int ActorFactory::unitCost(PlayerUnit unit, ResourceType resouce)
             }
             break;
     }
+    return -1;
 }
 
 ResourceType ActorFactory::unitSpawnLocation(PlayerUnit unit)
