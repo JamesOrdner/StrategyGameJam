@@ -66,6 +66,7 @@ void ActorFactory::spawnUnit(World* world, PlayerUnit unit, const SDL_FPoint& po
     Actor* a;
     a = world->spawnObject<Actor>(position);
     a->setSprite(unitImagePath(unit));
+    a->setRenderDepth(RenderDepth::Unit);
     /*
     switch (unit) {
         case PlayerUnit::Clubman:
