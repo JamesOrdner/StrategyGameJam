@@ -30,7 +30,6 @@ const int WorldLoader::minDistanceBetweenStructures;
 void WorldLoader::createStructures(World* world)
 {
     auto* enemyBase = world->spawnObject<DrawableObject>({0,0});
-    //enemyBase->setSprite(1000,1000,SDL_Color{0, 100, 0, 255});
     enemyBase->setSprite("res/textures/world/enemy_base.bmp");
     createdStructures.push_back(enemyBase);
 

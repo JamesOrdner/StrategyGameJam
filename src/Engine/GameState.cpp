@@ -10,6 +10,7 @@
 
 GameState::GameState(const Engine* engine) :
     engine(engine),
+    unitMoneyCost(5),
     money(0),
     moneyTimer(0),
     resourceTimer(0),
@@ -181,15 +182,17 @@ int GameState::getResourceCount(ResourceType resouce) const
 bool GameState::isUnitBuildable(PlayerUnit unit) const
 {
     return
+        (money >= unitMoneyCost) &&
         (resources.wood.value    >= ActorFactory::unitCost(unit, ResourceType::Wood)) &&
         (resources.iron.value    >= ActorFactory::unitCost(unit, ResourceType::Iron)) &&
         (resources.crystal.value >= ActorFactory::unitCost(unit, ResourceType::Crystal)) &&
-        (resources.wolf.value    >= ActorFactory::unitCost(unit, ResourceType::Wolf));
+        (resources.wolf.value    >= ActorFactory::unitCost(unit, ResourceType::Wolf)) ;
 }
 
 bool GameState::buildUnit(PlayerUnit unit)
 {
     if (!isUnitBuildable(unit)) return false;
+    money -= unitMoneyCost;
     resources.wood.value    -= ActorFactory::unitCost(unit, ResourceType::Wood);
     resources.iron.value    -= ActorFactory::unitCost(unit, ResourceType::Iron);
     resources.crystal.value -= ActorFactory::unitCost(unit, ResourceType::Crystal);

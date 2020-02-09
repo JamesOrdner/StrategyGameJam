@@ -40,6 +40,8 @@ private:
     
     std::vector<class Actor*> selectedActors;
     
+    int unitMoneyCost;
+    
     unsigned int money;
 
     uint32_t spawnTime;
