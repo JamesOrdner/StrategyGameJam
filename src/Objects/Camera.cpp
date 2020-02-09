@@ -20,7 +20,7 @@ Camera::Camera(World* world, const SDL_FPoint& position) :
     );
     inputComponent->registerEvent(
         InputEvent::CameraZoom,
-        [this](float value) { zoom = std::clamp(zoom + value * 0.05f, minZoom, maxZoom); }
+        [this](float value) { zoom = std::clamp(zoom + value * 0.05f * zoom, minZoom, maxZoom); }
     );
 }
 
