@@ -28,29 +28,23 @@ int WorldLoader::getRandomInt(int min, int max)
 const int WorldLoader::minDistanceBetweenStructures;
 void WorldLoader::createStructures(World* world)
 {
-    int resourceSize = 500;
-
     auto* enemyBase = world->spawnObject<DrawableObject>({0,0});
     enemyBase->setSprite(1000,1000,SDL_Color{0, 100, 0, 255});
     createdStructures.push_back(enemyBase);
 
     auto* wood = world->spawnResourcePoint(ResourceType::Wood);
-    wood->setSprite(resourceSize,resourceSize,SDL_Color{ 120, 95, 60, 255});
     createStructureOrigin(world, wood, minDistanceBetweenStructures);
     createdStructures.push_back(wood);
     
     auto* iron = world->spawnResourcePoint(ResourceType::Iron);
-    iron->setSprite(resourceSize,resourceSize,SDL_Color{ 60, 100, 100, 255});
     createStructureOrigin(world, iron, minDistanceBetweenStructures);
     createdStructures.push_back(iron);
     
     auto* crystal = world->spawnResourcePoint(ResourceType::Crystal);
-    crystal->setSprite(resourceSize,resourceSize,SDL_Color{ 128, 128, 255, 255});
     createStructureOrigin(world, crystal, minDistanceBetweenStructures);
     createdStructures.push_back(crystal);
     
     auto* wolf = world->spawnResourcePoint(ResourceType::Wolf);
-    wolf->setSprite(resourceSize,resourceSize,SDL_Color{ 144, 118, 150, 255});
     createStructureOrigin(world, wolf, minDistanceBetweenStructures);
     createdStructures.push_back(wolf);
     

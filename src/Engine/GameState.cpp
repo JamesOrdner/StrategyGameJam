@@ -22,10 +22,18 @@ void GameState::startGame()
 void GameState::setResourcePoint(class ResourcePoint* point, ResourceType type)
 {
     switch (type) {
-        case ResourceType::Wood:    resources.wood.resourcePoint = point;
-        case ResourceType::Iron:    resources.iron.resourcePoint = point;
-        case ResourceType::Crystal: resources.crystal.resourcePoint = point;
-        case ResourceType::Wolf:    resources.wolf.resourcePoint = point;
+        case ResourceType::Wood:
+            resources.wood.resourcePoint = point;
+            break;
+        case ResourceType::Iron:
+            resources.iron.resourcePoint = point;
+            break;
+        case ResourceType::Crystal:
+            resources.crystal.resourcePoint = point;
+            break;
+        case ResourceType::Wolf:
+            resources.wolf.resourcePoint = point;
+            break;
     }
 }
 
@@ -73,10 +81,18 @@ void GameState::actorKilled(Actor* actor)
     
     if (auto* respt = dynamic_cast<ResourcePoint*>(actor)) {
         switch(respt->resource) {
-            case ResourceType::Wood:    resources.wood = {};
-            case ResourceType::Iron:    resources.iron = {};
-            case ResourceType::Crystal: resources.crystal = {};
-            case ResourceType::Wolf:    resources.wolf = {};
+            case ResourceType::Wood:
+                resources.wood = {};
+                break;
+            case ResourceType::Iron:
+                resources.iron = {};
+                break;
+            case ResourceType::Crystal:
+                resources.crystal = {};
+                break;
+            case ResourceType::Wolf:
+                resources.wolf = {};
+                break;
         }
     }
 }
@@ -101,10 +117,18 @@ bool GameState::buildUnit(PlayerUnit unit)
     // resource base location
     SDL_FPoint spawnLoc;
     switch (ActorFactory::unitSpawnLocation(unit)) {
-        case ResourceType::Wood:    spawnLoc = resources.wood.resourcePoint->position;
-        case ResourceType::Iron:    spawnLoc = resources.iron.resourcePoint->position;
-        case ResourceType::Crystal: spawnLoc = resources.crystal.resourcePoint->position;
-        case ResourceType::Wolf:    spawnLoc = resources.wolf.resourcePoint->position;
+        case ResourceType::Wood:
+            spawnLoc = resources.wood.resourcePoint->position;
+            break;
+        case ResourceType::Iron:
+            spawnLoc = resources.iron.resourcePoint->position;
+            break;
+        case ResourceType::Crystal:
+            spawnLoc = resources.crystal.resourcePoint->position;
+            break;
+        case ResourceType::Wolf:
+            spawnLoc = resources.wolf.resourcePoint->position;
+            break;
     }
     
     ActorFactory::spawnUnit(engine->activeWorld(), unit, spawnLoc);
