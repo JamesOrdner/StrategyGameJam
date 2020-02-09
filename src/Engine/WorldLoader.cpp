@@ -1,6 +1,7 @@
 #include "WorldLoader.hpp"
 #include "World.hpp"
 #include "Engine.hpp"
+#include "../AI/AIComponent.hpp"
 #include "../Objects/Actor.hpp"
 #include "../Objects/Structure.hpp"
 #include "../Objects/DrawableObject.hpp"
@@ -52,7 +53,7 @@ void WorldLoader::createStructures(World* world)
     // badbruh
     auto* badbruh = world->spawnObject<Actor>({ -100, 1000 });
     badbruh->setSprite("res/textures/world/enemy.bmp");
-    badbruh->setTeam(Team::Enemy);
+    badbruh->aiComponent->team = Team::Enemy;
 }
 
 const int WorldLoader::minDistanceFromStructures;
