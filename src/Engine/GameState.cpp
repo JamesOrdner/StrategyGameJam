@@ -4,6 +4,7 @@
 #include "ActorFactory.hpp"
 #include "../Objects/Actor.hpp"
 #include "../Objects/ResourcePoint.hpp"
+#include <algorithm>
 
 GameState::GameState(const Engine* engine) :
     engine(engine),
