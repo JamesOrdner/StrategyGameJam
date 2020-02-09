@@ -46,3 +46,23 @@ void ActorFactory::spawnUnit(World* world, PlayerUnit unit, const SDL_FPoint& po
     SDL_FPoint spawnDir = normalize({ dir(rGen), dir(rGen) });
     a->aiComponent->setDestination(a->position + spawnDir * dist(rGen));
 }
+
+std::string ActorFactory::unitImagePath(PlayerUnit unit)
+{
+    switch (unit) {
+        case PlayerUnit::Clubman:       return "/res/textures/world/club.bmp";
+        case PlayerUnit::Ninja:         return "/res/textures/world/ninja.bmp";
+        case PlayerUnit::Wizard:        return "/res/textures/world/wizard.bmp";
+        case PlayerUnit::Wolf:          return "/res/textures/world/wolf.bmp";
+        
+        /* TODO: Need moar art   
+        case PlayerUnit::Archer:        return "/res/textures/world/club.bmp";
+        case PlayerUnit::SpellSword:    return "/res/textures/world/club.bmp";
+        case PlayerUnit::Werewolf:      return "/res/textures/world/club.bmp";
+        case PlayerUnit::Treeant:       return "/res/textures/world/club.bmp";
+        case PlayerUnit::BountyHunter:  return "/res/textures/world/club.bmp";
+        case PlayerUnit::Scout:         return "/res/textures/world/club.bmp";
+        */
+    }
+    return "ERROR: if you see this something has gone terribly wrong :'(\n";
+}

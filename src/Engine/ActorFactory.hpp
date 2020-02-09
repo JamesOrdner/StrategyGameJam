@@ -2,6 +2,7 @@
 #define ActorFactory_hpp
 
 #include "Types.hpp"
+#include <string>
 
 struct ActorFactory
 {
@@ -13,6 +14,8 @@ struct ActorFactory
     static ResourceType unitSpawnLocation(PlayerUnit unit);
     
     static void spawnUnit(class World* world, PlayerUnit unit, const struct SDL_FPoint& position);
+
+    static std::string unitImagePath(PlayerUnit unit);
 };
 
 #endif /* ActorFactory_hpp */
