@@ -105,7 +105,7 @@ void AI::processFriendlyActor(class AIComponent* component, uint32_t deltaTime)
         doMovement(component, deltaTime);
     }
     
-    if (component->target && targetInRange(component)) {
+    if (component->target && component->activity != AIActivity::Capturing  && targetInRange(component)) {
         component->attackTimer += deltaTime;
         if (component->attackTimer >= component->attackRate) {
             if (component->actor->attack(component->target)) {
@@ -159,7 +159,7 @@ void AI::processEnemyActor(AIComponent* component, uint32_t deltaTime)
         doMovement(component, deltaTime);
     }
     
-    if (component->target && component->activity != AIActivity::Capturing && targetInRange(component)) {
+    if (component->target && targetInRange(component)) {
         component->attackTimer += deltaTime;
         if (component->attackTimer >= component->attackRate) {
             if (component->actor->attack(component->target)) {
